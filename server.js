@@ -18,9 +18,8 @@ var express = require('express'),
   errorHandler = require('errorhandler'),
   morgan = require('morgan'),
   routes = require('./routes'),
-  api = require('./routes/api'),
-//  http = require('http'),
-//  path = require('path');
+  http = require('http'),
+  path = require('path');
 
 //var MemcachedStore = require('connect-memcached')(session);
 //var passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
@@ -38,7 +37,7 @@ var app = module.exports = express();
  * Configuration
  */
 app.enable('trust proxy');
-app.set('port', process.env.PORT || config.port);
+app.set('port', process.env.PORT || 5000 /*config.port*/);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(morgan('dev'));
@@ -142,7 +141,7 @@ app.post(appPath + '/login', function(req, res, next) {
 //app.delete("*", permission(['ADMIN']));
 
 // serve index and view partials
-//app.get(appPath + '/login', routes.login);
+app.get('/', routes.index);
 
 // JSON API
 //app.get(appPath + '/api/allotments', ensureAuthenticated, api.allotments);
@@ -153,20 +152,17 @@ app.post(appPath + '/login', function(req, res, next) {
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function () {
-  log.info('Express server listening on port ' + app.get('port'));
+
 });
 
 server.on('error', function(error) {
-  log.info(error);
   if (error.syscall !== 'listen') {
-    log.info('throw an error');
     throw error;
   }
 });
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    log.info("User is authenticated");
     if(req.cookies.currentCountry && req.user.countries.indexOf(req.cookies.currentCountry)>=0) {
       req.user.currentCountry = req.cookies.currentCountry;
     } else {
@@ -174,6 +170,5 @@ function ensureAuthenticated(req, res, next) {
     }
     return next();
   }
-  log.info("User is not authenticated");
   return res.redirect(appPath + '/login');
 };
