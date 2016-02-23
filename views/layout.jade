@@ -13,12 +13,18 @@ html
     // Custom CSS
     link(href='assets/css/main.css', rel='stylesheet')
 
-
-    // Custom Fonts -->
+    //Morris Charts CSS
+    link(href='assets/css/plugins/morris.css', rel='stylesheet')
+    // Custom Fonts
     link(href='assets/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
   body
     div(id='wrapper')
       include ./header.jade
-      block body
-      div
-        h1 Footer
+      div(id='page-wrapper')
+        div(class='container-fluid')
+          block body
+          div
+            h1 Footer
+    script(src='assets/js/jquery.js')
+    //Bootstrap Core JavaScript
+    script(src='assets/js/bootstrap.min.js')
