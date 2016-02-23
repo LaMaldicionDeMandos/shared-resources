@@ -2,11 +2,23 @@
 html
   head
     meta(charset='utf8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
     base(href='/')
     title Shared Resources
 
+    link(href='assets/css/bootstrap.min.css', rel='stylesheet')
+    // Custom CSS
+    link(href='assets/css/main.css', rel='stylesheet')
+
+
+    // Custom Fonts -->
+    link(href='assets/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
   body
-    include ./header.jade
-    block body
-    div
-      h1 Footer
+    div(id='wrapper')
+      include ./header.jade
+      block body
+      div
+        h1 Footer
