@@ -39,7 +39,7 @@ var app = module.exports = express();
 app.enable('trust proxy');
 app.set('port', process.env.PORT || 5000 /*config.port*/);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
