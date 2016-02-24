@@ -142,6 +142,7 @@ app.post(appPath + '/login', function(req, res, next) {
 
 // serve index and view partials
 app.get('/', routes.index);
+app.get('/main', routes.main);
 
 // JSON API
 //app.get(appPath + '/api/allotments', ensureAuthenticated, api.allotments);
