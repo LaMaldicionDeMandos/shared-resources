@@ -24,6 +24,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/creative.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/main.css" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -153,7 +154,33 @@
 <aside class="bg-primary" id="register">
     <div class="container text-center">
         <div class="call-to-action">
-            <h2>REGISTRO</h2>
+            <h2>Registrarme a la aplicación</h2>
+            <form name="register">
+                <div class="row row-centered">
+                        <div class="col-lg-4 col-centered">
+                            <div class="form-group-lg">
+                                <input type="text" class="form-control" placeholder="Nombre de Usuario" id="username"
+                                       required data-validation-required-message="Ingrese su nombre de usuario."
+                                       aria-invalid="false">
+                            </div>
+                            <div class="form-group-lg">
+                                <input type="password" class="form-control" placeholder="Password" id="password"
+                                       required data-validation-required-message="Ingrese su password."
+                                       aria-invalid="false">
+                            </div>
+                            <div class="form-group-lg">
+                                <input type="password" class="form-control" placeholder="Repita su Password" id="rePassword"
+                                       required data-validation-required-message="Re ingrese su password."
+                                       aria-invalid="false">
+                            </div>
+                            <div class="form-group-lg">
+                                <input type="email" class="form-control" placeholder="E-Mail" id="email"
+                                       required data-validation-required-message="Ingrese su email."
+                                       aria-invalid="false">
+                            </div>
+                        </div>
+                </div>
+            </form>
             <a href="#" class="btn btn-default btn-xl wow tada">Registrarme Ahora!</a>
         </div>
     </div>

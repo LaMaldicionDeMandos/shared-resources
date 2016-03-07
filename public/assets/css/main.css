@@ -250,3 +250,16 @@ a:focus, a:hover {
 .panel-yellow > a:hover {
     color: #df8a13;
 }
+
+.row-centered {
+    text-align:center;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
