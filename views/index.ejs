@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="landingApp">
 
 <head>
 
@@ -153,7 +153,7 @@
 
 <aside class="bg-primary" id="register">
     <div class="container text-center">
-        <div class="call-to-action">
+        <div class="call-to-action" ng-controller="registerController">
             <h2>Registrarme a la aplicación</h2>
             <form name="register">
                 <div class="row row-centered">
@@ -223,6 +223,13 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="js/libs/creative.js"></script>
+
+<!-- Angular -->
+<script src="js/libs/angular.min.js"></script>
+
+<!-- App -->
+<script src="js/landingControllers.js"></script>
+<script src="js/landingApp.js"></script>
 
 </body>
 
