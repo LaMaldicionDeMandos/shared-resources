@@ -155,37 +155,37 @@
     <div class="container text-center">
         <div class="call-to-action" ng-controller="registerController">
             <h2>Registrarme a la aplicación</h2>
-            <form name="register">
+            <form name="registerForm">
                 <div class="row row-centered">
                         <div class="col-lg-4 col-centered">
                             <div class="form-group-lg">
                                 <input type="text" class="form-control" placeholder="Nombre de Usuario" id="username"
                                        required data-validation-required-message="Ingrese su nombre de usuario."
-                                       aria-invalid="false">
+                                       aria-invalid="false" ng-model="user.username">
                                 <p class="help-block"/>
                             </div>
                             <div class="form-group-lg">
                                 <input type="password" class="form-control" placeholder="Password" id="password"
                                        required data-validation-required-message="Ingrese su password."
-                                       aria-invalid="false">
+                                       aria-invalid="false" ng-model="user.password">
                                 <p class="help-block"/>
                             </div>
                             <div class="form-group-lg">
                                 <input type="password" class="form-control" placeholder="Repita su Password" id="rePassword"
                                        required data-validation-required-message="Re ingrese su password."
-                                       aria-invalid="false">
+                                       aria-invalid="false" ng-model="user.rePassword">
                                 <p class="help-block"/>
                             </div>
                             <div class="form-group-lg">
                                 <input type="email" class="form-control" placeholder="E-Mail" id="email"
                                        required data-validation-required-message="Ingrese su email."
-                                       aria-invalid="false">
+                                       aria-invalid="false" ng-model="user.email">
                                 <p class="help-block"/>
                             </div>
                         </div>
                 </div>
             </form>
-            <a href="#" class="btn btn-default btn-xl wow tada">Registrarme Ahora!</a>
+            <a class="btn btn-default btn-xl wow tada" ng-click="register()">Registrarme Ahora!</a>
         </div>
     </div>
 </aside>
