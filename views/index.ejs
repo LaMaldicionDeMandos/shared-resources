@@ -155,7 +155,7 @@
     <div class="container text-center">
         <div class="call-to-action" ng-controller="registerController">
             <h2>Registrarme a la aplicación</h2>
-            <form name="registerForm">
+            <form name="registerForm" ng-submit="register()">
                 <div class="row row-centered">
                         <div class="col-lg-4 col-centered">
                             <div class="form-group-lg">
@@ -179,13 +179,13 @@
                             <div class="form-group-lg">
                                 <input type="email" class="form-control" placeholder="E-Mail" id="email"
                                        required data-validation-required-message="Ingrese su email."
-                                       aria-invalid="false" ng-model="user.email">
+                                       aria-invalid="false" ng-model="user.email" >
                                 <p class="help-block"/>
                             </div>
                         </div>
                 </div>
+                <a class="btn btn-default btn-xl wow tada form-group-lg" ng-click="register()">Registrarme Ahora!</a>
             </form>
-            <a class="btn btn-default btn-xl wow tada" ng-click="register()">Registrarme Ahora!</a>
         </div>
     </div>
 </aside>
