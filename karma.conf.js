@@ -26,8 +26,9 @@ module.exports = function(config) {
       'public/js/libs/creative.js',
       'public/js/libs/wow.min.js',
 
-      'public/js/landingApp.js',
       'public/js/landingControllers.js',
+      'public/js/landingServices.js',
+      'public/js/landingApp.js',
 
       'test/front/*.js',
 

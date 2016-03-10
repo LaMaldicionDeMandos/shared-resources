@@ -10,10 +10,12 @@ describe('Landing Controllers', function() {
     }));
 
     describe('registerController', function() {
-        var $scope, controller;
+        var $scope, controller, service;
         beforeEach(function () {
             $scope = {};
-            controller = $controller('registerController', {$scope: $scope});
+            service = {register: function(user){return true;}};
+            spyOn(service, 'register').and.callThrough();
+            controller = $controller('registerController', {$scope: $scope, userService: service});
         });
         describe('When registerController init', function() {
             it('must init user', function () {
@@ -28,6 +30,7 @@ describe('Landing Controllers', function() {
             it('must set error message to username field if username is invalid', function () {
                 $scope.register();
                 expect($scope.errors.username).toBe('invalid_username');
+                expect(service.register).not.toHaveBeenCalled();
             });
             it('must not has error for username', function () {
                 $scope.user.username = 'mandos'
@@ -40,6 +43,7 @@ describe('Landing Controllers', function() {
             it('must set error message to password field is invalid', function () {
                 $scope.register();
                 expect($scope.errors.password).toBe('invalid_password');
+                expect(service.register).not.toHaveBeenCalled();
             });
 
             it('must not has error for username', function () {
@@ -55,6 +59,7 @@ describe('Landing Controllers', function() {
                 $scope.user.rePassword = 'repassword';
                 $scope.register();
                 expect($scope.errors.rePassword).toBe('invalid_re_password');
+                expect(service.register).not.toHaveBeenCalled();
             });
 
             it('must not has error for re password', function () {
@@ -70,6 +75,7 @@ describe('Landing Controllers', function() {
                 $scope.user.email = 'badeamil';
                 $scope.register();
                 expect($scope.errors.email).toBe('invalid_email');
+                expect(service.register).not.toHaveBeenCalled();
             });
 
             it('must not has error for email', function () {
@@ -87,6 +93,17 @@ describe('Landing Controllers', function() {
                 $scope.user.email = 'pasutmarcelo@gmail.com';
                 $scope.register();
                 expect($scope.errors.email).toBe(undefined);
+            });
+        });
+
+        describe('Validate All', function() {
+            it('must error message empty and call register of service with user', function () {
+                $scope.user.username = 'username';
+                $scope.user.password = 'password';
+                $scope.user.rePassword = 'password';
+                $scope.user.email = 'pasutmarcelo@gmail.com';
+                $scope.register();
+                expect(service.register).toHaveBeenCalledWith($scope.user);
             });
         });
     });

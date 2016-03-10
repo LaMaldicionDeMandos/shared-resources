@@ -4,16 +4,17 @@
 'use strict';
 
 /* Controllers */
-
 angular.module('landingApp.controllers', []).
-    controller('registerController', function($scope) {
+    controller('registerController', function($scope, userService) {
         console.log('Register Controller');
         $scope.user = {username:'', password: '', rePassword:'', email:''};
         $scope.errors = {};
         $scope.register = function() {
             $scope.errors = {};
-            validateUser($scope.user)
-            console.log(JSON.stringify($scope.user));
+            var valid = validateUser($scope.user);
+            if (valid) {
+                userService.register($scope.user);
+            }
         };
 
         var validateUser = function(user) {
