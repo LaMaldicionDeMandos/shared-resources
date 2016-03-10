@@ -20,11 +20,14 @@ module.exports = function(config) {
       'public/js/libs/jquery.fittext.js',
       'public/js/libs/jquery.js',
       'public/js/libs/angular.min.js',
+      'public/js/libs/angular-mocks.js',
       'public/js/libs/bootstrap.min.js',
       'public/js/libs/wow.min.js',
       'public/js/libs/creative.js',
       'public/js/libs/wow.min.js',
-      'public/js/*.js',
+
+      'public/js/landingApp.js',
+      'public/js/landingControllers.js',
 
       'test/front/*.js',
 
