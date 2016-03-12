@@ -19,7 +19,7 @@ angular.module('landingApp.controllers', []).
                         $scope.success = true;
                     },
                     function(error) {
-                        $scope.errors = error;
+                        $scope.errors.user = error;
                     }
                 );
             }

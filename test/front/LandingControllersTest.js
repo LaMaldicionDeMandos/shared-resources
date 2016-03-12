@@ -111,7 +111,7 @@ describe('Landing Controllers', function() {
 
         describe('Validate All but service with errors', function() {
             beforeEach(function () {
-                promise = {then: function(success, error){error({username:'invalid'});}};
+                promise = {then: function(success, error){error('invalid');}};
                 service = {register: function(user){return promise;}};
                 spyOn(service, 'register').and.callThrough();
                 controller = $controller('registerController', {$scope: $scope, userService: service});
@@ -124,7 +124,26 @@ describe('Landing Controllers', function() {
                 $scope.register();
                 expect(service.register).toHaveBeenCalledWith($scope.user);
                 expect($scope.success).toBe(false);
-                expect($scope.errors.username).toBe('invalid');
+                expect($scope.errors.user).toBe('invalid');
+            });
+        });
+
+        describe('Validate All but service with exist user', function() {
+            beforeEach(function () {
+                promise = {then: function(success, error){error('already_exist_user');}};
+                service = {register: function(user){return promise;}};
+                spyOn(service, 'register').and.callThrough();
+                controller = $controller('registerController', {$scope: $scope, userService: service});
+            });
+            it('should pass error to errors', function () {
+                $scope.user.username = 'username';
+                $scope.user.password = 'password';
+                $scope.user.rePassword = 'password';
+                $scope.user.email = 'pasutmarcelo@gmail.com';
+                $scope.register();
+                expect(service.register).toHaveBeenCalledWith($scope.user);
+                expect($scope.success).toBe(false);
+                expect($scope.errors.user).toBe('already_exist_user');
             });
         });
     });

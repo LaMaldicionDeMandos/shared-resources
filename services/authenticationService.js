@@ -6,7 +6,7 @@ function AuthenticationService() {
         return true;
     };
     this.existUser = function(user) {
-        return false;
+        return true;
     }
 }
 

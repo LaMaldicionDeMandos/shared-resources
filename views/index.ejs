@@ -174,6 +174,8 @@
                                        aria-invalid="false" ng-model="user.username">
                                 <p class="help-block">
                                     <span ng-show="errors.username" class="has-error">El usuario es invalido.</span>
+                                    <span ng-show="errors.user == 'invalid'" class="has-error">El usuario es invalido.</span>
+                                    <span ng-show="errors.user == 'already_exist_user'" class="has-error">El usuario ya existe.</span>
                                 </p>
                             </div>
                             <div class="form-group-lg">
