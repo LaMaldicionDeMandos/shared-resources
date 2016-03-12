@@ -19,6 +19,7 @@
     "should": "^7.1.0",
     "should-http": "^0.0.4",
     "sinon": "^1.17.1",
+    "mockery": "^1.4.1",
     "supertest": "^1.1.0"
   },
   "dependencies": {
