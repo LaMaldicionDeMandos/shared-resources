@@ -10,10 +10,18 @@ angular.module('landingApp.controllers', []).
         $scope.user = {username:'', password: '', rePassword:'', email:''};
         $scope.errors = {};
         $scope.register = function() {
+            $scope.success = false;
             $scope.errors = {};
             var valid = validateUser($scope.user);
             if (valid) {
-                userService.register($scope.user);
+                userService.register($scope.user).then(
+                    function() {
+                        $scope.success = true;
+                    },
+                    function(error) {
+                        $scope.errors = error;
+                    }
+                );
             }
         };
 

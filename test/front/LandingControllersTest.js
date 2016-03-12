@@ -10,10 +10,11 @@ describe('Landing Controllers', function() {
     }));
 
     describe('registerController', function() {
-        var $scope, controller, service;
+        var $scope, controller, service, promise;
         beforeEach(function () {
             $scope = {};
-            service = {register: function(user){return true;}};
+            promise = {then: function(success, error){success();}};
+            service = {register: function(user){return promise;}};
             spyOn(service, 'register').and.callThrough();
             controller = $controller('registerController', {$scope: $scope, userService: service});
         });
@@ -104,6 +105,26 @@ describe('Landing Controllers', function() {
                 $scope.user.email = 'pasutmarcelo@gmail.com';
                 $scope.register();
                 expect(service.register).toHaveBeenCalledWith($scope.user);
+                expect($scope.success).toBe(true);
+            });
+        });
+
+        describe('Validate All but service with errors', function() {
+            beforeEach(function () {
+                promise = {then: function(success, error){error({username:'invalid'});}};
+                service = {register: function(user){return promise;}};
+                spyOn(service, 'register').and.callThrough();
+                controller = $controller('registerController', {$scope: $scope, userService: service});
+            });
+            it('should pass error to errors', function () {
+                $scope.user.username = 'username';
+                $scope.user.password = 'password';
+                $scope.user.rePassword = 'password';
+                $scope.user.email = 'pasutmarcelo@gmail.com';
+                $scope.register();
+                expect(service.register).toHaveBeenCalledWith($scope.user);
+                expect($scope.success).toBe(false);
+                expect($scope.errors.username).toBe('invalid');
             });
         });
     });
