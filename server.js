@@ -18,6 +18,7 @@ var express = require('express'),
   errorHandler = require('errorhandler'),
   morgan = require('morgan'),
   routes = require('./routes'),
+  landing = require('./routes/landing'),
   http = require('http'),
   path = require('path');
 
@@ -143,6 +144,9 @@ app.post(appPath + '/login', function(req, res, next) {
 // serve index and view partials
 app.get('/', routes.index);
 app.get('/main', routes.main);
+
+// Landing
+app.post('/register', landing.register);
 
 // JSON API
 //app.get(appPath + '/api/allotments', ensureAuthenticated, api.allotments);
