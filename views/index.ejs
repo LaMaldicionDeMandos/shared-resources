@@ -152,9 +152,19 @@
 </aside>
 
 <aside class="bg-primary" id="register">
-    <div class="container text-center">
-        <div class="call-to-action" ng-controller="registerController">
+    <div class="container text-center" ng-controller="registerController">
+        <div class="container" ng-show="success">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Felicitaciones!</h2>
+                    <hr class="light">
+                    <p class="text-text-faded">Tu cuenta se ha creado con éxito. A continuación te estará llegando un email para activarla.</p>
+                </div>
+            </div>
+        </div>
+        <div class="call-to-action" ng-hide="success">
             <h2>Registrarme a la aplicación</h2>
+            <hr class="light">
             <form name="registerForm" ng-submit="register()">
                 <div class="row row-centered">
                         <div class="col-lg-4 col-centered">
