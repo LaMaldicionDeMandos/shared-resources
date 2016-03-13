@@ -5,7 +5,23 @@ var assert = require('assert');
 var should = require('should');
 
 var userCount = 1;
+var buildingSaved = false;
+var buildingId;
+var userSaved = false;
+var userState;
+var userRole;
+var userBuilding;
 db = new function() {
+    this.ObjectId = function() {
+        return 'aaa';
+    };
+    this.Building = function() {
+      this.save = function(callback) {
+          buildingSaved = true;
+          buildingId = this._id;
+          callback();
+      };
+    };
     this.User = {
         where: function() {
             return {count: function() {
@@ -86,5 +102,49 @@ describe('AuthenticationService', function() {
             });
         });
     });
+
+    describe('Register correctly', function() {
+        var user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo@gmail.com'};
+
+        beforeEach(function() {
+            buildingSaved = false;
+            buildingId = undefined;
+            db.User = function() {
+                this.save = function(callback) {
+                    userSaved = true;
+                    userState = this.state;
+                    userBuilding = this.buildingId;
+                    userRole = this.role;
+                    callback();
+                };
+            };
+        });
+
+        afterEach(function() {
+            db.User = {
+                where: function() {
+                    return {count: function() {
+                        return {
+                            exec: function(callback) {
+                                callback(null, userCount);
+                            }
+                        };
+                    }}
+                }
+            };
+        });
+        it('should create a building and save', function() {
+            service.create(user);
+            assert(buildingSaved);
+            assert.equal(buildingId, 'aaa');
+        });
+        it('should create an User and with the building id', function() {
+            service.create(user);
+            assert(userSaved);
+            assert.equal(userState, 'waiting');
+            assert.equal(userBuilding, 'aaa');
+            assert.equal(userRole, 'root');
+        });
+    })
 
 });

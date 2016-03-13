@@ -20,6 +20,33 @@ function AuthenticationService(db) {
         });
         return def.promise;
     }
+
+    this.create = function(dto) {
+        var def = q.defer();
+        var building = new db.Building();
+        building._id = db.ObjectId();
+        building.save(function(err) {
+            if(err) {
+                def.reject();
+            }
+        });
+        var user = new db.User();
+        user._id = db.ObjectId();
+        user.username = dto.username;
+        user.password = dto.password;
+        user.email = dto.email;
+        user.role = 'root';
+        user.state = 'waiting';
+        user.buildingId = building._id;
+        user.save(function(err) {
+           if(err) {
+               def.reject(err);
+           } else {
+               def.resolve();
+           }
+        });
+        return def.promise;
+    }
 }
 
 var service = new AuthenticationService(db);
