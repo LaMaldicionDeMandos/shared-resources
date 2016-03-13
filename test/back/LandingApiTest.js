@@ -10,6 +10,7 @@ var sinon = require('sinon');
 var app;
 var validUser = true;
 var existUser = false;
+process.env.NODE_ENV = 'test';
 describe('Landing Api', function() {
     before(function() {
         mockery.enable({

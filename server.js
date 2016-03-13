@@ -3,11 +3,9 @@
  * Module dependencies
  */
 var fs = require('fs');
-/*
 var xnconfig = require('nodejsconfig');
 var data = fs.readFileSync(__dirname+'/config/config.properties', 'UTF8');
 config = xnconfig.parse(process.env.NODE_ENV, data);
-*/
 
 var express = require('express'),
 //  request = require('request'),
