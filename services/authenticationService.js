@@ -1,7 +1,8 @@
 /**
  * Created by boot on 3/12/16.
  */
-function AuthenticationService() {
+
+function AuthenticationService(db) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.validateRegisterCredentials = function(user) {
         var isValid = true;
@@ -13,10 +14,10 @@ function AuthenticationService() {
         return isValid;
     };
     this.existUser = function(user) {
-        return true;
+        return db.User.where({email: user.email}).count() > 0;
     }
 }
 
-var service = new AuthenticationService();
+var service = new AuthenticationService(db);
 
 module.exports = service;

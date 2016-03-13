@@ -1,9 +1,21 @@
 /**
  * Created by boot on 3/12/16.
  */
-var service = require('../../services/authenticationService');
 var assert = require('assert');
 var should = require('should');
+
+var userCount = 1;
+db = new function() {
+    this.User = {
+        where: function() {
+            return {count: function() {
+                return userCount;
+            }}
+        }
+    };
+};
+
+var service = require('../../services/authenticationService');
 
 describe('AuthenticationService', function() {
     describe('Register user without errors', function() {
@@ -35,6 +47,28 @@ describe('AuthenticationService', function() {
             var user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo_gmail.com'};
             it('should verify that user is invalid', function() {
                 assert(!service.validateRegisterCredentials(user));
+            });
+        });
+    });
+
+    describe('User existence validation', function() {
+        var user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo_gmail.com'};
+        describe('User not exist', function() {
+            beforeEach(function() {
+                userCount = 0;
+            });
+
+            it('should verify that user not exist', function() {
+                assert(!service.existUser(user));
+            });
+        });
+
+        describe('User exist', function() {
+            beforeEach(function() {
+                userCount = 1;
+            });
+            it('should verify that user exist', function() {
+                assert(service.existUser(user));
             });
         });
     });
