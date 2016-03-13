@@ -9,7 +9,11 @@ db = new function() {
     this.User = {
         where: function() {
             return {count: function() {
-                return userCount;
+                return {
+                    exec: function(callback) {
+                        callback(null, userCount);
+                    }
+                };
             }}
         }
     };
@@ -59,7 +63,12 @@ describe('AuthenticationService', function() {
             });
 
             it('should verify that user not exist', function() {
-                assert(!service.existUser(user));
+                var promise = service.existUser(user);
+                promise.then(function(result) {
+                   assert(!result);
+                }, function(error) {
+                   assert.fail();
+                });
             });
         });
 
@@ -68,7 +77,12 @@ describe('AuthenticationService', function() {
                 userCount = 1;
             });
             it('should verify that user exist', function() {
-                assert(service.existUser(user));
+                var promise = service.existUser(user);
+                promise.then(function(result) {
+                    assert(result);
+                }, function(error) {
+                    assert.fail();
+                });
             });
         });
     });
