@@ -28,7 +28,10 @@ describe('Landing Api', function() {
             }
         };
 
+        var dbStub = function() {};
+
         mockery.registerMock('../services/authenticationService', serviceStub);
+        mockery.registerMock('./utils/database', dbStub);
         app = require('../../server');
     });
 

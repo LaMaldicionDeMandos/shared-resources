@@ -7,6 +7,10 @@ var xnconfig = require('nodejsconfig');
 var data = fs.readFileSync(__dirname+'/config/config.properties', 'UTF8');
 config = xnconfig.parse(process.env.NODE_ENV, data);
 
+var DB = require('./utils/database');
+
+db = new DB(config.db_connection);
+
 var express = require('express'),
 //  request = require('request'),
   session = require('express-session'),
