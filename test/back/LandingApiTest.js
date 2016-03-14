@@ -25,6 +25,11 @@ describe('Landing Api', function() {
             },
             existUser: function (user) {
                 return existUser;
+            },
+            create: function (user) {
+                return {then: function(callback) {
+                    callback();
+                }};
             }
         };
 

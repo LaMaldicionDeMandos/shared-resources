@@ -24,14 +24,14 @@ function AuthenticationService(db) {
     this.create = function(dto) {
         var def = q.defer();
         var building = new db.Building();
-        building._id = db.ObjectId();
+        building._id = db.ObjectId().toString();
         building.save(function(err) {
             if(err) {
                 def.reject();
             }
         });
         var user = new db.User();
-        user._id = db.ObjectId();
+        user._id = db.ObjectId().toString();
         user.username = dto.username;
         user.password = dto.password;
         user.email = dto.email;

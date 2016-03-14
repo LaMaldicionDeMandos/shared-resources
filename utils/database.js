@@ -4,14 +4,16 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
-var UserSchema = new Schema({_id:ObjectId, username:String, password:String, email:String});
+
+var UserSchema = new Schema({_id:String, username:String, password:String, email:String, role: String, state:String,
+    buildingId:String});
+
+
 var User = mongoose.model('User', UserSchema);
 
 var db = function(credentials) {
     mongoose.connect(credentials);
     var Schema = mongoose.Schema;
-    var ObjectId = Schema.ObjectId;
     console.log('Connecting to mongodb');
     this.mongoose = mongoose;
     this.Schema = Schema;
