@@ -42,7 +42,7 @@ function AuthenticationService(db) {
            if(err) {
                def.reject(err);
            } else {
-               def.resolve();
+               def.resolve(user);
            }
         });
         return def.promise;

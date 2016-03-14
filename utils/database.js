@@ -7,9 +7,11 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({_id:String, username:String, password:String, email:String, role: String, state:String,
     buildingId:String});
+var BuildingSchema = new Schema({_id:String});
 
 
 var User = mongoose.model('User', UserSchema);
+var Building = mongoose.model('Building', BuildingSchema);
 
 var db = function(credentials) {
     mongoose.connect(credentials);
@@ -19,6 +21,7 @@ var db = function(credentials) {
     this.Schema = Schema;
     this.ObjectId = mongoose.Types.ObjectId;
     this.User = User;
+    this.Building = Building;
 };
 
 process.on('exit', function() {
