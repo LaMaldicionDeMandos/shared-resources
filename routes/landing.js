@@ -1,7 +1,10 @@
 /**
  * Created by boot on 3/12/16.
  */
+var EmailService = require('../services/email_service');
 var authenticationService = require('../services/authenticationService');
+var emailService = new EmailService(process.env.APP_PASSWORD);
+var ACTIVE_USER_URL = config.host + '/user/active/';
 exports.register = function(req, res) {
     var user = req.body;
     if (!authenticationService.validateRegisterCredentials(user)) {
@@ -15,7 +18,10 @@ exports.register = function(req, res) {
                     res.status(400).send("already_exist_user");
                 } else {
                     authenticationService.create(user).then(
-                        function () {
+                        function (_user) {
+                            var email = emailService.builder(user.email, EmailService.ACTIVE_USER_TEMPLATE)
+                                .withMessageParams(user.username, ACTIVE_USER_URL + _user._id).build();
+                            emailService.send(email);
                             res.status(201).send();
                         },
                         function (err) {

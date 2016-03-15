@@ -3,15 +3,16 @@
  */
 var assert = require('assert');
 
-var service = require('../../services/email_service');
+var Service = require('../../services/email_service');
+var service = new Service('password');
 describe('EmailService', function() {
     describe('use the active user template', function() {
         it('should replace correctly the template with user and url', function() {
-            var builder = service.builder('aaa', service.ACTIVE_USER_TEMPLATE);
+            var builder = service.builder('aaa', Service.ACTIVE_USER_TEMPLATE);
             builder.withMessageParams('mandos', 'url');
             var email = builder.build();
             assert.equal(email.to, 'aaa');
-            assert.equal(email.subject, service.ACTIVE_USER_TEMPLATE.subject);
+            assert.equal(email.subject, Service.ACTIVE_USER_TEMPLATE.subject);
             assert.equal(email.message, 'Felicitaciones por crear tu cuenta de Shared Resources.\n' +
                 'Tu usuario es mandos.\n' +
                 'Puedes activar tu cuenta en url\n' +
