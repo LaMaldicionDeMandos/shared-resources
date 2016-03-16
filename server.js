@@ -12,7 +12,6 @@ var DB = require('./utils/database');
 db = new DB(config.db_connection);
 
 var express = require('express'),
-//  request = require('request'),
   session = require('express-session'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
@@ -24,17 +23,9 @@ var express = require('express'),
   http = require('http'),
   path = require('path');
 
-//var MemcachedStore = require('connect-memcached')(session);
-//var passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
-//var permission = require('permission');
+var passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+var permission = require('permission');
 var app = module.exports = express();
-
-//log.info("Port: " + config.port);
-//var accountUrl = config.accounts_url;
-
-//log.info("Session expire in: " + config.session_expire + "ms");
-
-// all environments
 
 /**
  * Configuration
@@ -48,10 +39,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride());
-/*app.use(cookieParser('secret corto'));
+app.use(cookieParser('secret corto'));
 app.use(session({
   secret: 'secret corto',
-  store: new MemcachedStore({hosts: [config.security_memcached]}),
   name: 'cookie_allotment',
   resave: true,
   rolling: true,
@@ -61,7 +51,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(
     function(username, password, done) {
-      log.info("Login: username: " + username);
+      console.log("Login: username: " + username);
+      done(null, username);
+      /*
       var user = {email: username, password:password};
       log.info("Sending request to accounting");
       request({method:'post', url: accountUrl, body: user, json: true, headers: header()}, function(error, response, body) {
@@ -77,24 +69,21 @@ passport.use(new LocalStrategy(
           done(error || new Error(response.message))
         }
       })
+      */
     }
 ));
 
 passport.serializeUser(function(user, done) {
-  log.info("Serializing user: " + JSON.stringify(user));
+  console.log("Serializing user: " + JSON.stringify(user));
   done(null, JSON.stringify(user));
 });
 
 passport.deserializeUser(function(jsonUser, done) {
-  log.info("Deserielizing user: " + jsonUser);
+  console.log("Deserielizing user: " + jsonUser);
   var sessionUser = JSON.parse(jsonUser);
-  log.info("Token: " + sessionUser.token);
-  if (!sessionUser.currentCountry) {
-    sessionUser.currentCountry = sessionUser.countries[0];
-  }
   done(null, sessionUser);
 });
-*/
+
 var env = process.env.NODE_ENV || 'development';
 var handleError = function(err, req, res, next) {
   next();
@@ -111,30 +100,28 @@ if (env === 'development') {
  * Routes
  */
 
-//var appPath = '/allotment/flights';
-
 //Login
-/*
-app.post(appPath + '/login', function(req, res, next) {
-  log.info("Authenticanding: " + req.body.username);
+
+app.post('/login', function(req, res, next) {
+  console.log("Authenticanding: " + req.body.username);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
-      log.info("Error in authentication: " + JSON.stringify(info));
+      console.log("Error in authentication: " + JSON.stringify(info));
       return next(err);
     }
-    log.info("user authenticated: " + JSON.stringify(user) + " doing login in session");
+    console.log("user authenticated: " + JSON.stringify(user) + " doing login in session");
     req.login(user, function(err) {
       if (err) {
-        log.info("Error in login into session: " + err);
+        console.log("Error in login into session: " + err);
         return next(err);
       }
-      log.info("Login success, sending path to redirect");
-      return res.send(appPath);
+      console.log("Login success, sending path to redirect");
+      return res.redirect('/main');
     });
 
   })(req, res, next);
 });
-*/
+
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);
 
