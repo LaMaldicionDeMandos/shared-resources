@@ -263,3 +263,8 @@ a:focus, a:hover {
     /* inline-block space fix */
     margin-right:-4px;
 }
+
+.btn-facebook-r {
+    text-transform: none !important;
+    border-radius: 6px !important;
+}

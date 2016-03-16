@@ -13,6 +13,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap-social.css" type="text/css">
 
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -145,8 +146,36 @@
 <aside class="bg-dark" id="login">
     <div class="container text-center">
         <div class="call-to-action">
-            <h2>LOGIN</h2>
-            <a href="#" class="btn btn-default btn-xl wow tada">Ingresar Ahora!</a>
+            <h2 class="section-heading">Ingresar</h2>
+            <a class="btn btn-social btn-facebook btn-facebook-r form-control-r btn-lg">
+                <span class="fa fa-facebook"></span> Ingresar con Facebook
+            </a>
+            <hr class="light">
+            <form name="registerForm" ng-submit="register()">
+                <div class="row row-centered">
+                    <div class="col-lg-4 col-centered">
+                        <div class="form-group-lg">
+                            <input type="text" class="form-control" placeholder="Email o Usuario" id="username"
+                                   required data-validation-required-message="Ingrese su email o usuario."
+                                   aria-invalid="false" ng-model="user.username">
+                            <p class="help-block">
+                                <span ng-show="errors.username" class="has-error">Usuario o password invalido.</span>
+                                <span ng-show="errors.email" class="has-error">Email invalido o no existe.</span>
+                            </p>
+                        </div>
+                        <div class="form-group-lg">
+                            <input type="password" class="form-control" placeholder="Password" id="password"
+                                   required data-validation-required-message="Ingrese su password."
+                                   aria-invalid="false" ng-model="user.password">
+                            <p class="help-block">
+                                <span ng-show="errors.password" class="has-error">Usuario o password invalido.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-default btn-xl wow tada">Ingresar Ahora!</a>
+            </form>
+
         </div>
     </div>
 </aside>
