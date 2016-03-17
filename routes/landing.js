@@ -36,3 +36,15 @@ exports.register = function(req, res) {
         );
     }
 };
+
+exports.authenticate = function(username, password, done) {
+    console.log("Login: username: " + username);
+    authenticationService.authenticate(username, password).then(
+        function(user) {
+            done(null, user);
+        },
+        function(err) {
+            done(err);
+        }
+    );
+};

@@ -49,29 +49,7 @@ app.use(session({
   cookie: {maxAge: config.session_expire, secure: false}}));
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-      console.log("Login: username: " + username);
-      done(null, username);
-      /*
-      var user = {email: username, password:password};
-      log.info("Sending request to accounting");
-      request({method:'post', url: accountUrl, body: user, json: true, headers: header()}, function(error, response, body) {
-        if (!error && response.statusCode == 201) {
-          log.info("Request success: " + JSON.stringify(body));
-          var user = userFactory.create(body);
-          if (user) {
-            done(null, user);
-          } else {
-            done(new Error("The user hasn't role"));
-          }
-        } else {
-          done(error || new Error(response.message))
-        }
-      })
-      */
-    }
-));
+passport.use(new LocalStrategy(landing.authenticate));
 
 passport.serializeUser(function(user, done) {
   console.log("Serializing user: " + JSON.stringify(user));

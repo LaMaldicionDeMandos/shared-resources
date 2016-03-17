@@ -46,6 +46,11 @@ function AuthenticationService(db) {
            }
         });
         return def.promise;
+    };
+    this.authenticate = function(username, password) {
+        var def = q.defer();
+
+        return def.promise;
     }
 }
 

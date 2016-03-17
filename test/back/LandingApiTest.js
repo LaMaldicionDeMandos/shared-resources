@@ -8,8 +8,10 @@ var should = require('should');
 var http = require('should-http');
 var sinon = require('sinon');
 var app;
+var authentication;
 var validUser = true;
 var existUser = false;
+var serviceFail = false;
 process.env.NODE_ENV = 'test';
 describe('Landing Api', function() {
     before(function() {
@@ -34,6 +36,17 @@ describe('Landing Api', function() {
                 return {then: function(callback) {
                     callback(user);
                 }};
+            },
+            authenticate: function(username, password) {
+                return {
+                    then: function (success, fail) {
+                        if (serviceFail) {
+                            fail('error');
+                        } else {
+                            success('success');
+                        }
+                    }
+                };
             }
         };
 
@@ -42,6 +55,7 @@ describe('Landing Api', function() {
         mockery.registerMock('../services/authenticationService', serviceStub);
         mockery.registerMock('./utils/database', dbStub);
         app = require('../../server');
+        authentication = require('../../routes/landing').authenticate;
     });
 
     after(function(){
@@ -73,5 +87,36 @@ describe('Landing Api', function() {
                     done();
                 });
         });
+    });
+
+    describe('User authenticate', function() {
+        var done;
+        var spyDone;
+        beforeEach(function() {
+            done = {done: function(e, v){}};
+            spyDone = sinon.spy(done, 'done');
+            spyDone.withArgs('error');
+            spyDone.withArgs(null, 'success');
+        });
+        describe('if fail aunthentication', function() {
+            beforeEach(function() {
+                serviceFail = true;
+            });
+            afterEach(function() {
+               serviceFail = false;
+            });
+            it('should call done with an error', function() {
+                authentication('username', 'password', done.done);
+                assert(spyDone.withArgs('error').calledOnce);
+                assert(spyDone.withArgs(null, 'success').notCalled);
+            });
+        });
+        describe('success aunthentication', function() {
+            it('should call done with an error', function() {
+                authentication('username', 'password', done.done);
+                assert(spyDone.withArgs('error').notCalled);
+                assert(spyDone.withArgs(null, 'success').calledOnce);
+            });
+        })
     });
 });
