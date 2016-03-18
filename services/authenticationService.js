@@ -49,9 +49,23 @@ function AuthenticationService(db) {
     };
     this.authenticate = function(username, password) {
         var def = q.defer();
-
+        if (!re.test(username)) {
+            db.User.findOne({username: username, password: password}).exec(function(err, user) {
+                if (err) {
+                    def.reject(user);
+                } else {
+                    if (!user) {
+                        def.reject('not_exist');
+                    } else if (user.state != 'active') {
+                        def.reject('inactive')
+                    } else {
+                        def.resolve(user);
+                    }
+                }
+            });
+        }
         return def.promise;
-    }
+    };
 }
 
 var service = new AuthenticationService(db);

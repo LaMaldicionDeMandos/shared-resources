@@ -11,6 +11,8 @@ var userSaved = false;
 var userState;
 var userRole;
 var userBuilding;
+var error = null;
+var user;
 db = new function() {
     this.ObjectId = function() {
         return 'aaa';
@@ -22,17 +24,18 @@ db = new function() {
           callback();
       };
     };
-    this.User = {
-        where: function() {
-            return {count: function() {
-                return {
-                    exec: function(callback) {
-                        callback(null, userCount);
-                    }
-                };
-            }}
-        }
-    };
+    this.User = new Object();
+    this.User.where = function() {
+            return {
+                count: function() {
+                    return {
+                        exec: function(callback) {
+                            callback(null, userCount);
+                        }
+                    };
+                }
+            };
+        };
 };
 
 var service = require('../../services/authenticationService');
@@ -145,6 +148,62 @@ describe('AuthenticationService', function() {
             assert.equal(userBuilding, 'aaa');
             assert.equal(userRole, 'root');
         });
-    })
+    });
+
+    describe('Authenticate', function() {
+        beforeEach(function() {
+            db.User.findOne = function(object) {
+                return {
+                    exec: function(callback) {
+                        callback(error, user);
+                    }
+                };
+            };
+        });
+       describe('db send error', function() {
+           beforeEach(function() {
+               error = 'error';
+               user = null;
+           });
+           it('should reject promise with error message', function() {
+               var promise = service.authenticate('bla', 'bla');
+               promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'error');});
+           });
+       });
+        describe('not found user', function() {
+            beforeEach(function() {
+                error = null;
+                user = null;
+            });
+            it('should reject promise with error not_exist', function() {
+                var promise = service.authenticate('bla', 'bla');
+                promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'not_exist');});
+            });
+        });
+        describe('found user unactive', function() {
+            beforeEach(function() {
+                error = null;
+                user = {state: 'waiting'};
+            });
+            it('should reject promise with error inactive', function() {
+                var promise = service.authenticate('bla', 'bla');
+                promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'inactive');});
+            });
+        });
+        describe('found user valid', function() {
+            beforeEach(function() {
+                error = null;
+                user = {state: 'active'};
+            });
+            it('should resolve promise with active user', function() {
+                var promise = service.authenticate('bla', 'bla');
+                promise.then(function(user) {
+                    assert.ok(user);
+                }, function(error) {
+                    assert.ok(false);
+                });
+            });
+        });
+    });
 
 });
