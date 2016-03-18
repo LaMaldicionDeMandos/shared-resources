@@ -52,6 +52,9 @@ angular.module('landingApp.controllers', []).
         };
     })
     .controller('loginController', function($scope, userService) {
+        if ($scope.activation != 'false') {
+            console.log('Activation: ' + $scope.activation);
+        }
         $scope.user = {username:'', password: ''};
         $scope.errors = {};
         $scope.login = function() {

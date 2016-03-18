@@ -114,6 +114,7 @@ app.get('/main', routes.main);
 
 // Landing
 app.post('/register', landing.register);
+app.get('/user/active/:id', landing.active);
 
 // JSON API
 //app.get(appPath + '/api/allotments', ensureAuthenticated, api.allotments);

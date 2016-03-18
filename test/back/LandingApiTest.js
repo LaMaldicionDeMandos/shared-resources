@@ -119,4 +119,16 @@ describe('Landing Api', function() {
             });
         })
     });
+
+    describe('User activation', function() {
+        it('should call user/activate resource from landing api', function(done) {
+            request(app)
+                .get('/user/active/ID')
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.text.should.equal('invalid');
+                    done();
+                });
+        });
+    });
 });
