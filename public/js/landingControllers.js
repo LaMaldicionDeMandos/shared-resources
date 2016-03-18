@@ -50,4 +50,19 @@ angular.module('landingApp.controllers', []).
             }
             return valid;
         };
+    })
+    .controller('loginController', function($scope, userService) {
+        $scope.user = {username:'', password: ''};
+        $scope.errors = {};
+        $scope.login = function() {
+            $scope.errors = {};
+            userService.login($scope.user).then(
+                function() {
+                    $scope.success = true;
+                },
+                function(error) {
+                    $scope.errors.user = error;
+                }
+            );
+        }
     });

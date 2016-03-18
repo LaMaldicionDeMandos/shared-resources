@@ -55,5 +55,47 @@ describe('Services', function() {
                 expect(reject).toBe(true);
             }));
         });
+        describe('when login', function() {
+            describe('if login fail', function(){
+                beforeEach(function() {
+                    $httpBackend.whenPOST('/login').respond(400, {});
+                });
+                it('should call backend: /login and get error', inject(function(userService) {
+                    var resolved = false;
+                    var reject = false;
+                    $httpBackend.expectPOST('/login');
+                    var promise = userService.login({});
+                    promise.then(function (success){
+                        resolved = true;
+                    }, function (error){
+                        reject = true
+                    });
+                    $httpBackend.flush();
+                    $rootScope.$digest();
+                    expect(resolved).toBe(false);
+                    expect(reject).toBe(true);
+                }));
+            });
+            describe('if login success', function(){
+                beforeEach(function() {
+                    $httpBackend.whenPOST('/login').respond(201, {});
+                });
+                it('should call backend: /login and get error', inject(function(userService) {
+                    var resolved = false;
+                    var reject = false;
+                    $httpBackend.expectPOST('/login');
+                    var promise = userService.login({});
+                    promise.then(function (success){
+                        resolved = true;
+                    }, function (error){
+                        reject = true
+                    });
+                    $httpBackend.flush();
+                    $rootScope.$digest();
+                    expect(resolved).toBe(true);
+                    expect(reject).toBe(false);
+                }));
+            });
+        });
     });
 });

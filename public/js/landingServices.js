@@ -18,6 +18,21 @@ angular.module('landingApp.services', []).
                     def.reject(data);
                 });
                 return def.promise;
+            },
+            login: function(user) {
+                var def = $q.defer();
+                $http({
+                    url: '/login',
+                    method: 'post',
+                    dataType: 'json',
+                    data: user,
+                    headers: {'Content-Type': 'application/json'}
+                }).success(function(data) {
+                    def.resolve(data);
+                }).error(function(data, status) {
+                    def.reject(data);
+                });
+                return def.promise;
             }
         };
     });

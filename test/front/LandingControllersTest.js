@@ -147,4 +147,27 @@ describe('Landing Controllers', function() {
             });
         });
     });
+    describe('loginController', function() {
+        var $scope, controller, service, promise;
+        beforeEach(function () {
+            $scope = {};
+            promise = {then: function(success, error){success();}};
+            service = {login: function(user){return promise;}};
+            spyOn(service, 'login').and.callThrough();
+            controller = $controller('loginController', {$scope: $scope, userService: service});
+        });
+        describe('Login with Errors', function() {
+            beforeEach(function () {
+                promise = {then: function(success, error){error('error');}};
+                service = {login: function(user){return promise;}};
+                spyOn(service, 'login').and.callThrough();
+                controller = $controller('loginController', {$scope: $scope, userService: service});
+            });
+            it('should pass error to errors', function () {
+                $scope.login();
+                expect(service.login).toHaveBeenCalledWith($scope.user);
+                expect($scope.errors.user).toBe('error');
+            });
+        })
+    });
 });
