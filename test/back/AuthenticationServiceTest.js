@@ -197,8 +197,8 @@ describe('AuthenticationService', function() {
                    user = {state: 'waiting', save: function(){}};
                });
                it('should resolve promise with active user', function() {
-                   var promise = service.firstAuthenticate('bla', 'bla');
-                    assert.equal(user.state, 'active');
+                   service.firstAuthenticate('bla', 'bla');
+                   assert.equal(user.state, 'active');
                });
            });
         });
