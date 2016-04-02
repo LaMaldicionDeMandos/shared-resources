@@ -126,7 +126,6 @@ describe('Landing Api', function() {
                 .get('/user/active/ID')
                 .end(function(err, res) {
                     res.should.have.status(200);
-                    res.text.should.equal('invalid');
                     done();
                 });
         });

@@ -180,6 +180,32 @@ describe('AuthenticationService', function() {
                 promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'not_exist');});
             });
         });
+        describe('First Login', function() {
+           describe('but not is first login', function() {
+               beforeEach(function() {
+                   error = null;
+                   user = {state: 'active'};
+               });
+               it('should reject promise with error active yet', function() {
+                   var promise = service.authenticate('bla', 'bla');
+                   promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'active_yet');});
+               });
+           });
+           describe('Yes, is first login', function() {
+               beforeEach(function() {
+                   error = null;
+                   user = {state: 'waiting'};
+               });
+               it('should resolve promise with active user', function() {
+                   var promise = service.firstAuthenticate('bla', 'bla');
+                   promise.then(function(user) {
+                       assert.ok(user);
+                   }, function(error) {
+                       assert.ok(false);
+                   });
+               });
+           });
+        });
         describe('found user unactive', function() {
             beforeEach(function() {
                 error = null;

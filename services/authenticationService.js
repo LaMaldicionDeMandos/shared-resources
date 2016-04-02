@@ -47,7 +47,7 @@ function AuthenticationService(db) {
         });
         return def.promise;
     };
-    this.authenticate = function(username, password) {
+    var loginClosure = function(username, password, closure) {
         var def = q.defer();
         if (!re.test(username)) {
             db.User.findOne({username: username, password: password}).exec(function(err, user) {
@@ -56,15 +56,33 @@ function AuthenticationService(db) {
                 } else {
                     if (!user) {
                         def.reject('not_exist');
-                    } else if (user.state != 'active') {
-                        def.reject('inactive')
                     } else {
-                        def.resolve(user);
+                        closure(user, def);
                     }
                 }
             });
         }
         return def.promise;
+    };
+    var normalClosure = function(user, def) {
+       if (user.state != 'active') {
+           def.reject('inactive');
+       } else {
+           def.resolve(user);
+       }
+    };
+    var firstClosure = function(user, def) {
+        if (user.state != 'waiting') {
+            def.reject('active_yet');
+        } else {
+            def.resolve(user);
+        }
+    };
+    this.authenticate = function(username, password) {
+        return loginClosure(username, password, normalClosure);
+    };
+    this.firstAuthenticate = function(username, password) {
+        return loginClosure(username, password, firstClosure);
     };
 }
 
