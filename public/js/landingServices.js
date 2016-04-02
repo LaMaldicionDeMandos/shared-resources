@@ -47,6 +47,7 @@ angular.module('landingApp.services', []).
                 }).error(function(data, status) {
                     def.reject(data);
                 });
+                return def.promise;
             }
         };
     });
