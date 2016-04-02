@@ -55,7 +55,7 @@ describe('Landing Api', function() {
                         if (serviceFail) {
                             fail('error');
                         } else {
-                            success('success');
+                            success({_id: 'ID'});
                         }
                     }
                 };
@@ -128,9 +128,23 @@ describe('Landing Api', function() {
             it('should call done with an error', function() {
                 firstLogin('username', 'password', done.done);
                 assert(spyDone.withArgs('error').notCalled);
-                assert(spyDone.withArgs(null, 'success').calledOnce);
+                assert(spyDone.withArgs(null, {_id: 'ID'}).calledOnce);
             });
-        })
+        });
+        describe('POST first login  with correct user in body', function() {
+            beforeEach(function() {
+                validUser = false;
+            });
+            it('should call register resource from landing api and return 302', function(done) {
+                request(app)
+                    .post('/firstlogin')
+                    .send({username: 'mandos', password: 'password', id:'ID'})
+                    .end(function(err, res) {
+                        res.should.have.status(302);
+                        done();
+                    });
+            });
+        });
     });
 
     describe('User authenticate', function() {
