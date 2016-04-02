@@ -194,15 +194,11 @@ describe('AuthenticationService', function() {
            describe('Yes, is first login', function() {
                beforeEach(function() {
                    error = null;
-                   user = {state: 'waiting'};
+                   user = {state: 'waiting', save: function(){}};
                });
                it('should resolve promise with active user', function() {
                    var promise = service.firstAuthenticate('bla', 'bla');
-                   promise.then(function(user) {
-                       assert.ok(user);
-                   }, function(error) {
-                       assert.ok(false);
-                   });
+                    assert.equal(user.state, 'active');
                });
            });
         });

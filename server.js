@@ -79,7 +79,26 @@ if (env === 'development') {
  */
 
 //Login
+app.post('/firstlogin', function(req, res, next) {
+  console.log('First login: ' + req.body.username + ' -- ' + req.body.id);
+  var authenticate = function(err, user, info) {
+    if (err) {
+      console.log("Error in authentication: " + JSON.stringify(info));
+      return next(err);
+    }
 
+    console.log("user authenticated: " + JSON.stringify(user) + " doing first login in session");
+    req.login(user, function(err) {
+      if (err) {
+        console.log("Error in login into session: " + err);
+        return next(err);
+      }
+      console.log("Login success, sending path to redirect");
+      return res.redirect('/main');
+    });
+  };
+
+});
 app.post('/login', function(req, res, next) {
   console.log("Authenticanding: " + req.body.username);
   passport.authenticate('local', function(err, user, info) {

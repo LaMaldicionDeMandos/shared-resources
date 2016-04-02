@@ -9,6 +9,7 @@ var http = require('should-http');
 var sinon = require('sinon');
 var app;
 var authentication;
+var firstLogin;
 var validUser = true;
 var existUser = false;
 var serviceFail = false;
@@ -47,6 +48,17 @@ describe('Landing Api', function() {
                         }
                     }
                 };
+            },
+            firstAuthenticate: function(username, password) {
+                return {
+                    then: function (success, fail) {
+                        if (serviceFail) {
+                            fail('error');
+                        } else {
+                            success('success');
+                        }
+                    }
+                };
             }
         };
 
@@ -56,6 +68,7 @@ describe('Landing Api', function() {
         mockery.registerMock('./utils/database', dbStub);
         app = require('../../server');
         authentication = require('../../routes/landing').authenticate;
+        firstLogin = require('../../routes/landing').firstLogin;
     });
 
     after(function(){
@@ -89,6 +102,37 @@ describe('Landing Api', function() {
         });
     });
 
+    describe('First Login', function() {
+        var done;
+        var spyDone;
+        beforeEach(function() {
+            done = {done: function(e, v){}};
+            spyDone = sinon.spy(done, 'done');
+            spyDone.withArgs('error');
+            spyDone.withArgs(null, 'success');
+        });
+        describe('if fail first login', function() {
+            beforeEach(function() {
+                serviceFail = true;
+            });
+            afterEach(function() {
+                serviceFail = false;
+            });
+            it('should call done with an error', function() {
+                firstLogin('username', 'password', done.done);
+                assert(spyDone.withArgs('error').calledOnce);
+                assert(spyDone.withArgs(null, 'success').notCalled);
+            });
+        });
+        describe('success first login', function() {
+            it('should call done with an error', function() {
+                firstLogin('username', 'password', done.done);
+                assert(spyDone.withArgs('error').notCalled);
+                assert(spyDone.withArgs(null, 'success').calledOnce);
+            });
+        })
+    });
+
     describe('User authenticate', function() {
         var done;
         var spyDone;
@@ -117,7 +161,7 @@ describe('Landing Api', function() {
                 assert(spyDone.withArgs('error').notCalled);
                 assert(spyDone.withArgs(null, 'success').calledOnce);
             });
-        })
+        });
     });
 
     describe('User activation', function() {

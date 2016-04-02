@@ -75,7 +75,14 @@ function AuthenticationService(db) {
         if (user.state != 'waiting') {
             def.reject('active_yet');
         } else {
-            def.resolve(user);
+            user.state = 'active';
+            user.save(function(err) {
+                if(err) {
+                    def.reject(err);
+                } else {
+                    def.resolve(user);
+                }
+            });
         }
     };
     this.authenticate = function(username, password) {
