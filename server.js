@@ -23,13 +23,16 @@ var express = require('express'),
   http = require('http'),
   path = require('path');
 
-var passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var permission = require('permission');
 var app = module.exports = express();
 
 /**
  * Configuration
  */
+var facebookRedirect = '/auth/facebook/callback';
 app.enable('trust proxy');
 app.set('port', process.env.PORT || 5000 /*config.port*/);
 app.set('views', __dirname + '/views');
@@ -50,6 +53,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(landing.authenticate));
+passport.use(new FacebookStrategy({
+  clientID: config.auth_facebook_client_id,
+  clientSecret: config.auth_facebook_secret,
+  callbackURL: config.host + facebookRedirect
+}, function(accessToken, refreshToken, profile, next) {
+  console.log('Facebook login: accessToken: ' + accessToken + ', refreshToken: ' + refreshToken + ', profile: ' +
+  JSON.stringify(profile));
+  return next(null, profile);
+}));
 
 passport.serializeUser(function(user, done) {
   console.log("Serializing user: " + JSON.stringify(user));
@@ -104,6 +116,16 @@ app.post('/firstLogin', function(req, res, next) {
       }
   });
 });
+// Facebook authentication
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email', failureRedirect: '/' }));
+app.get(facebookRedirect, passport.authenticate('facebook', {failureRedirect: '/'}),
+function(req, res) {
+  console.log('Success Login');
+  res.redirect('/');
+});
+
+
+// Local authentication
 app.post('/login', function(req, res, next) {
   console.log("Authenticanding: " + req.body.username);
   passport.authenticate('local', function(err, user, info) {
