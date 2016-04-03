@@ -130,5 +130,38 @@ describe('Services', function() {
                 }));
             });
         });
+        describe('when login with facebook', function() {
+            describe('if login fail', function(){
+                beforeEach(function() {
+                    $httpBackend.whenGET('/auth/facebook').respond(400, {});
+                });
+                it('should call backend: /auth/facebook and get error', inject(function(userService) {
+                    var resolved = false;
+                    var reject = false;
+                    $httpBackend.expectGET('/auth/facebook');
+                    var promise = userService.facebookLogin();
+                    promise.then(function (success){
+                        resolved = true;
+                    }, function (error){
+                        reject = true
+                    });
+                    $httpBackend.flush();
+                    $rootScope.$digest();
+                    expect(resolved).toBe(false);
+                    expect(reject).toBe(true);
+                }));
+            });
+            describe('if login success', function(){
+                beforeEach(function() {
+                    $httpBackend.whenGET('/auth/facebook').respond(200, {});
+                });
+                it('should call backend: /auth/facebook and get error', inject(function(userService) {
+                    $httpBackend.expectGET('/auth/facebook');
+                    userService.facebookLogin();
+                    $httpBackend.flush();
+                    $rootScope.$digest();
+                }));
+            });
+        });
     });
 });
