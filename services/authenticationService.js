@@ -49,19 +49,23 @@ function AuthenticationService(db) {
     };
     var loginClosure = function(username, password, closure) {
         var def = q.defer();
-        if (!re.test(username)) {
-            db.User.findOne({username: username, password: password}).exec(function(err, user) {
-                if (err) {
-                    def.reject(user);
-                } else {
-                    if (!user) {
-                        def.reject('not_exist');
-                    } else {
-                        closure(user, def);
-                    }
-                }
-            });
+        var query = {password: password};
+        if(re.test(username)) {
+            query.email = username;
+        } else {
+            query.username = username;
         }
+        db.User.findOne(query).exec(function(err, user) {
+            if (err) {
+                def.reject(user);
+            } else {
+                if (!user) {
+                    def.reject('not_exist');
+                } else {
+                    closure(user, def);
+                }
+            }
+        });
         return def.promise;
     };
     var normalClosure = function(user, def) {

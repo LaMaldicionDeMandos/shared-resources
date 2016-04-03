@@ -151,6 +151,7 @@ describe('Landing Controllers', function() {
         var $scope, controller, service, promise;
         beforeEach(function () {
             $scope = {};
+            $scope.activation = 'false';
             promise = {then: function(success, error){success();}};
             service = {login: function(user){return promise;}};
             spyOn(service, 'login').and.callThrough();

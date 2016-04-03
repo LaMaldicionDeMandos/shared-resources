@@ -58,7 +58,6 @@ exports.firstLogin = function(username, password, done) {
     console.log("Login: username: " + username);
     authenticationService.firstAuthenticate(username, password).then(
         function(user) {
-
             done(null, user);
         },
         function(err) {

@@ -160,7 +160,9 @@
                                    required data-validation-required-message="Ingrese su email o usuario."
                                    aria-invalid="false" ng-model="user.username">
                             <p class="help-block">
-                                <span ng-show="errors.user" class="has-error">Usuario o contraseña incorrectos.</span>
+                                <span ng-show="errors.user == 'not_exist'" class="has-error">Usuario o contraseña incorrectos.</span>
+                                <span ng-show="errors.user == 'inactive'" class="has-error">El Ususario aun no está activado.</span>
+                                <span ng-show="errors.user == 'active_yet'" class="has-error">El Ususario ya ha sido activado.</span>
                             </p>
                         </div>
                         <div class="form-group-lg">

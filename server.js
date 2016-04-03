@@ -134,7 +134,7 @@ app.post('/login', function(req, res, next) {
 
 // serve index and view partials
 app.get('/', routes.index);
-app.get('/main', routes.main);
+app.get('/main', ensureAuthenticated, routes.main);
 
 // Landing
 app.post('/register', landing.register);
@@ -160,12 +160,7 @@ server.on('error', function(error) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    if(req.cookies.currentCountry && req.user.countries.indexOf(req.cookies.currentCountry)>=0) {
-      req.user.currentCountry = req.cookies.currentCountry;
-    } else {
-      req.user.currentCountry = req.user.countries[0];
-    }
     return next();
   }
-  return res.redirect(appPath + '/login');
+  return res.redirect('/');
 };
