@@ -151,14 +151,15 @@ describe('Landing Controllers', function() {
         var $scope, controller, service, promise;
         beforeEach(function () {
             $scope = {};
-            $scope.activation = 'false';
             promise = {then: function(success, error){success();}};
-            service = {login: function(user){return promise;}};
+            service = {login: function(user){return promise;}, firstLogin: function(user){return promise;}};
             spyOn(service, 'login').and.callThrough();
+            spyOn(service, 'firstLogin').and.callThrough();
             controller = $controller('loginController', {$scope: $scope, userService: service});
         });
         describe('Login with Errors', function() {
             beforeEach(function () {
+                $scope.activation = 'false';
                 promise = {then: function(success, error){error('error');}};
                 service = {login: function(user){return promise;}};
                 spyOn(service, 'login').and.callThrough();
@@ -169,6 +170,20 @@ describe('Landing Controllers', function() {
                 expect(service.login).toHaveBeenCalledWith($scope.user);
                 expect($scope.errors.user).toBe('error');
             });
-        })
+        });
+        describe('Login first', function() {
+            beforeEach(function () {
+                $scope.activation = 'ID';
+                promise = {then: function(success, error){error('error');}};
+                service = {firstLogin: function(user){return promise;}};
+                spyOn(service, 'firstLogin').and.callThrough();
+                controller = $controller('loginController', {$scope: $scope, userService: service});
+            });
+            it('should pass error to errors', function () {
+                $scope.login();
+                expect(service.firstLogin).toHaveBeenCalledWith($scope.user);
+                expect($scope.errors.user).toBe('error');
+            });
+        });
     });
 });
