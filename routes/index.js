@@ -2,7 +2,7 @@ exports.index = function(req, res) {
   if (req.isAuthenticated()) {
     res.render('main');
   }
-  res.render('index', {activation: false});
+  res.render('main', {activation: false});
 };
 
 exports.main = function(req, res) {

@@ -52,9 +52,6 @@ angular.module('landingApp.controllers', []).
         };
     })
     .controller('loginController', function($scope, $window, userService) {
-        if ($scope.activation != 'false') {
-            console.log('Activation: ' + $scope.activation);
-        }
         $scope.user = {username:'', password: ''};
         $scope.errors = {};
         $scope.login = function() {
@@ -66,11 +63,6 @@ angular.module('landingApp.controllers', []).
             var fail = function(error) {
                 $scope.errors.user = error;
             };
-            if ($scope.activation != 'false') {
-                $scope.user.id = $scope.activation;
-                userService.firstLogin($scope.user).then(success, fail);
-            } else {
-                userService.login($scope.user).then(success, fail);
-            }
-        }
+            userService.login($scope.user).then(success, fail);
+        };
     });

@@ -120,7 +120,10 @@ app.post('/firstLogin', function(req, res, next) {
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email', failureRedirect: '/' }));
 app.get(facebookRedirect, passport.authenticate('facebook', {failureRedirect: '/'}),
 function(req, res) {
-  console.log('Success Login');
+  if(req.params.id) {
+    console.log('Success First Login with Facebook');
+  }
+  console.log('Success Login with Facebook');
   res.redirect('/');
 });
 

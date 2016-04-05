@@ -171,19 +171,5 @@ describe('Landing Controllers', function() {
                 expect($scope.errors.user).toBe('error');
             });
         });
-        describe('Login first', function() {
-            beforeEach(function () {
-                $scope.activation = 'ID';
-                promise = {then: function(success, error){error('error');}};
-                service = {firstLogin: function(user){return promise;}};
-                spyOn(service, 'firstLogin').and.callThrough();
-                controller = $controller('loginController', {$scope: $scope, userService: service});
-            });
-            it('should pass error to errors', function () {
-                $scope.login();
-                expect(service.firstLogin).toHaveBeenCalledWith($scope.user);
-                expect($scope.errors.user).toBe('error');
-            });
-        });
     });
 });
