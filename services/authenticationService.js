@@ -94,6 +94,8 @@ function AuthenticationService(db) {
                     def.resolve(user);
                 }
             });
+        }, function(err) {
+            def.reject(err);
         });
         return def.promise;
     };

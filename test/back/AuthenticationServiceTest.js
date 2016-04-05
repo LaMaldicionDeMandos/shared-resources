@@ -236,11 +236,11 @@ describe('AuthenticationService', function() {
     describe('activate', function() {
         beforeEach(function() {
             error = null;
-            user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo_gmail.com'};
+            user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo_gmail.com',
+            state: 'waiting', save: function(callback) { callback()}};
             db.User.findById = function(id) {
                 return {
                     exec: function(callback) {
-                        userState = user.state;
                         callback(error, user);
                     }
                 };
