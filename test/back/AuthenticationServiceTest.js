@@ -36,6 +36,13 @@ db = new function() {
                 }
             };
         };
+    this.User.findById = function(id) {
+        return {
+            exec: function(callback) {
+                callback(null, user);
+            }
+        }
+    }
 };
 
 var service = require('../../services/authenticationService');
@@ -180,28 +187,6 @@ describe('AuthenticationService', function() {
                 promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'not_exist');});
             });
         });
-        describe('First Login', function() {
-           describe('but not is first login', function() {
-               beforeEach(function() {
-                   error = null;
-                   user = {state: 'active'};
-               });
-               it('should reject promise with error active yet', function() {
-                   var promise = service.authenticate('bla', 'bla');
-                   promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'active_yet');});
-               });
-           });
-           describe('Yes, is first login', function() {
-               beforeEach(function() {
-                   error = null;
-                   user = {state: 'waiting', save: function(){}};
-               });
-               it('should resolve promise with active user', function() {
-                   service.firstAuthenticate('bla', 'bla');
-                   assert.equal(user.state, 'active');
-               });
-           });
-        });
         describe('found user unactive', function() {
             beforeEach(function() {
                 error = null;
@@ -227,5 +212,25 @@ describe('AuthenticationService', function() {
             });
         });
     });
-
+    describe('Find user by id', function() {
+        beforeEach(function() {
+            error = null;
+            user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo_gmail.com'};
+            db.User.findById = function(id) {
+                return {
+                    exec: function(callback) {
+                        callback(error, user);
+                    }
+                };
+            };
+        });
+        it('should resolve promise with user', function() {
+            var promise = service.findById('ID');
+            promise.then(function(user) {
+                assert.ok(user);
+            }, function(error) {
+                assert.ok(false);
+            });
+        });
+    });
 });

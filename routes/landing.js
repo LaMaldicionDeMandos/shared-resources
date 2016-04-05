@@ -39,24 +39,13 @@ exports.register = function(req, res) {
 
 exports.active = function(req, res) {
     var id = req.params.id;
+
     res.render('index', {activation: id});
 }
 
 exports.authenticate = function(username, password, done) {
     console.log("Login: username: " + username);
     authenticationService.authenticate(username, password).then(
-        function(user) {
-            done(null, user);
-        },
-        function(err) {
-            done(err);
-        }
-    );
-};
-
-exports.firstLogin = function(username, password, done) {
-    console.log("Login: username: " + username);
-    authenticationService.firstAuthenticate(username, password).then(
         function(user) {
             done(null, user);
         },

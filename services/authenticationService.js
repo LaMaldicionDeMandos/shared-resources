@@ -75,26 +75,20 @@ function AuthenticationService(db) {
            def.resolve(user);
        }
     };
-    var firstClosure = function(user, def) {
-        if (user.state != 'waiting') {
-            def.reject('active_yet');
-        } else {
-            user.state = 'active';
-            user.save(function(err) {
-                if(err) {
-                    def.reject(err);
-                } else {
-                    def.resolve(user);
-                }
-            });
-        }
-    };
     this.authenticate = function(username, password) {
         return loginClosure(username, password, normalClosure);
     };
-    this.firstAuthenticate = function(username, password) {
-        return loginClosure(username, password, firstClosure);
-    };
+    this.findById = function(id) {
+        var def = q.defer();
+        db.User.findById(id).exec(function(err, user) {
+            if (err) {
+                def.reject(user);
+            } else {
+                def.resolve(user);
+            }
+        });
+        return def.promise;
+    }
 }
 
 var service = new AuthenticationService(db);

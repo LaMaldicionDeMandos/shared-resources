@@ -127,9 +127,7 @@ function(req, res) {
   res.redirect('/');
 });
 
-
-// Local authentication
-app.post('/login', function(req, res, next) {
+var login = function(req, res, next) {
   console.log("Authenticanding: " + req.body.username);
   passport.authenticate('local', function(err, user, info) {
     if (err) {
@@ -147,7 +145,10 @@ app.post('/login', function(req, res, next) {
     });
 
   })(req, res, next);
-});
+};
+
+// Local authentication
+app.post('/login', login);
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);
@@ -163,7 +164,7 @@ app.get('/main', ensureAuthenticated, routes.main);
 
 // Landing
 app.post('/register', landing.register);
-app.get('/user/active/:id', landing.active);
+app.get('/user/active/:id', landing.active, login);
 
 // JSON API
 //app.get(appPath + '/api/allotments', ensureAuthenticated, api.allotments);
