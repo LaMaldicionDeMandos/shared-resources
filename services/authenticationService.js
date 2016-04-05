@@ -81,6 +81,10 @@ function AuthenticationService(db) {
     this.firstAuthenticate = function(id) {
         var def = q.defer();
         this.findById(id).then(function(user) {
+            if( user.state != 'waiting') {
+                def.reject(new Error('not_waiting'));
+                return;
+            }
             user.state = 'active';
             user.save(function(err) {
                 if(err) {

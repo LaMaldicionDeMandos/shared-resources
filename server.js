@@ -141,7 +141,11 @@ var login = function(req, res, next) {
         return next(err);
       }
       console.log("Login success, sending path to redirect");
-      return res.redirect('/main');
+      if (req.params.id) {
+        return res.render('main', {activation: req.params.id});
+      } else {
+        return res.render('main', {activation: null});
+      }
     });
 
   })(req, res, next);
