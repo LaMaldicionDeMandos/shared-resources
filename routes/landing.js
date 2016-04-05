@@ -37,10 +37,17 @@ exports.register = function(req, res) {
     }
 };
 
-exports.active = function(req, res) {
+exports.active = function(req, res, next) {
     var id = req.params.id;
-
-    res.render('index', {activation: id});
+    authenticationService.firstAuthenticate(id).then(
+        function(user) {
+            req.body = user;
+            next();
+        },
+        function(err) {
+            next(err);
+        }
+    );
 }
 
 exports.authenticate = function(username, password, done) {

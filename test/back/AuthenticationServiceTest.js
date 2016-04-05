@@ -90,7 +90,7 @@ describe('AuthenticationService', function() {
 
             it('should verify that user not exist', function() {
                 var promise = service.existUser(user);
-                promise.then(function(result) {
+                return promise.then(function(result) {
                    assert(!result);
                 }, function(error) {
                    assert.fail();
@@ -104,7 +104,7 @@ describe('AuthenticationService', function() {
             });
             it('should verify that user exist', function() {
                 var promise = service.existUser(user);
-                promise.then(function(result) {
+                return promise.then(function(result) {
                     assert(result);
                 }, function(error) {
                     assert.fail();
@@ -174,7 +174,7 @@ describe('AuthenticationService', function() {
            });
            it('should reject promise with error message', function() {
                var promise = service.authenticate('bla', 'bla');
-               promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'error');});
+               return promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'error');});
            });
        });
         describe('not found user', function() {
@@ -184,7 +184,7 @@ describe('AuthenticationService', function() {
             });
             it('should reject promise with error not_exist', function() {
                 var promise = service.authenticate('bla', 'bla');
-                promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'not_exist');});
+                return promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'not_exist');});
             });
         });
         describe('found user unactive', function() {
@@ -194,7 +194,7 @@ describe('AuthenticationService', function() {
             });
             it('should reject promise with error inactive', function() {
                 var promise = service.authenticate('bla', 'bla');
-                promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'inactive');});
+                return promise.then(function(user) { assert.ok(false);}, function(error) { assert.equal(error, 'inactive');});
             });
         });
         describe('found user valid', function() {
@@ -204,7 +204,7 @@ describe('AuthenticationService', function() {
             });
             it('should resolve promise with active user', function() {
                 var promise = service.authenticate('bla', 'bla');
-                promise.then(function(user) {
+                return promise.then(function(user) {
                     assert.ok(user);
                 }, function(error) {
                     assert.ok(false);
@@ -226,11 +226,34 @@ describe('AuthenticationService', function() {
         });
         it('should resolve promise with user', function() {
             var promise = service.findById('ID');
-            promise.then(function(user) {
+            return promise.then(function(user) {
                 assert.ok(user);
             }, function(error) {
                 assert.ok(false);
             });
         });
     });
+    describe('activate', function() {
+        beforeEach(function() {
+            error = null;
+            user = {username:'username', password: 'password', rePassword:'password', email:'pasutmarcelo_gmail.com'};
+            db.User.findById = function(id) {
+                return {
+                    exec: function(callback) {
+                        userState = user.state;
+                        callback(error, user);
+                    }
+                };
+            };
+        });
+        it('should change user.state to active and return it', function() {
+            var promise = service.firstAuthenticate('ID');
+            return promise.then(function(user) {
+                assert.ok(user);
+                assert.equal(user.state, 'active');
+            }, function(error) {
+                assert.ok(false);
+            });
+        });
+    })
 });

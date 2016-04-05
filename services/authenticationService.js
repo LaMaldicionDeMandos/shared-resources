@@ -57,7 +57,7 @@ function AuthenticationService(db) {
         }
         db.User.findOne(query).exec(function(err, user) {
             if (err) {
-                def.reject(user);
+                def.reject(err);
             } else {
                 if (!user) {
                     def.reject('not_exist');
@@ -78,6 +78,22 @@ function AuthenticationService(db) {
     this.authenticate = function(username, password) {
         return loginClosure(username, password, normalClosure);
     };
+    this.firstAuthenticate = function(id) {
+        var def = q.defer();
+        this.findById(id).then(function(user) {
+            user.state = 'active';
+            user.save(function(err) {
+                if(err) {
+                    console.log(err);
+                    def.reject(err);
+                } else {
+                    def.resolve(user);
+                }
+            });
+        });
+        return def.promise;
+    };
+
     this.findById = function(id) {
         var def = q.defer();
         db.User.findById(id).exec(function(err, user) {
