@@ -20,6 +20,7 @@ var express = require('express'),
   morgan = require('morgan'),
   routes = require('./routes'),
   landing = require('./routes/landing'),
+  modals = require('./routes/modals'),
   http = require('http'),
   path = require('path');
 
@@ -165,6 +166,7 @@ app.post('/login', login);
 // serve index and view partials
 app.get('/', routes.index);
 app.get('/main', ensureAuthenticated, routes.main);
+app.get('/modals/:view', ensureAuthenticated, modals.modals);
 
 // Landing
 app.post('/register', landing.register);

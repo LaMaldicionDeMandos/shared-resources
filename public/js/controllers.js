@@ -5,6 +5,16 @@
 
 /* Controllers */
 angular.module('app.controllers', []).
-    controller('firstLoginController', function($scope) {
-        console.log("First Login activation: " + $scope.activation)
+    controller('firstLoginController', function($scope, $modal) {
+        if ($scope.activation != '') {
+            console.log("First Login activation: " + $scope.activation)
+            $scope.modal = $modal.open(
+                {
+                    templateUrl: 'modals/facebook_association',
+                    scope: $scope,
+                    size: '',
+                    animation: true
+                }
+            );
+        }
     });
