@@ -5,5 +5,6 @@
 
 /* Controllers */
 angular.module('app.controllers', []).
-    controller('mockController', function($scope) {
+    controller('firstLoginController', function($scope) {
+        console.log("First Login activation: " + $scope.activation)
     });

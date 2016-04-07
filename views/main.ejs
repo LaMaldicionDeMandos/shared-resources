@@ -1,4 +1,4 @@
-<html>
+<html ng-app="app">
     <head>
         <meta charset="utf8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,21 +18,29 @@
         <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>
 
-    <body>
-        <div id="wrapper">
+    <body ng-init="activation='<%=activation%>'">
+        <div id="wrapper" ng-controller="firstLoginController">
             <% include ./header %>
             <div id="page-wrapper">
                 <div class="container-fluid">
                     <% include ./main_content %>
-                    <h1><%=activation%></h1>
                     <div>
                        <h1>Footer</h1>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="js/libs/jquery.js"></script>
+        <!-- jQuery -->
+        <script src="/js/libs/jquery.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="js/libs/bootstrap.min.js"></script>
+
+        <!-- Angular -->
+        <script src="/js/libs/angular.min.js"></script>
+
+        <!-- App -->
+        <script src="/js/services.js"></script>
+        <script src="/js/controllers.js"></script>
+        <script src="/js/app.js"></script>
     </body>
 </html>
