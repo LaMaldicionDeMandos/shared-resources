@@ -7,7 +7,7 @@
 angular.module('app.controllers', []).
     controller('firstLoginController', function($scope, $modal) {
         if ($scope.activation != '') {
-            console.log("First Login activation: " + $scope.activation)
+            console.log("First Login activation: " + $scope.activation);
             $scope.modal = $modal.open(
                 {
                     templateUrl: 'modals/facebook_association',

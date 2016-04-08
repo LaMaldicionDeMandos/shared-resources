@@ -18,10 +18,11 @@ module.exports = function(config) {
       'public/js/libs/jquery.js',
       'public/js/libs/jquery.easing.min.js',
       'public/js/libs/jquery.fittext.js',
-      'public/js/libs/jquery.js',
       'public/js/libs/angular.min.js',
+      'public/js/libs/angular-animate.min.js',
       'public/js/libs/angular-mocks.js',
       'public/js/libs/bootstrap.min.js',
+      'public/js/libs/ui-bootstrap-tpls-0.13.0.min.js',
       'public/js/libs/wow.min.js',
       'public/js/libs/creative.js',
       'public/js/libs/wow.min.js',
@@ -29,6 +30,10 @@ module.exports = function(config) {
       'public/js/landingControllers.js',
       'public/js/landingServices.js',
       'public/js/landingApp.js',
+
+      'public/js/app.js',
+      'public/js/controllers.js',
+      'public/js/services.js',
 
       'test/front/*.js',
 
