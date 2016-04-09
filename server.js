@@ -29,6 +29,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var permission = require('permission');
 var app = module.exports = express();
+var authenticationService = require('./services/authenticationService');
 
 /**
  * Configuration
@@ -57,11 +58,30 @@ passport.use(new LocalStrategy(landing.authenticate));
 passport.use(new FacebookStrategy({
   clientID: config.auth_facebook_client_id,
   clientSecret: config.auth_facebook_secret,
-  callbackURL: config.host + facebookRedirect
+  callbackURL: config.host + facebookRedirect,
+  profileFields: ['id', 'email']
 }, function(accessToken, refreshToken, profile, next) {
   console.log('Facebook login: accessToken: ' + accessToken + ', refreshToken: ' + refreshToken + ', profile: ' +
   JSON.stringify(profile));
-  return next(null, profile);
+  authenticationService.findByFacebookId(profile.id).then(
+      function(user) {
+        if (user) {
+          next(null, user);
+        } else {
+          authenticationService.attachUserWithFacebook(profile).then(
+              function(user) {
+                next(null, user)
+              },
+              function(err) {
+                next(err);
+              }
+          );
+        }
+      },
+      function(err) {
+        next(err);
+      }
+  );
 }));
 
 passport.serializeUser(function(user, done) {
@@ -91,41 +111,12 @@ if (env === 'development') {
  * Routes
  */
 
-//Login
-app.post('/firstLogin', function(req, res, next) {
-  console.log('First login: ' + req.body.username + ' -- ' + req.body.id);
-  landing.firstLogin(req.body.username, req.body.password, function(err, user) {
-      if (err) {
-        console.log('Error in first login');
-        next(err);
-      } else {
-        if (user._id != req.body.id) {
-          var error = 'Error the activate code not is correct: [token: ' + req.body.id + 'user id: ' + user._id + ']';
-          console.log(error);
-          next(new Error(error));
-        } else {
-          console.log("user authenticated: " + JSON.stringify(user) + " doing first login in session");
-          req.login(user, function(err) {
-            if (err) {
-              console.log("Error in login into session: " + err);
-              return next(err);
-            }
-            console.log("Login success, sending path to redirect");
-            return res.redirect('/main');
-          });
-        }
-      }
-  });
-});
 // Facebook authentication
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email', failureRedirect: '/' }));
 app.get(facebookRedirect, passport.authenticate('facebook', {failureRedirect: '/'}),
 function(req, res) {
-  if(req.params.id) {
-    console.log('Success First Login with Facebook');
-  }
   console.log('Success Login with Facebook');
-  res.redirect('/');
+  res.redirect('/main')
 });
 
 var login = function(req, res, next) {

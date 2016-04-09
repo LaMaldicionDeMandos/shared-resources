@@ -111,6 +111,51 @@ function AuthenticationService(db) {
         });
         return def.promise;
     }
+
+    this.findByFacebookId = function(facebookId) {
+        var def = q.defer();
+        db.User.findOne({facebookId: facebookId}).exec(function(err, user) {
+            if (err) {
+                def.reject(user);
+            } else {
+                def.resolve(user);
+            }
+        });
+        return def.promise;
+    };
+    this.findByEmail = function(email) {
+        var def = q.defer();
+        db.User.findOne({email: email}).exec(function(err, user) {
+            if (err) {
+                def.reject(user);
+            } else {
+                def.resolve(user);
+            }
+        });
+        return def.promise;
+    };
+    this.attachUserWithFacebook = function(profile) {
+        var def = q.defer();
+        db.User.findOne({email: profile.emails[0].value}).exec(function(err, user) {
+            if (err) {
+                def.reject(err);
+            } else {
+                if (user) {
+                    user.facebookId = profile.id;
+                    user.save(function(err) {
+                        if(err) {
+                            def.reject(err);
+                        } else {
+                            def.resolve(user);
+                        }
+                    });
+                } else {
+                    def.reject('user_not_found');
+                }
+            }
+        });
+        return def.promise;
+    };
 }
 
 var service = new AuthenticationService(db);

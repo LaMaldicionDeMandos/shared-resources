@@ -233,6 +233,89 @@ describe('AuthenticationService', function() {
             });
         });
     });
+    describe('Find user by facebook id', function() {
+        beforeEach(function() {
+            error = null;
+            user = {facebookId: 'facebook_id',username:'username', password: 'password', rePassword:'password',
+                email:'pasutmarcelo_gmail.com'};
+            db.User.findByOne = function(query) {
+                return {
+                    exec: function(callback) {
+                        callback(error, user);
+                    }
+                };
+            };
+        });
+        it('should resolve promise with user', function() {
+            var promise = service.findByFacebookId('facebook_id');
+            return promise.then(function(user) {
+                assert.ok(user);
+            }, function(error) {
+                assert.ok(false);
+            });
+        });
+    });
+    describe('find user by email', function() {
+        beforeEach(function() {
+            error = null;
+            user = {facebookId: 'facebook_id',username:'username', password: 'password', rePassword:'password',
+                email:'pasutmarcelo_gmail.com'};
+            db.User.findByOne = function(query) {
+                return {
+                    exec: function(callback) {
+                        callback(error, user);
+                    }
+                };
+            };
+        });
+        it('should resolve promise with user', function() {
+            var promise = service.findByEmail('pasutmarcelo@gmail.com');
+            return promise.then(function(user) {
+                assert.ok(user);
+            }, function(error) {
+                assert.ok(false);
+            });
+        });
+    });
+    describe('Attach user with facebook', function() {
+        beforeEach(function() {
+            error = null;
+            db.User.findByOne = function(query) {
+                return {
+                    exec: function(callback) {
+                        callback(error, user);
+                    }
+                };
+            };
+        });
+        describe('user not found', function() {
+            beforeEach(function() {
+                user = null;
+            });
+            it('should reject promise with error', function() {
+                var promise = service.attachUserWithFacebook({emails:['pasutmarcelo@gmail.com'], id: 'facebook_id'});
+                return promise.then(function(user) {
+                    assert.ok(false);
+                }, function(error) {
+                    assert.equal(error, 'user_not_found');
+                });
+            });
+        });
+        describe('success', function() {
+            beforeEach(function() {
+                user = {username:'username', password: 'password', rePassword:'password',
+                    email:'pasutmarcelo@gmail.com', save: function(callback) { callback();}};
+            });
+            it('should resolve promise with user', function() {
+                var promise = service.attachUserWithFacebook({emails:['pasutmarcelo@gmail.com'], id: 'facebook_id'});
+                return promise.then(function(user) {
+                    assert.equal(user.facebookId, 'facebook_id')
+                }, function(error) {
+                    assert.ok(false);
+                });
+            });
+        });
+    });
     describe('activate', function() {
         beforeEach(function() {
             error = null;
