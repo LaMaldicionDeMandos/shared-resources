@@ -17,4 +17,7 @@ angular.module('app.controllers', []).
                 }
             );
         }
+        $scope.dismiss = function() {
+            $scope.modal.dismiss();
+        }
     });
