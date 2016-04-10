@@ -142,6 +142,11 @@ function AuthenticationService(db) {
             } else {
                 if (user) {
                     user.facebookId = profile.id;
+                    if(profile.photos) {
+                        user.photo = profile.photos[0].value;
+                    } else {
+                        user.photo = '';
+                    }
                     user.save(function(err) {
                         if(err) {
                             def.reject(err);

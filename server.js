@@ -59,7 +59,7 @@ passport.use(new FacebookStrategy({
   clientID: config.auth_facebook_client_id,
   clientSecret: config.auth_facebook_secret,
   callbackURL: config.host + facebookRedirect,
-  profileFields: ['id', 'email']
+  profileFields: ['id', 'email', 'photos']
 }, function(accessToken, refreshToken, profile, next) {
   console.log('Facebook login: accessToken: ' + accessToken + ', refreshToken: ' + refreshToken + ', profile: ' +
   JSON.stringify(profile));
@@ -134,7 +134,7 @@ var login = function(req, res, next) {
       }
       console.log("Login success, sending path to redirect");
       if (req.params.id) {
-        return res.render('main', {activation: req.params.id});
+        return res.render('main', {activation: req.params.id, user: req.user});
       } else {
         return res.render('main', {activation: null});
       }

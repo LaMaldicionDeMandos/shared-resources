@@ -12,8 +12,16 @@
     </div>
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
+        <li ng-if="'<%=user.photo%>' != ''">
+            <label> <%=user.username%></label>
+        </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><%=user.username%></b></a>
+            <!-- Por ahora pongo solo la imagen pero despues tengo que validar que este -->
+            <span class="helper"></span>
+
+            <img ng-if="'<%=user.photo%>' != ''" src="<%=user.photo%>" class="img-circle dropdown-toggle margin10" data-toggle="dropdown" alt="<%=user.username%>"
+            width="40" height="40" />
+            <a ng-if="'<%=user.photo%>' == ''" href="#" class="dropdown-toggle" data-toggle="dropdown"> <%=user.username%></a>
             <ul class="dropdown-menu">
                 <li>
                     <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>

@@ -76,6 +76,13 @@ body {
     line-height: 20px;
     color: white;
 }
+.top-nav>li>label {
+    padding-top: 19.5px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: white;
+    font-weight: 500 !important;
+}
 
 .top-nav>li>a:hover,
 .top-nav>li>a:focus,
@@ -267,4 +274,21 @@ a:focus, a:hover {
 .btn-facebook-r {
     text-transform: none !important;
     border-radius: 6px !important;
+}
+
+.helper {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.margin10 {
+    margin: 10px;
+}
+
+.white-label {
+    padding-top: 19.5px;
+    padding-bottom: 15px;
+    line-height: 20px;
+    color: white;
 }
