@@ -21,6 +21,7 @@ var express = require('express'),
   routes = require('./routes'),
   landing = require('./routes/landing'),
   modals = require('./routes/modals'),
+  partials = require('./routes/partials'),
   http = require('http'),
   path = require('path');
 
@@ -151,6 +152,7 @@ app.get('/logout', ensureAuthenticated, function(req, res) {
   req.session.destroy();
   return res.redirect('/');
 });
+app.get('/partials/:view', ensureAuthenticated, partials.partials);
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);

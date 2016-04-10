@@ -6,6 +6,9 @@
 /* Controllers */
 angular.module('app.controllers', []).
     controller('headerController', function($scope, $modal, $window, userService) {
+        if ($window.location.hash == '#_=_') {
+            $window.location.href = '/';
+        }
         if ($scope.activation != '') {
             console.log("First Login activation: " + $scope.activation);
             $scope.modal = $modal.open(
