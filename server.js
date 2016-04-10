@@ -136,7 +136,7 @@ var login = function(req, res, next) {
       if (req.params.id) {
         return res.render('main', {activation: req.params.id, user: req.user});
       } else {
-        return res.render('main', {activation: null});
+        return res.render('main', {activation: null, user: req.user});
       }
     });
 
@@ -145,6 +145,12 @@ var login = function(req, res, next) {
 
 // Local authentication
 app.post('/login', login);
+app.get('/logout', ensureAuthenticated, function(req, res) {
+  console.log('Call logout');
+  req.logout();
+  req.session.destroy();
+  return res.redirect('/');
+});
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);
@@ -156,6 +162,7 @@ app.post('/login', login);
 
 // serve index and view partials
 app.get('/', routes.index);
+app.get('/index', routes.index);
 app.get('/main', ensureAuthenticated, routes.main);
 app.get('/modals/:view', ensureAuthenticated, modals.modals);
 

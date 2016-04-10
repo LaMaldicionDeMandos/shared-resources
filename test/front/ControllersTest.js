@@ -9,8 +9,8 @@ describe('Controllers', function() {
         $controller = _$controller_;
     }));
 
-    describe('firstLoginController', function() {
-        var $scope, controller, $modal;
+    describe('Header Controller', function() {
+        var $scope, controller, $modal, $window;
         beforeEach(function () {
             $scope = {};
             $modal = {open: function() { return true}};
@@ -20,7 +20,7 @@ describe('Controllers', function() {
                 beforeEach(function() {
                     $scope.modal = undefined;
                     $scope.activation = 'ac';
-                    controller = $controller('firstLoginController', {$scope: $scope, $modal: $modal});
+                    controller = $controller('headerController', {$scope: $scope, $modal: $modal});
                 });
                 it('should show the facebook popup', function() {
                     expect($scope.modal).toBe(true);
@@ -30,11 +30,28 @@ describe('Controllers', function() {
                 beforeEach(function() {
                     $scope.modal = undefined;
                     $scope.activation = '';
-                    controller = $controller('firstLoginController', {$scope: $scope, $modal: $modal});
+                    controller = $controller('headerController', {$scope: $scope, $modal: $modal});
                 });
                 it('should not show the facebook popup', function() {
                     expect($scope.modal).toBe(undefined);
                 });
+            });
+        });
+        describe('Logout', function() {
+            beforeEach(function() {
+                $window = {location: {}};
+                $scope.modal = undefined;
+                $scope.activation = '';
+                promise = {then: function(success, error){success();}};
+                service = {logout: function(){return promise;}};
+                spyOn(service, 'logout').and.callThrough();
+                controller = $controller('headerController', {$scope: $scope, $modal: $modal, $window: $window,
+                    userService: service});
+            });
+            it('should logout with service', function() {
+                $scope.logout();
+                expect(service.logout).toHaveBeenCalled();
+                expect($window.location.href).toBe('/');
             });
         });
     });

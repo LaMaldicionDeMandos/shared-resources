@@ -1,7 +1,7 @@
 /**
  * Created by boot on 3/11/16.
  */
-describe('Services', function() {
+describe('Landing Services', function() {
     beforeEach(module('landingApp.services'))
     var $httpBackend, $rootScope;
     beforeEach(inject(function ($injector) {

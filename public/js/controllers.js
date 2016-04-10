@@ -5,7 +5,7 @@
 
 /* Controllers */
 angular.module('app.controllers', []).
-    controller('firstLoginController', function($scope, $modal) {
+    controller('headerController', function($scope, $modal, $window, userService) {
         if ($scope.activation != '') {
             console.log("First Login activation: " + $scope.activation);
             $scope.modal = $modal.open(
@@ -19,5 +19,14 @@ angular.module('app.controllers', []).
         }
         $scope.dismiss = function() {
             $scope.modal.dismiss();
-        }
+        };
+        $scope.logout = function() {
+            var success = function() {
+                $window.location.href = '/index';
+            };
+            var fail = function(error) {
+                console.log('Error on logout ' + error);
+            };
+            userService.logout().then(success, fail);
+        };
     });
