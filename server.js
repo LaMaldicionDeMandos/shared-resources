@@ -166,6 +166,7 @@ app.get('/partials/:view', ensureAuthenticated, partials.partials);
 app.get('/', routes.index);
 app.get('/index', routes.index);
 app.get('/main', ensureAuthenticated, permission(['root', 'admin']), routes.main);
+app.get('/admins', ensureAuthenticated, permission(['root', 'admin']), routes.main);
 app.get('/modals/:view', ensureAuthenticated, modals.modals);
 
 // Landing
