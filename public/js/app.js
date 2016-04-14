@@ -9,6 +9,10 @@ angular.module('app', [
 ])
     .config(function($routeProvider, $locationProvider) {
         $routeProvider.
+            when('/', {
+                menuItem: 'calendar',
+                templateUrl: '/partials/calendar'
+            }).
             when('/admins', {
                 menuItem: 'admins',
                 templateUrl: '/partials/admin_user'
