@@ -163,6 +163,4 @@ function AuthenticationService(db) {
     };
 }
 
-var service = new AuthenticationService(db);
-
-module.exports = service;
+module.exports = AuthenticationService;

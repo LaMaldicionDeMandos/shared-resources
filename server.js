@@ -30,7 +30,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var permission = require('permission');
 var app = module.exports = express();
-var authenticationService = require('./services/authenticationService');
+var AuthenticationService = require('./services/authenticationService');
+var authenticationService = new AuthenticationService(db);
 
 /**
  * Configuration

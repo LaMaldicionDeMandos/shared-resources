@@ -13,7 +13,7 @@ var userRole;
 var userBuilding;
 var error = null;
 var user;
-db = new function() {
+var db = new function() {
     this.ObjectId = function() {
         return 'aaa';
     };
@@ -45,7 +45,8 @@ db = new function() {
     }
 };
 
-var service = require('../../services/authenticationService');
+var Service = require('../../services/authenticationService');
+var service = new Service(db);
 
 describe('AuthenticationService', function() {
     describe('Register user without errors', function() {
