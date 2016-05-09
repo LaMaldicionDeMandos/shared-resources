@@ -6,8 +6,7 @@ angular.module('app', [
     'ui.bootstrap',
     'app.controllers',
     'app.services'
-])
-    .config(function($routeProvider, $locationProvider) {
+]).config(function($routeProvider, $locationProvider) {
         $routeProvider.
             when('/', {
                 menuItem: 'calendar',

@@ -34,5 +34,26 @@ describe('Services', function() {
                 expect(reject).toBe(false);
             }));
         });
+        describe('When new Admin', function() {
+            var admin = {role: 'admin'};
+            beforeEach(function() {
+                $httpBackend.whenPOST('/admin', admin).respond(201, {});
+            });
+            it('should send a post with user', inject(function(userService) {
+                var resolved = false;
+                var reject = false;
+                $httpBackend.expectPOST('/admin');
+                var promise = userService.newAdmin(admin);
+                promise.then(function (success){
+                    resolved = true;
+                }, function (error){
+                    reject = true
+                });
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect(resolved).toBe(true);
+                expect(reject).toBe(false);
+            }));
+        });
     });
 });

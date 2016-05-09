@@ -51,7 +51,7 @@ describe('Controllers', function() {
             it('should logout with service', function() {
                 $scope.logout();
                 expect(service.logout).toHaveBeenCalled();
-                expect($window.location.href).toBe('/');
+                expect($window.location.href).toBe('/index');
             });
         });
     });

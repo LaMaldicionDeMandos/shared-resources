@@ -19,6 +19,7 @@ module.exports = function(config) {
       'public/js/libs/jquery.easing.min.js',
       'public/js/libs/jquery.fittext.js',
       'public/js/libs/angular.min.js',
+      'public/js/libs/angular-route.min.js',
       'public/js/libs/angular-animate.min.js',
       'public/js/libs/angular-mocks.js',
       'public/js/libs/bootstrap.min.js',
@@ -31,9 +32,9 @@ module.exports = function(config) {
       'public/js/landingServices.js',
       'public/js/landingApp.js',
 
-      'public/js/app.js',
       'public/js/controllers.js',
       'public/js/services.js',
+      'public/js/app.js',
 
       'test/front/*.js',
 
