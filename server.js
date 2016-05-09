@@ -22,6 +22,7 @@ var express = require('express'),
   landing = require('./routes/landing'),
   modals = require('./routes/modals'),
   partials = require('./routes/partials'),
+  admins = require('./routes/adminUsers'),
   http = require('http'),
   path = require('path');
 
@@ -155,6 +156,9 @@ app.get('/logout', ensureAuthenticated, function(req, res) {
 });
 app.get('/partials/:view', ensureAuthenticated, partials.partials);
 
+// API
+app.post('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.newAdmin);
+
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);
 
@@ -167,7 +171,7 @@ app.get('/partials/:view', ensureAuthenticated, partials.partials);
 app.get('/', routes.index);
 app.get('/index', routes.index);
 app.get('/main', ensureAuthenticated, permission(['root', 'admin']), routes.main);
-app.get('/admins', ensureAuthenticated, permission(['root', 'admin']), routes.main);
+app.get('/admins', ensureAuthenticated, permission(['root', 'sadmin']), routes.main);
 app.get('/modals/:view', ensureAuthenticated, modals.modals);
 
 // Landing

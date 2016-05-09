@@ -2,6 +2,8 @@
  * Created by boot on 5/8/16.
  */
 var q = require('q');
+var passwordGenerator = require('generate-password');
+
 function UserService(db) {
     var validateExistence = function(query, shouldExist) {
         var def = q.defer();
@@ -18,15 +20,29 @@ function UserService(db) {
         });
         return def.promise;
     };
+    this.validateSuperAdmin = function(user) {
+        return 'root' == user.role || 'sadmin' == user.role;
+    };
+    this.validateActiveUser = function(user) {
+        return user.state == 'active';
+    }
     this.createAdmin = function(dto, owner) {
         var def = q.defer();
         var query = {email: dto.email, buildingId: owner.builderId};
+        if(!this.validateSuperAdmin(owner)) {
+            def.reject('permissions');
+            return def.promise;
+        }
+        if(!this.validateActiveUser(owner)) {
+            def.reject('disabled');
+            return def.promise;
+        }
         validateExistence(query, false).then(
             function() {
                 var user = new db.User();
                 user._id = db.ObjectId().toString();
                 user.username = dto.username;
-                user.password = dto.password;
+                user.password = passwordGenerator.generate({length: 10});
                 user.email = dto.email;
                 user.role = 'admin';
                 user.state = 'waiting';
@@ -44,7 +60,7 @@ function UserService(db) {
             function(error) {
                 def.reject(error);
             }
-        )
+        );
         return def.promise;
     };
 };

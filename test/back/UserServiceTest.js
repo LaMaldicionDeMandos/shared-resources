@@ -68,32 +68,39 @@ describe('UserService', function() {
            });
 
             it('should create a password', function() {
-
+                var promise = service.createAdmin(dto, owner);
+                return promise.then(function(user) {
+                    assert(user.password);
+                }, function(error) {
+                    assert.fail();
+                });
             });
 
             it('should set state waiting', function() {
-
+                var promise = service.createAdmin(dto, owner);
+                return promise.then(function(user) {
+                    assert.equal(user.state, 'waiting');
+                }, function(error) {
+                    assert.fail();
+                });
             });
 
            it('should set owner building', function() {
-
+               var promise = service.createAdmin(dto, owner);
+               return promise.then(function(user) {
+                   assert.equal(user.buildingId, 'aaa');
+               }, function(error) {
+                   assert.fail();
+               });
            });
 
            it('should set role admin', function() {
-
-           });
-       });
-
-       describe('Create admin user without valid role', function() {
-           var dto;
-           var owner;
-           beforeEach(function() {
-               owner = {role: 'root', state: 'active', buildingId:'aaa'};
-               dto = {username: 'username', email:'email@email.com', role: 'blabla'};
-           });
-
-           it('should fail', function() {
-
+               var promise = service.createAdmin(dto, owner);
+               return promise.then(function(user) {
+                   assert.equal(user.role, 'admin');
+               }, function(error) {
+                   assert.fail();
+               });
            });
        });
 
@@ -106,7 +113,12 @@ describe('UserService', function() {
            });
 
            it('should fail', function() {
-
+               var promise = service.createAdmin(dto, owner);
+               return promise.then(function(user) {
+                   assert.fail();
+               }, function(error) {
+                   assert(error);
+               });
            });
        });
 
@@ -119,7 +131,12 @@ describe('UserService', function() {
            });
 
            it('should fail', function() {
-
+               var promise = service.createAdmin(dto, owner);
+               return promise.then(function(user) {
+                   assert.fail();
+               }, function(error) {
+                   assert(error);
+               });
            });
        });
    }) ;

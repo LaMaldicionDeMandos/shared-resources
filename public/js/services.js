@@ -15,6 +15,22 @@ angular.module('app.services', []).
                     def.reject(data);
                 });
                     return def.promise;
+                },
+            newAdmin: function(admin) {
+                var def = $q.defer();
+                $http({
+                    url: '/admin',
+                    dataType: 'json',
+                    data: admin,
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'post'
+                }).success(function() {
+                    def.resolve();
+                }).error(function(data, status) {
+                    def.reject(data);
+                });
+                return def.promise;
                 }
             };
+
     });
