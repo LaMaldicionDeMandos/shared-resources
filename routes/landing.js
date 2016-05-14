@@ -2,7 +2,8 @@
  * Created by boot on 3/12/16.
  */
 var EmailService = require('../services/email_service');
-var authenticationService = require('../services/authenticationService');
+var AuthenticationService = require('../services/authenticationService');
+var authenticationService = new AuthenticationService(db);
 var emailService = new EmailService(process.env.APP_PASSWORD);
 var ACTIVE_USER_URL = config.host + '/user/active/';
 exports.register = function(req, res) {

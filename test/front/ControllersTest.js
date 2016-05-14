@@ -55,4 +55,19 @@ describe('Controllers', function() {
             });
         });
     });
+    describe('AdminsController', function() {
+        var $scope, controller, $modal;
+        beforeEach(function () {
+            $scope = {};
+            $scope.modal = undefined;
+            $modal = {open: function() { return true}};
+            controller = $controller('adminsController', {$scope: $scope, $modal: $modal});
+        });
+        describe('When press add admin', function() {
+            it('show new admin popup', function() {
+                $scope.newAdmin();
+                expect($scope.modal).toBe(true);
+            })
+        });
+    });
 });
