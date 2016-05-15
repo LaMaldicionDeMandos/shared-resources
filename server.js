@@ -137,9 +137,9 @@ var login = function(req, res, next) {
       }
       console.log("Login success, sending path to redirect");
       if (req.params.id) {
-        return res.render('main', {activation: req.params.id, user: req.user});
+        return res.render('home', {activation: req.params.id, user: req.user});
       } else {
-        return res.render('main', {activation: null, user: req.user});
+        return res.render('home', {activation: null, user: req.user});
       }
     });
 
