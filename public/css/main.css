@@ -271,11 +271,6 @@ a:focus, a:hover {
     margin-right:-4px;
 }
 
-.btn-facebook-r {
-    text-transform: none !important;
-    border-radius: 6px !important;
-}
-
 .helper {
     display: inline-block;
     height: 100%;

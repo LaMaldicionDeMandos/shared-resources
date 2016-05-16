@@ -7,6 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Material Admin</title>
+        <link rel="stylesheet" href="/css/bootstrap-social.css" type="text/css">
 
         <!-- Vendor CSS -->
         <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
@@ -18,10 +19,11 @@
         <!-- CSS -->
         <link href="css/app.min.1.css" rel="stylesheet" id="app-level">
         <link href="css/app.min.2.css" rel="stylesheet">
+        <link href="css/home.css" rel="stylesheet">
 
     </head>
 
-    <body>
+    <body ng-init="activation='<%=activation%>'">
 
     <header id="header" data-current-skin={{mactrl.currentSkin}} data-ng-controller="headerCtrl as hctrl">
         <% include ./header %>
