@@ -1,19 +1,20 @@
-<div class="modal-header">
-    <h3 class="modal-title">Administrador</h3>
+<div class="card-header">
+    <h2>Administrador</h2>
 </div>
-<div class="modal-body">
+<div class="card-body">
     <form role="form">
-        <div class="form-group">
-            <label>Nombre de administrador</label>
-            <input class="form-control" placeholder="Nombre de usuario" />
+        <div class="form-group fg-line">
+            <label for="username">Nombre de administrador</label>
+            <input class="form-control input-sm" placeholder="Nombre de usuario" id="username"/>
         </div>
-        <div class="form-group">
-            <label>Email</label>
-            <input class="form-control" placeholder="Email" type="email"/>
+        <div class="form-group fg-line">
+            <label for="email">Email</label>
+            <input class="form-control" placeholder="Email" type="email" id="email"/>
         </div>
-        <div class="togglebutton">
-            <label>Super Administrador</label>
-            <input type="checkbox" checked/>
+        <div class="toggle-switch" data-ts-color="blue">
+            <label for="super">Super Administrador</label>
+            <input type="checkbox" checked hidden="hidden" id="super"/>
+            <label for="super" class="ts-helper"></label>
         </div>
     </form>
 </div>
