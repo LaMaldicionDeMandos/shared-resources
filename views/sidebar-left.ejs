@@ -8,7 +8,7 @@
             </div>
 
             <div class="profile-info">
-                Mandos
+                <%=user.username%>
 
                 <i class="zmdi zmdi-caret-down"></i>
             </div>
@@ -27,7 +27,7 @@
             <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
         </li>
         <li data-ui-sref-active="active">
-            <a data-ui-sref="admins" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-format-underlined"></i> Administradores</a>
+            <a data-ui-sref="admins" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-shield-security"></i> Administradores</a>
         </li>
     </ul>
 </div>
