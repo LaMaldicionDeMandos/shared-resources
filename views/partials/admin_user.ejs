@@ -3,17 +3,19 @@
         <div class="card">
             <div class="card-header">
                 <h2>Administradores<small>Click en el icono del lapiz para editar.</small></h2>
+                <br/>
+                <button class="btn btn-primary waves-effect">Nuevo</button>
             </div>
 
             <div class="card-body">
                 <div class="table-responsive">
                     <table ng-table="tctrl.tableEdit" class="table table-striped table-vmiddle">
                         <tr ng-repeat="w in $data"  ng-class="{ 'active': w.$edit }">
-                            <td data-title="'ID'">
+                            <td data-title="'#'">
                                 <span ng-if="!w.$edit">{{ w.id }}</span>
                                 <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.id" /></div>
                             </td>
-                            <td data-title="'Name'">
+                            <td data-title="'Usuario'">
                                 <span ng-if="!w.$edit">{{ w.name }}</span>
                                 <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.name" /></div>
                             </td>
@@ -21,15 +23,15 @@
                                 <span ng-if="!w.$edit">{{ w.email }}</span>
                                 <div ng-if="w.$edit"><input class="form-control" type="email" ng-model="w.email" /></div>
                             </td>
-                            <td data-title="'Username'">
+                            <td data-title="'Role'">
                                 <span ng-if="!w.$edit">{{ w.username }}</span>
                                 <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.username" /></div>
                             </td>
-                            <td data-title="'Contact'">
+                            <td data-title="'Estado'">
                                 <span ng-if="!w.$edit">{{ w.contact }}</span>
                                 <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.contact" /></div>
                             </td>
-                            <td data-title="'Actions'">
+                            <td data-title="'Acciones'">
                                 <button type="button" class="btn btn-default" ng-if="!w.$edit" ng-click="w.$edit = true"><i class="zmdi zmdi-edit"></i></button>
                                 <button type="button" class="btn btn-success" ng-if="w.$edit" ng-click="w.$edit = false"><i class="zmdi zmdi-check"></i></button>
                             </td>
