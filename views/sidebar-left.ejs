@@ -2,7 +2,9 @@
     <div class="profile-menu">
         <a href="" toggle-submenu>
             <div class="profile-pic">
-                <img src="img/profile-pics/1.jpg" alt="">
+                <img ng-if="'<%=user.photo%>' != ''" src="<%=user.photo%>" class="img-circle dropdown-toggle margin10" data-toggle="dropdown" alt="<%=user.username%>"
+                     width="40" height="40" />
+                <img ng-if="'<%=user.photo%>' == ''" src="" alt="">
             </div>
 
             <div class="profile-info">
@@ -12,9 +14,9 @@
             </div>
         </a>
 
-        <ul class="main-menu">
+        <ul class="main-menu" ng-controller="headerController">
             <li>
-                <a href=""><i class="zmdi zmdi-time-restore"></i> Logout</a>
+                <a href="" ng-click="logout()"><i class="zmdi zmdi-time-restore"></i> Logout</a>
             </li>
         </ul>
     </div>
