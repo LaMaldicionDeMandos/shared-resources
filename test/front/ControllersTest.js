@@ -20,9 +20,10 @@ describe('Controllers', function() {
                 beforeEach(function() {
                     $scope.modal = undefined;
                     $scope.activation = 'ac';
-                    controller = $controller('headerController', {$scope: $scope, $modal: $modal});
+
                 });
                 it('should show the facebook popup', function() {
+                    controller = $controller('headerController', {$scope: $scope, $modal: $modal});
                     expect($scope.modal).toBe(true);
                 });
             });
@@ -56,17 +57,13 @@ describe('Controllers', function() {
         });
     });
     describe('AdminsController', function() {
-        var $scope, controller, $modal;
+        var $scope, controller;
         beforeEach(function () {
             $scope = {};
-            $scope.modal = undefined;
-            $modal = {open: function() { return true}};
-            controller = $controller('adminsController', {$scope: $scope, $modal: $modal});
+            controller = $controller('adminsController', {$scope: $scope});
         });
         describe('When press add admin', function() {
             it('show new admin popup', function() {
-                $scope.newAdmin();
-                expect($scope.modal).toBe(true);
             })
         });
     });

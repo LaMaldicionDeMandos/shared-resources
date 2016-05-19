@@ -1,4 +1,4 @@
-<div class="sidebar-inner c-overflow">    
+<div class="sidebar-inner c-overflow" ng-init="activation='<%=activation%>'">
     <div class="profile-menu">
         <a href="" toggle-submenu>
             <div class="profile-pic">
@@ -24,7 +24,7 @@
     <ul class="main-menu">
         
         <li data-ui-sref-active="active">
-            <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
+            <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-calendar"></i> Calendario</a>
         </li>
         <li data-ui-sref-active="active">
             <a data-ui-sref="admins" data-ng-click="mactrl.sidebarStat($event)"><i class="zmdi zmdi-shield-security"></i> Administradores</a>

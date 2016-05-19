@@ -55,5 +55,13 @@ describe('Services', function() {
                 expect(reject).toBe(false);
             }));
         });
+        describe('Validate email', function() {
+            it('Valid email should return true', inject(function(userService) {
+                expect(userService.validateEmail('pasutmarcelo@gmail.com'));
+            }));
+            it('invalid email should return false', inject(function(userService) {
+                expect(userService.validateEmail('pasutmarcelo'));
+            }));
+        });
     });
 });

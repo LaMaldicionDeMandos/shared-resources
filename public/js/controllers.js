@@ -33,17 +33,8 @@ angular.module('app.controllers', []).
             userService.logout().then(success, fail);
         };
     }).
-    controller('adminsController', function($scope, $modal, userService) {
-        $scope.newAdmin = function() {
-            $scope.modal = $modal.open(
-                {
-                    templateUrl: 'modals/admin_form',
-                    scope: $scope,
-                    size: '',
-                    animation: true
-                }
-            );
-        };
+    controller('adminsController', function($scope, userService) {
+        $scope.newAdmin = {}
         $scope.add = function() {
             alert('ADD!!')
         };
