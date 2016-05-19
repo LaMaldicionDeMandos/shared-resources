@@ -34,7 +34,10 @@ angular.module('app.controllers', []).
         };
     }).
     controller('adminsController', function($scope, userService) {
-        $scope.newAdmin = {}
+        $scope.form = {};
+        $scope.validateEmail = function() {
+            userService.validateEmail($scope.form.email);
+        };
         $scope.add = function() {
             alert('ADD!!')
         };
