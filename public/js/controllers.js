@@ -54,6 +54,10 @@ angular.module('app.controllers', []).
                 };
                 swal('Hecho!','', 'success');
             } else {
+                var message = $scope.validateName()
+                    ? 'Debe escribir un email correcto'
+                    : 'El nombre de usuario es obligatorio';
+                swal('Error!', message, 'error');
             }
         };
     });
