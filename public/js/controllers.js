@@ -35,10 +35,25 @@ angular.module('app.controllers', []).
     }).
     controller('adminsController', function($scope, userService) {
         $scope.form = {};
+        $scope.nameIsValid = true;
+        $scope.emailIsValid = true;
         $scope.validateEmail = function() {
-            userService.validateEmail($scope.form.email);
+            $scope.emailIsValid = userService.validateEmail($scope.form.email);
+            return $scope.emailIsValid;
         };
+        $scope.validateName = function() {
+            $scope.nameIsValid = $scope.form.name && $scope.form.name.length > 0;
+            return $scope.nameIsValid;
+        }
         $scope.add = function() {
-            alert('ADD!!')
+            if($scope.validateName() && $scope.validateEmail()) {
+                var user = {
+                    username: $scope.form.name,
+                    email: $scope.form.email,
+                    role: $scope.form.role ? 'sadmin' : 'admin'
+                };
+                swal('Hecho!','', 'success');
+            } else {
+            }
         };
     });
