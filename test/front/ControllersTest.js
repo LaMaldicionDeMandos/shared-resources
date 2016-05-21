@@ -57,14 +57,59 @@ describe('Controllers', function() {
         });
     });
     describe('AdminsController', function() {
-        var $scope, controller;
+        var $scope, controller, userService;
         beforeEach(function () {
             $scope = {};
             controller = $controller('adminsController', {$scope: $scope});
         });
+        describe('Validate name', function() {
+            it('should return true if name not is empty', function() {
+                $scope.form.name = 'aa';
+                var result = $scope.validateName();
+                expect(result);
+            });
+            it('should return false if name is empty', function() {
+                $scope.form.name = '';
+                var result = $scope.validateName();
+                expect(!result);
+            });
+            it('should return false if name is undefined', function() {
+                var result = $scope.validateName();
+                expect(!result);
+            });
+        });
+        describe('Validate email', function() {
+            beforeEach(function () {
+                userService = {validateEmail: function(email){return false;}};
+                spyOn(userService, 'validateEmail').and.returnValue(false);
+                controller = $controller('adminsController', {$scope: $scope, userService: userService});
+            });
+            it('should return same as userService', function() {
+                $scope.form.email = 'blabla';
+                var result = $scope.validateEmail();
+                expect(userService.validateEmail).toHaveBeenCalled();
+                expect(!result);
+            });
+        });
         describe('When press add admin', function() {
-            it('show new admin popup', function() {
-            })
+            beforeEach(function () {
+                promise = {then: function(success, error){success();}};
+                userService = {newAdmin: function(user){return promise;}, validateEmail: function(email){return true;}};
+                spyOn(userService, 'newAdmin').and.returnValue(promise);
+                controller = $controller('adminsController', {$scope: $scope, userService: userService});
+            });
+            it('should create an user with username, email, and role', function() {
+                swal = function() {};
+                $scope.form.name = 'bla';
+                $scope.form.email = 'a@gmail.com';
+                $scope.form.role = false;
+                $scope.add();
+                expect(userService.newAdmin).toHaveBeenCalledWith({username: 'bla', email: 'a@gmail.com', role:'admin'});
+            });
+            it('if dto.role == true, then create an user with sadmin role', function() {
+            });
+            it('if dto.role == false, then create an user with admin role', function() {
+            });
         });
     });
 });
