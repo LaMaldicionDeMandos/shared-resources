@@ -28,7 +28,7 @@ function UserService(db) {
     }
     this.createAdmin = function(dto, owner) {
         var def = q.defer();
-        var query = {email: dto.email, buildingId: owner.builderId};
+        var query = {email: dto.email, buildingId: owner.buildingId};
         if(!this.validateSuperAdmin(owner)) {
             def.reject('permissions');
             return def.promise;

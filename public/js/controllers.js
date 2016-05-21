@@ -52,7 +52,15 @@ angular.module('app.controllers', []).
                     email: $scope.form.email,
                     role: $scope.form.role ? 'sadmin' : 'admin'
                 };
-                swal('Hecho!','', 'success');
+                userService.newAdmin(user).then(
+                    function(admin) {
+                        //TODO Agregar a la lista
+                        swal('Hecho!', '', 'success');
+                    },
+                    function() {
+                        swal('Error!', 'El usuario no se creó', 'error')
+                    }
+                )
             } else {
                 var message = $scope.validateName()
                     ? 'Debe escribir un email correcto'

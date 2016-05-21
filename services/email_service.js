@@ -96,5 +96,9 @@ EmailService.ACTIVE_USER_TEMPLATE = {
     subject: config.activate_user_email_subject,
     message: config.activate_user_email_html
 };
+EmailService.ACTIVE_ADMIN_TEMPLATE = {
+    subject: config.activate_admin_email_subject,
+    message: config.activate_admin_email_html
+};
 
 module.exports = EmailService;
