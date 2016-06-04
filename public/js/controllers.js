@@ -37,6 +37,7 @@ angular.module('app.controllers', []).
         $scope.form = {};
         $scope.nameIsValid = true;
         $scope.emailIsValid = true;
+        $scope.admins = [];
         $scope.validateEmail = function() {
             $scope.emailIsValid = userService.validateEmail($scope.form.email);
             return $scope.emailIsValid;
@@ -44,7 +45,17 @@ angular.module('app.controllers', []).
         $scope.validateName = function() {
             $scope.nameIsValid = $scope.form.name && $scope.form.name.length > 0;
             return $scope.nameIsValid;
-        }
+        };
+        $scope.findAll = function() {
+            userService.getAdmins().then(
+                function(admins) {
+                    $scope.admins = admins;
+                },
+                function() {
+                    swal('Error!', 'Por algun motivo no pudimos encontrar los administradores', 'error');
+                }
+            )
+        };
         $scope.add = function() {
             if($scope.validateName() && $scope.validateEmail()) {
                 var user = {
@@ -68,4 +79,5 @@ angular.module('app.controllers', []).
                 swal('Error!', message, 'error');
             }
         };
+        $scope.findAll();
     });

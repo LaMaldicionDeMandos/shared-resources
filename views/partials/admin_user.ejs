@@ -9,30 +9,38 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table ng-table="tctrl.tableEdit" class="table table-striped table-vmiddle">
-                        <tr ng-repeat="w in $data"  ng-class="{ 'active': w.$edit }">
+                        <tr ng-repeat="admin in admins"  ng-class="{ 'active': admin.$edit }">
                             <td data-title="'#'">
-                                <span ng-if="!w.$edit">{{ w.id }}</span>
-                                <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.id" /></div>
+                                <span>{{ $index + 1 }}</span>
+                            </td>
+                            <td>
+                                <div class="profile-pic">
+                                    <img ng-if="admin.photo != undefined" ng-src="admin.photo" class="img-circle margin10" alt="admin.username"
+                                         width="40" height="40" />
+                                </div>
                             </td>
                             <td data-title="'Usuario'">
-                                <span ng-if="!w.$edit">{{ w.name }}</span>
-                                <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.name" /></div>
+                                <span ng-if="!admin.$edit">{{ admin.username }}</span>
+                                <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.username" /></div>
                             </td>
                             <td data-title="'Email'">
-                                <span ng-if="!w.$edit">{{ w.email }}</span>
-                                <div ng-if="w.$edit"><input class="form-control" type="email" ng-model="w.email" /></div>
+                                <span>{{ admin.email }}</span>
                             </td>
                             <td data-title="'Role'">
-                                <span ng-if="!w.$edit">{{ w.username }}</span>
-                                <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.username" /></div>
+                                <span ng-if="!admin.$edit">{{ admin.role }}</span>
+                                <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.role" /></div>
                             </td>
                             <td data-title="'Estado'">
-                                <span ng-if="!w.$edit">{{ w.contact }}</span>
-                                <div ng-if="w.$edit"><input class="form-control" type="text" ng-model="w.contact" /></div>
+                                <span ng-if="!admin.$edit">{{ admin.state }}</span>
+                                <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.state" /></div>
+                            </td>
+                            <td data-title="'Password'">
+                                <span ng-if="!admin.$edit">{{ admin.password }}</span>
+                                <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.password" /></div>
                             </td>
                             <td data-title="'Acciones'">
-                                <button type="button" class="btn btn-default" ng-if="!w.$edit" ng-click="w.$edit = true"><i class="zmdi zmdi-edit"></i></button>
-                                <button type="button" class="btn btn-success" ng-if="w.$edit" ng-click="w.$edit = false"><i class="zmdi zmdi-check"></i></button>
+                                <button type="button" class="btn btn-default" ng-if="!admin.$edit" ng-click="admin.$edit = true"><i class="zmdi zmdi-edit"></i></button>
+                                <button type="button" class="btn btn-success" ng-if="admin.$edit" ng-click="admin.$edit = false"><i class="zmdi zmdi-check"></i></button>
                             </td>
                         </tr>
                     </table>

@@ -34,7 +34,21 @@ angular.module('app.services', []).
                 },
             validateEmail: function(email) {
                 return re.test(email);
+            },
+            getAdmins: function() {
+                var def = $q.defer();
+                $http({
+                    url: '/admin',
+                    dataType: 'json',
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'get'
+                }).success(function(admins) {
+                    def.resolve(admins);
+                }).error(function(data, status) {
+                    def.reject(data);
+                });
+                return def.promise;
             }
-            };
+        };
 
     });
