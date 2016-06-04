@@ -22,23 +22,23 @@ describe('Landing Api', function() {
             useCleanCache: true
         });
 
-        var serviceStub = {
-            validateRegisterCredentials: function (user) {
+        var serviceStub = function(db) {
+            this.validateRegisterCredentials = function (user) {
                 return validUser;
-            },
-            existUser: function (user) {
+            };
+            this.existUser= function (user) {
                 return {
                     then: function (callback) {
                         callback(false);
                     }
                 };
-            },
-            create: function (user) {
+            };
+            this.create= function (user) {
                 return {then: function(callback) {
                     callback(user);
                 }};
-            },
-            authenticate: function(username, password) {
+            };
+            this.authenticate= function(username, password) {
                 return {
                     then: function (success, fail) {
                         if (serviceFail) {
@@ -48,8 +48,8 @@ describe('Landing Api', function() {
                         }
                     }
                 };
-            },
-            firstAuthenticate: function(username, password) {
+            };
+            this.firstAuthenticate= function(username, password) {
                 return {
                     then: function (success, fail) {
                         if (serviceFail) {
@@ -59,7 +59,7 @@ describe('Landing Api', function() {
                         }
                     }
                 };
-            }
+            };
         };
 
         var dbStub = function() {};

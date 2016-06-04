@@ -44,7 +44,7 @@ function UserService(db) {
                 user.username = dto.username;
                 user.password = passwordGenerator.generate({length: 10});
                 user.email = dto.email;
-                user.role = 'admin';
+                user.role = dto.role;
                 user.state = 'waiting';
                 user.buildingId = owner.buildingId;
                 user.save(function(err) {

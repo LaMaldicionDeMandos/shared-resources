@@ -38,7 +38,7 @@ describe('UserService', function() {
             var owner;
             beforeEach(function() {
                 owner = {role: 'root', state: 'active', buildingId:'aaa'};
-                dto = {username: 'username', email:'email@email.com'};
+                dto = {username: 'username', email:'email@email.com', role: 'admin'};
             });
 
             describe('If exist yet', function() {
@@ -100,6 +100,19 @@ describe('UserService', function() {
                    assert.equal(user.role, 'admin');
                }, function(error) {
                    assert.fail();
+               });
+           });
+           describe('it is a super admin', function() {
+               beforeEach(function() {
+                   dto.role = 'sadmin';
+               });
+               it('should set role sadmin', function() {
+                   var promise = service.createAdmin(dto, owner);
+                   return promise.then(function(user) {
+                       assert.equal(user.role, 'sadmin');
+                   }, function(error) {
+                       assert.fail();
+                   });
                });
            });
        });
