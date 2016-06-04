@@ -3,6 +3,7 @@
  */
 var assert = require('assert');
 var should = require('should');
+var sinon = require('sinon');
 
 var userCount = 0;
 var user;
@@ -32,7 +33,7 @@ var Service = require('../../services/UserService');
 var service = new Service(db);
 
 describe('UserService', function() {
-   describe('Create Admin User', function() {
+    describe('Create Admin User', function() {
        describe('Create admin user with role admin', function() {
             var dto;
             var owner;
@@ -153,4 +154,54 @@ describe('UserService', function() {
            });
        });
    }) ;
+    describe('List Admin Users', function() {
+        var owner;
+        var spyFind;
+
+        beforeEach(function() {
+            owner = {state: 'active', buildingId:'aaa', role: 'root'};
+            spyFind = sinon.spy(service, 'find');
+        });
+        afterEach(function() {
+            service.find.restore();
+        });
+        it('should get only users with same building', function() {
+            service.findAdmins(owner);
+            assert(spyFind.withArgs({buildingId: 'aaa', role: { $in: ['sadmin', 'admin']}}).calledOnce);
+        });
+        describe('When owner is not active', function() {
+            beforeEach(function() {
+                owner.state = 'disabled';
+            });
+            it('should fail then no call find', function() {
+                service.findAdmins(owner);
+                assert(spyFind.withArgs({buildingId: 'aaa', role: { $in: ['sadmin', 'admin']}}).notCalled);
+            });
+        });
+        describe('If owner is a root', function(){
+            it('should find all both admin and s admin users', function() {
+                service.findAdmins(owner);
+                assert(spyFind.withArgs({buildingId: 'aaa', role: { $in: ['sadmin', 'admin']}}).calledOnce);
+            })
+        });
+
+        describe('If owner is a sadmin', function(){
+            beforeEach(function() {
+                owner.role = 'sadmin';
+            });
+            it('should find only admin users', function() {
+                service.findAdmins(owner);
+                assert(spyFind.withArgs({buildingId: 'aaa', role: { $in: ['admin']}}).calledOnce);
+            })
+        });
+        describe('If owner is admin', function(){
+            beforeEach(function() {
+                owner.role = 'admin';
+            });
+            it('should fail because it has not can be admins', function() {
+                service.findAdmins(owner);
+                assert(spyFind.notCalled);
+            });
+        });
+    });
 });

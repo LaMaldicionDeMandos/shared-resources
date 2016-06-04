@@ -63,6 +63,50 @@ function UserService(db) {
         );
         return def.promise;
     };
+
+    this.manageAdmins = function(owner) {
+        if (owner.role == 'sadmin') {
+            return ['admin'];
+        }
+        if (owner.role == 'root') {
+            return ['sadmin', 'admin'];
+        }
+        return [];
+    };
+    this.findAdmins = function(owner) {
+        var def = q.defer();
+        var adminTypes = this.manageAdmins(owner);
+        if(adminTypes.length == 0) {
+            def.reject('not admin user');
+            return def.promise;
+        }
+        var query = {buildingId: owner.buildingId, role:{ $in: adminTypes}};
+        if (!this.validateActiveUser(owner)) {
+            def.reject('not active user');
+            return def.promise;
+        }
+        this.find(query).then(
+            function(users) {
+                def.resolve(users);
+            },
+            function(error) {
+                def.reject(error);
+            }
+        );
+        return def.promise;
+    };
+
+    this.find = function(query) {
+        var def = q.defer();
+        db.User.find(query).exec(function(err, result) {
+            if (err) {
+                def.reject(err);
+            } else {
+                def.resolve(result);
+            }
+        });
+        return def.promise;
+    };
 };
 
 module.exports = UserService;
