@@ -158,6 +158,7 @@ app.get('/partials/:view', ensureAuthenticated, partials.partials);
 
 // API
 app.post('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.newAdmin);
+app.get('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.list);
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);

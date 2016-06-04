@@ -22,3 +22,16 @@ exports.newAdmin = function(req, res) {
     );
     console.log('New Admin User');
 };
+
+exports.list = function(req, res) {
+    var owner = req.user;
+    userService.findAdmins(owner).then(
+        function(admins) {
+            res.send(admins);
+        },
+        function(error) {
+            res.status(400).send(error);
+        }
+    );
+    console.log('Get admins');
+}

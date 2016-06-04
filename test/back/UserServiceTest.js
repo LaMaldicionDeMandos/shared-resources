@@ -27,6 +27,13 @@ var db = new function() {
             }
         };
     };
+    this.User.find = function() {
+        return {
+            exec: function(callback) {
+                callback(null, userCount);
+            }
+        };
+    };
 };
 
 var Service = require('../../services/UserService');
