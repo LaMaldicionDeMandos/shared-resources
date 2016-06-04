@@ -58,7 +58,7 @@ angular.module('app.controllers', []).
                         swal('Hecho!', '', 'success');
                     },
                     function() {
-                        swal('Error!', 'El usuario no se creó', 'error')
+                        swal('Error!', 'El usuario no se creó, puede ser que el usuario o el email ya existan', 'error')
                     }
                 )
             } else {
