@@ -60,6 +60,10 @@ describe('Controllers', function() {
         var $scope, controller, userService;
         beforeEach(function () {
             $scope = {};
+            userService = {
+                validateEmail: function(email){return false;},
+                getAdmins: function(){return {then: function(){ return true;}};}
+            };
             controller = $controller('adminsController', {$scope: $scope});
         });
         describe('Validate name', function() {
@@ -80,7 +84,6 @@ describe('Controllers', function() {
         });
         describe('Validate email', function() {
             beforeEach(function () {
-                userService = {validateEmail: function(email){return false;}};
                 spyOn(userService, 'validateEmail').and.returnValue(false);
                 controller = $controller('adminsController', {$scope: $scope, userService: userService});
             });
@@ -94,7 +97,10 @@ describe('Controllers', function() {
         describe('When press add admin', function() {
             beforeEach(function () {
                 promise = {then: function(success, error){success();}};
-                userService = {newAdmin: function(user){return promise;}, validateEmail: function(email){return true;}};
+                userService = {
+                    newAdmin: function(user){return promise;},
+                    validateEmail: function(email){return true;},
+                    getAdmins: function(){return {then: function(){ return true;}};}};
                 spyOn(userService, 'newAdmin').and.returnValue(promise);
                 controller = $controller('adminsController', {$scope: $scope, userService: userService});
             });
