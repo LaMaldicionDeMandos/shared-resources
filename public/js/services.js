@@ -48,6 +48,11 @@ angular.module('app.services', []).
                     def.reject(data);
                 });
                 return def.promise;
+            },
+            edit: function() {
+                var def = $q.defer();
+                def.reject();
+                return def.promise;
             }
         };
 

@@ -62,9 +62,10 @@ describe('Controllers', function() {
             $scope = {};
             userService = {
                 validateEmail: function(email){return false;},
-                getAdmins: function(){return {then: function(){ return true;}};}
+                getAdmins: function(){return {then: function(){ return true;}};},
+                edit: function(admin){return {then: function(){ return true;}};}
             };
-            controller = $controller('adminsController', {$scope: $scope});
+            controller = $controller('adminsController', {$scope: $scope, userService: userService});
         });
         describe('Validate name', function() {
             it('should return true if name not is empty', function() {
@@ -115,6 +116,34 @@ describe('Controllers', function() {
             it('if dto.role == true, then create an user with sadmin role', function() {
             });
             it('if dto.role == false, then create an user with admin role', function() {
+            });
+        });
+        describe('When click to edit', function() {
+            var admin = {};
+            it('Admin must has $edit to true', function() {
+                $scope.edit(admin);
+                expect(admin.$edit == true);
+            });
+        });
+
+        describe('When click to save edit', function() {
+            var admin = {$edit: true};
+            beforeEach(function() {
+                var promise = {then: function(success, error){success();}};
+                userService = {
+                    getAdmins: function(){return promise;},
+                    edit: function(admin){return promise;}
+                };
+                spyOn(userService, 'edit').and.returnValue(promise);;
+                controller = $controller('adminsController', {$scope: $scope, userService: userService});
+            });
+            it('Admin must has $edit to false', function() {
+                $scope.saveEdit(admin);
+                expect(admin.$edit == false);
+            });
+            it('Should call edit user on service', function() {
+                $scope.saveEdit(admin);
+                expect(userService.edit).toHaveBeenCalledWith(admin);
             });
         });
     });

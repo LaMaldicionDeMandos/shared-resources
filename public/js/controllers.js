@@ -71,13 +71,27 @@ angular.module('app.controllers', []).
                     function() {
                         swal('Error!', 'El usuario no se creó, puede ser que el usuario o el email ya existan', 'error')
                     }
-                )
+                );
             } else {
                 var message = $scope.validateName()
                     ? 'Debe escribir un email correcto'
                     : 'El nombre de usuario es obligatorio';
                 swal('Error!', message, 'error');
             }
+        };
+        $scope.edit = function(admin) {
+            admin.$edit = true;
+        };
+        $scope.saveEdit = function(admin) {
+            admin.$edit = false;
+            userService.edit(admin).then(
+                function() {
+                    swal('Hecho!', '', 'success');
+                },
+                function() {
+                    swal('Error!', 'El usuario no pudo editarse', 'error');
+                }
+            );
         };
         $scope.findAll();
     });

@@ -27,20 +27,34 @@
                                 <span>{{ admin.email }}</span>
                             </td>
                             <td data-title="'Role'">
-                                <span ng-if="!admin.$edit">{{ admin.role }}</span>
-                                <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.role" /></div>
+                                <span ng-if="!admin.$edit">{{ (admin.role == 'admin') ? 'Admin' : 'Super Admin' }}</span>
+                                <div ng-if="admin.$edit">
+                                    <div class="select">
+                                        <select class="form-control" ng-model="admin.role">
+                                            <option value="admin">Admin</option>
+                                            <option value="sadmin">Super Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </td>
                             <td data-title="'Estado'">
-                                <span ng-if="!admin.$edit">{{ admin.state }}</span>
-                                <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.state" /></div>
+                                <span ng-if="!admin.$edit">{{ (admin.state == 'active' ? 'Activado':'Desactivado') }}</span>
+                                <div ng-if="admin.$edit">
+                                    <div class="select">
+                                        <select class="form-control" ng-model="admin.state">
+                                            <option value="active">Activado</option>
+                                            <option value="disabled">Desactivado</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </td>
                             <td data-title="'Password'">
                                 <span ng-if="!admin.$edit">{{ admin.password }}</span>
                                 <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.password" /></div>
                             </td>
                             <td data-title="'Acciones'">
-                                <button type="button" class="btn btn-default" ng-if="!admin.$edit" ng-click="admin.$edit = true"><i class="zmdi zmdi-edit"></i></button>
-                                <button type="button" class="btn btn-success" ng-if="admin.$edit" ng-click="admin.$edit = false"><i class="zmdi zmdi-check"></i></button>
+                                <button type="button" class="btn btn-default" ng-if="!admin.$edit" ng-click="edit(admin)"><i class="zmdi zmdi-edit"></i></button>
+                                <button type="button" class="btn btn-success" ng-if="admin.$edit" ng-click="saveEdit(admin)"><i class="zmdi zmdi-check"></i></button>
                             </td>
                         </tr>
                     </table>
