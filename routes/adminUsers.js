@@ -14,7 +14,7 @@ exports.newAdmin = function(req, res) {
             var email = emailService.builder(_user.email, EmailService.ACTIVE_ADMIN_TEMPLATE)
                 .withMessageParams(_user.username, ACTIVE_USER_URL + _user._id, _user.password).build();
             emailService.send(email);
-            res.status(201).send(user);
+            res.status(201).send(_user);
         },
         function(error) {
             res.status(400).send(error);

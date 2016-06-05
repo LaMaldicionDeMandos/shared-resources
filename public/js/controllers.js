@@ -65,7 +65,7 @@ angular.module('app.controllers', []).
                 };
                 userService.newAdmin(user).then(
                     function(admin) {
-                        //TODO Agregar a la lista
+                        $scope.admins.push(admin);
                         swal('Hecho!', '', 'success');
                     },
                     function() {

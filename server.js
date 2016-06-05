@@ -171,7 +171,7 @@ app.get('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.li
 // serve index and view partials
 app.get('/', routes.index);
 app.get('/index', routes.index);
-app.get('/main', ensureAuthenticated, permission(['root', 'admin']), routes.main);
+app.get('/main', ensureAuthenticated, permission(['root', 'admin', 'sadmin']), routes.main);
 app.get('/admins', ensureAuthenticated, permission(['root', 'sadmin']), routes.main);
 app.get('/modals/:view', ensureAuthenticated, modals.modals);
 

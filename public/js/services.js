@@ -25,8 +25,8 @@ angular.module('app.services', []).
                     data: admin,
                     headers: {'Content-Type': 'application/json'},
                     method: 'post'
-                }).success(function() {
-                    def.resolve();
+                }).success(function(admin) {
+                    def.resolve(admin);
                 }).error(function(data, status) {
                     def.reject(data);
                 });
