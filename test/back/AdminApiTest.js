@@ -10,6 +10,7 @@ var http = require('should-http');
 var sinon = require('sinon');
 passport = require('passport-stub');
 var app;
+var shouldFail = false;
 process.env.NODE_ENV = 'test';
 
 describe('Admin Api', function() {
@@ -44,6 +45,18 @@ describe('Admin Api', function() {
                     }
                 };
             };
+            this.editAdmin = function(admin, owner) {
+                return {
+                    then: function (success, error) {
+                        if(shouldFail) {
+                            error('error');
+                        } else {
+                            success(admin);
+
+                        }
+                    }
+                };
+            }
         };
         var adminDbStub = function() {};
 
@@ -64,5 +77,38 @@ describe('Admin Api', function() {
                     done();
                 });
         });
+    });
+
+    describe('Edit', function() {
+        it('should return the saved user', function(done) {
+            var admin = {state: 'disabled'};
+            request(app)
+                .put('/admin')
+                .send(admin)
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('state', 'disabled');
+                    done();
+                });
+        });
+        describe("when fail", function() {
+            beforeEach(function() {
+                shouldFail = true;
+            });
+            afterEach(function() {
+                shouldFail = false;
+            });
+            it('should return status 400', function(done) {
+                var admin = {state: 'disabled'};
+                request(app)
+                    .put('/admin')
+                    .send(admin)
+                    .end(function(err, res) {
+                        res.should.have.status(400);
+                        res.body.should.have.property('state', 'disabled');
+                        done();
+                    });
+            });
+        })
     });
 });

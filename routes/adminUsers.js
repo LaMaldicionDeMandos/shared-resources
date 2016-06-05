@@ -6,7 +6,7 @@ var UserService = require('../services/UserService');
 var userService = new UserService(db);
 var emailService = new EmailService(process.env.APP_PASSWORD);
 var ACTIVE_USER_URL = config.host + '/user/active/';
-exports.newAdmin = function(req, res) {
+exports.new = function(req, res) {
     var owner = req.user;
     var user = req.body;
     userService.createAdmin(user, owner).then(
@@ -34,4 +34,18 @@ exports.list = function(req, res) {
         }
     );
     console.log('Get admins');
-}
+};
+
+exports.edit = function(req, res) {
+    var owner = req.user;
+    var user = req.body;
+    userService.editAdmin(user, owner).then(
+        function(_user) {
+            res.status(200).send(_user);
+        },
+        function(error) {
+            res.status(400).send(user);
+        }
+    );
+    console.log('Edit admin');
+};

@@ -157,8 +157,9 @@ app.get('/logout', ensureAuthenticated, function(req, res) {
 app.get('/partials/:view', ensureAuthenticated, partials.partials);
 
 // API
-app.post('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.newAdmin);
+app.post('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.new);
 app.get('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.list);
+app.put('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.edit);
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);
