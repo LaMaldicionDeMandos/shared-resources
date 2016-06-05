@@ -63,5 +63,26 @@ describe('Services', function() {
                 expect(userService.validateEmail('pasutmarcelo'));
             }));
         });
+        describe('When edit Admin', function() {
+            var admin = {role: 'admin'};
+            beforeEach(function() {
+                $httpBackend.whenPUT('/admin', admin).respond(200, {});
+            });
+            it('should send a put with user', inject(function(userService) {
+                var resolved = false;
+                var reject = false;
+                $httpBackend.expectPUT('/admin');
+                var promise = userService.edit(admin);
+                promise.then(function (success){
+                    resolved = true;
+                }, function (error){
+                    reject = true
+                });
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect(resolved).toBe(true);
+                expect(reject).toBe(false);
+            }));
+        });
     });
 });

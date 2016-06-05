@@ -49,9 +49,19 @@ angular.module('app.services', []).
                 });
                 return def.promise;
             },
-            edit: function() {
+            edit: function(admin) {
                 var def = $q.defer();
-                def.reject();
+                $http({
+                    url: '/admin',
+                    dataType: 'json',
+                    data: admin,
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'put'
+                }).success(function(admin) {
+                    def.resolve(admin);
+                }).error(function(data, status) {
+                    def.reject();
+                });
                 return def.promise;
             }
         };
