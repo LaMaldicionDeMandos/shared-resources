@@ -146,5 +146,24 @@ describe('Controllers', function() {
                 expect(userService.edit).toHaveBeenCalledWith(admin);
             });
         });
+
+        describe('When click to delete', function() {
+            var admin = {};
+            beforeEach(function() {
+                var promise = {then: function(success, error){success();}};
+                userService = {
+                    getAdmins: function(){return promise;},
+                    remove: function(admin){return promise;}
+                };
+                spyOn(userService, 'remove').and.returnValue(promise);;
+                controller = $controller('adminsController', {$scope: $scope, userService: userService});
+            });
+            it('Should call remove user on service', function() {
+                $scope.admins = [admin];
+                $scope.remove(admin);
+                expect(userService.remove).toHaveBeenCalledWith(admin);
+                expect($scope.admins.length == 0);
+            });
+        });
     });
 });

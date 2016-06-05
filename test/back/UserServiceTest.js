@@ -40,6 +40,13 @@ var db = new function() {
                 callback(null, user);
             }
         };
+    };
+    this.User.findOneAndRemove = function() {
+        return {
+            exec: function(callback) {
+                callback(null, user);
+            }
+        };
     }
 };
 
@@ -272,6 +279,33 @@ describe('UserService', function() {
             it('should fail', function() {
                 service.editAdmin(admin, owner);
                 assert(spyfindOneAndUpdate.notCalled);
+            });
+        });
+    });
+    describe('Delete admin', function() {
+        var owner = {role: 'root'};
+        var admin = {_id:'aaa'};
+        var spyfindOneAndRemove;
+        beforeEach(function() {
+            spyfindOneAndRemove = sinon.spy(db.User, 'findOneAndRemove');
+        });
+        afterEach(function() {
+            db.User.findOneAndRemove.restore();
+        });
+        it('should save changes', function() {
+            service.deleteAdmin('aaa', owner);
+            assert(spyfindOneAndRemove.withArgs({_id:'aaa'}).calledOnce);
+        });
+        describe('With invalid admin', function() {
+            beforeEach(function() {
+                owner = {role: 'admin'};
+            });
+            afterEach(function() {
+                owner = {role: 'root'};
+            });
+            it('should fail', function() {
+                service.deleteAdmin('aaa', owner);
+                assert(spyfindOneAndRemove.notCalled);
             });
         });
     });

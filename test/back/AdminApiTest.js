@@ -56,7 +56,19 @@ describe('Admin Api', function() {
                         }
                     }
                 };
-            }
+            };
+            this.deleteAdmin = function(id, owner) {
+                return {
+                    then: function (success, error) {
+                        if(shouldFail) {
+                            error('error');
+                        } else {
+                            success({_id: id});
+
+                        }
+                    }
+                };
+            };
         };
         var adminDbStub = function() {};
 
@@ -106,6 +118,35 @@ describe('Admin Api', function() {
                     .end(function(err, res) {
                         res.should.have.status(400);
                         res.body.should.have.property('state', 'disabled');
+                        done();
+                    });
+            });
+        })
+    });
+    describe('Delete', function() {
+        it('should return the deleted user', function(done) {
+            var admin = {_id: 'aaa'};
+            request(app)
+                .delete('/admin/aaa')
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('_id', 'aaa');
+                    done();
+                });
+        });
+        describe("when fail", function() {
+            beforeEach(function() {
+                shouldFail = true;
+            });
+            afterEach(function() {
+                shouldFail = false;
+            });
+            it('should return status 400', function(done) {
+                var admin = {_id: 'aaa'};
+                request(app)
+                    .delete('/admin/aaa')
+                    .end(function(err, res) {
+                        res.should.have.status(400);
                         done();
                     });
             });

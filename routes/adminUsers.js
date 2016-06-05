@@ -49,3 +49,17 @@ exports.edit = function(req, res) {
     );
     console.log('Edit admin');
 };
+
+exports.delete = function(req, res) {
+    var owner = req.user;
+    var id = req.params.id;
+    userService.deleteAdmin(id, owner).then(
+        function(_user) {
+            res.status(200).send(_user);
+        },
+        function(error) {
+            res.send(400);
+        }
+    );
+    console.log('Delete admin');
+};

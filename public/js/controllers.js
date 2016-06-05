@@ -93,5 +93,16 @@ angular.module('app.controllers', []).
                 }
             );
         };
+        $scope.remove = function(admin) {
+            userService.remove(admin).then(
+                function() {
+                    swal('Hecho!', '', 'success');
+                    $scope.admins.splice($scope.admins.indexOf(admin), 1);
+                },
+                function() {
+                    swal('Error!', 'No pudimos borrar al usuario.', 'error');
+                }
+            );
+        };
         $scope.findAll();
     });

@@ -84,5 +84,26 @@ describe('Services', function() {
                 expect(reject).toBe(false);
             }));
         });
+        describe('When delete Admin', function() {
+            var admin = {_id: 'aaa'};
+            beforeEach(function() {
+                $httpBackend.whenDELETE('/admin/aaa').respond(200, {});
+            });
+            it('should send a delete with user', inject(function(userService) {
+                var resolved = false;
+                var reject = false;
+                $httpBackend.expectDELETE('/admin/aaa');
+                var promise = userService.remove(admin);
+                promise.then(function (success){
+                    resolved = true;
+                }, function (error){
+                    reject = true
+                });
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect(resolved).toBe(true);
+                expect(reject).toBe(false);
+            }));
+        });
     });
 });

@@ -149,6 +149,22 @@ function UserService(db) {
         });
         return def.promise;
     };
+    this.deleteAdmin = function(id, owner) {
+        var def = q.defer();
+        if(!this.validateSuperAdmin(owner)) {
+            def.reject('permissions');
+            return def.promise;
+        }
+        var query = {_id: id};
+        db.User.findOneAndRemove(query).exec(function(err, admin) {
+            if(err) {
+                def.reject(err);
+            } else {
+                def.resolve(admin);
+            }
+        });
+        return def.promise;
+    };
 };
 
 module.exports = UserService;

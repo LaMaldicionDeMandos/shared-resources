@@ -63,6 +63,19 @@ angular.module('app.services', []).
                     def.reject();
                 });
                 return def.promise;
+            },
+            remove: function(admin) {
+                var def = $q.defer();
+                $http({
+                    url: '/admin/' + admin._id,
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'delete'
+                }).success(function(admin) {
+                    def.resolve(admin);
+                }).error(function(data, status) {
+                    def.reject();
+                });
+                return def.promise;
             }
         };
 

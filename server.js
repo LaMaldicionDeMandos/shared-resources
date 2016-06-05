@@ -160,6 +160,7 @@ app.get('/partials/:view', ensureAuthenticated, partials.partials);
 app.post('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.new);
 app.get('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.list);
 app.put('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.edit);
+app.delete('/admin/:id', ensureAuthenticated, permission(['root', 'sadmin']), admins.delete);
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);
