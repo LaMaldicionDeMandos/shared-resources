@@ -107,6 +107,48 @@ function UserService(db) {
         });
         return def.promise;
     };
+
+    this.validateUsername = function(username) {
+        return username != null && username.length > 0;
+    };
+
+    this.validateState = function(state) {
+        return state == 'active' || state == 'disabled';
+    };
+
+    this.validateRole = function(state) {
+        return state == 'sadmin' || state == 'admin';
+    };
+
+    this.editAdmin = function(dto, owner) {
+        var def = q.defer();
+        if(!this.validateSuperAdmin(owner)) {
+            def.reject('permissions');
+            return def.promise;
+        }
+        if(!this.validateUsername(dto.username)) {
+            def.reject('permissions');
+            return def.promise;
+        }
+        if(!this.validateState(dto.state)) {
+            def.reject('permissions');
+            return def.promise;
+        }
+        if(!this.validateRole(dto.role)) {
+            def.reject('permissions');
+            return def.promise;
+        }
+        var query = {_id: dto._id};
+        var update = {username: dto.username, role: dto.role, state: dto.state, password: dto.password};
+        db.User.findOneAndUpdate(query, update, {new:true}).exec(function(err, admin) {
+            if(err) {
+                def.reject(err);
+            } else {
+                def.resolve(admin);
+            }
+        });
+        return def.promise;
+    };
 };
 
 module.exports = UserService;

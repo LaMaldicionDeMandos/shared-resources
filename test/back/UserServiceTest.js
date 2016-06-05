@@ -34,6 +34,13 @@ var db = new function() {
             }
         };
     };
+    this.User.findOneAndUpdate = function() {
+        return {
+            exec: function(callback) {
+                callback(null, user);
+            }
+        };
+    }
 };
 
 var Service = require('../../services/UserService');
@@ -208,6 +215,63 @@ describe('UserService', function() {
             it('should fail because it has not can be admins', function() {
                 service.findAdmins(owner);
                 assert(spyFind.notCalled);
+            });
+        });
+    });
+
+    describe('Edit admin', function() {
+        var owner = {role: 'root'};
+        var admin = {_id:'aaa', email:'email@test.com', username:'username', role:'admin', state:'active', password:'pass'};
+        var spyfindOneAndUpdate;
+        beforeEach(function() {
+            spyfindOneAndUpdate = sinon.spy(db.User, 'findOneAndUpdate');
+        });
+        afterEach(function() {
+            db.User.findOneAndUpdate.restore();
+        });
+        it('should save changes', function() {
+            service.editAdmin(admin, owner);
+            assert(spyfindOneAndUpdate.withArgs({_id:'aaa'},
+                {username:'username', role:'admin', state:'active', password:'pass'})
+                .calledOnce);
+        });
+        describe('With invalid admin', function() {
+            beforeEach(function() {
+                owner = {role: 'admin'};
+            });
+            afterEach(function() {
+                owner = {role: 'root'};
+            });
+            it('should fail', function() {
+                service.editAdmin(admin, owner);
+                assert(spyfindOneAndUpdate.notCalled);
+            });
+        });
+        describe('With invalid username', function() {
+            beforeEach(function() {
+                admin = {_id:'aaa', email:'email@test.com', username:'', role:'admin', state:'active', password:'pass'};
+            });
+            it('should fail', function() {
+                service.editAdmin(admin, owner);
+                assert(spyfindOneAndUpdate.notCalled);
+            });
+        });
+        describe('With invalid role', function() {
+            beforeEach(function() {
+                admin = {_id:'aaa', email:'email@test.com', username:'username', role:'fruta', state:'active', password:'pass'};
+            });
+            it('should fail', function() {
+                service.editAdmin(admin, owner);
+                assert(spyfindOneAndUpdate.notCalled);
+            });
+        });
+        describe('With invalid state', function() {
+            beforeEach(function() {
+                admin = {_id:'aaa', email:'email@test.com', username:'username', role:'admin', state:'fruta', password:'pass'};
+            });
+            it('should fail', function() {
+                service.editAdmin(admin, owner);
+                assert(spyfindOneAndUpdate.notCalled);
             });
         });
     });
