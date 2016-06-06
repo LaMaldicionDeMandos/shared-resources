@@ -86,21 +86,23 @@ angular.module('app.controllers', []).
             admin.$edit = false;
             userService.edit(admin).then(
                 function() {
-                    swal('Hecho!', '', 'success');
+                    swal({title:'Hecho!', text:'', type:'success', timer:2000, showConfirmButton: false});
                 },
                 function() {
-                    swal('Error!', 'El usuario no pudo editarse', 'error');
+                    swal({title:'Error!', text:'El usuario no pudo editarse', type:'error', timer:2000,
+                        showConfirmButton: false});
                 }
             );
         };
         $scope.remove = function(admin) {
             userService.remove(admin).then(
                 function() {
-                    swal('Hecho!', '', 'success');
+                    swal({title:'Hecho!', text:'', type:'success', timer:2000, showConfirmButton: false});
                     $scope.admins.splice($scope.admins.indexOf(admin), 1);
                 },
                 function() {
-                    swal('Error!', 'No pudimos borrar al usuario.', 'error');
+                    swal({title:'Error!', text:'No pudimos borrar al usuario.', type:'error', timer:2000,
+                    showConfirmButton: false});
                 }
             );
         };
