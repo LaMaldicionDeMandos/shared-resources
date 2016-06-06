@@ -107,4 +107,10 @@ angular.module('app.controllers', []).
             );
         };
         $scope.findAll();
+    }).
+    controller('profileController', function($scope) {
+        $scope.user = {
+            username: $scope.$parent.$parent.username,
+            role: $scope.$parent.$parent.role
+        };
     });

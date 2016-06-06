@@ -44,4 +44,8 @@ app
                 url: '/admins',
                 templateUrl: '/partials/admin_user'
             })
+            .state ('profile', {
+            url: '/profile',
+            templateUrl: '/partials/profile'
+        })
     });

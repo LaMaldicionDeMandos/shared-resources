@@ -28,7 +28,7 @@
         <% include ./header %>
     </header>
 
-    <section id="main">
+    <section id="main" ng-init="username='<%=user.username%>';role='<%=user.role%>'">
         <aside id="sidebar" data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }">
             <% include ./sidebar-left %>
         </aside>
