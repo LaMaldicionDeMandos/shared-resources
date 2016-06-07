@@ -79,7 +79,15 @@ angular.module('app.services', []).
             },
             findById: function(id) {
                 var def = $q.defer();
-                def.resolve({username: 'test', profile:{fullName:'Test Test'}});
+                $http({
+                    url: '/user/' + id,
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'get'
+                }).success(function(user) {
+                    def.resolve(user);
+                }).error(function(data, status) {
+                    def.reject();
+                });
                 return def.promise;
             }
         };

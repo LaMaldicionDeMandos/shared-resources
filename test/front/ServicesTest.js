@@ -105,5 +105,25 @@ describe('Services', function() {
                 expect(reject).toBe(false);
             }));
         });
+        describe('When get profile', function() {
+            beforeEach(function() {
+                $httpBackend.whenGET('/user/aaa').respond(200, {});
+            });
+            it('should send a get to get profile', inject(function(userService) {
+                var resolved = false;
+                var reject = false;
+                $httpBackend.expectGET('/user/aaa');
+                var promise = userService.findById('aaa');
+                promise.then(function (success){
+                    resolved = true;
+                }, function (error){
+                    reject = true
+                });
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect(resolved).toBe(true);
+                expect(reject).toBe(false);
+            }));
+        });
     });
 });
