@@ -62,7 +62,7 @@ passport.use(new FacebookStrategy({
   clientID: config.auth_facebook_client_id,
   clientSecret: config.auth_facebook_secret,
   callbackURL: config.host + facebookRedirect,
-  profileFields: ['id', 'email', 'photos']
+  profileFields: ['id', 'email', 'photos', 'name', 'gender', 'link', 'birthday']
 }, function(accessToken, refreshToken, profile, next) {
   console.log('Facebook login: accessToken: ' + accessToken + ', refreshToken: ' + refreshToken + ', profile: ' +
   JSON.stringify(profile));
@@ -115,7 +115,7 @@ if (env === 'development') {
  */
 
 // Facebook authentication
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email', failureRedirect: '/' }));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email', 'user_birthday'], failureRedirect: '/' }));
 app.get(facebookRedirect, passport.authenticate('facebook', {failureRedirect: '/'}),
 function(req, res) {
   console.log('Success Login with Facebook');

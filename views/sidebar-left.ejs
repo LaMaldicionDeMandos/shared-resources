@@ -2,9 +2,9 @@
     <div class="profile-menu">
         <a href="" toggle-submenu>
             <div class="profile-pic">
-                <img ng-if="'<%=user.photo%>' != ''" src="<%=user.photo%>" class="img-circle dropdown-toggle margin10" data-toggle="dropdown" alt="<%=user.username%>"
+                <img ng-if="'<%=user.profile.photo%>' != ''" src="<%=user.profile.photo%>" class="img-circle dropdown-toggle margin10" data-toggle="dropdown" alt="<%=user.username%>"
                      width="40" height="40" />
-                <img ng-if="'<%=user.photo%>' == ''" src="" alt="">
+                <img ng-if="'<%=user.profile.photo%>' == ''" src="" alt="">
             </div>
 
             <div class="profile-info">

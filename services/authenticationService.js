@@ -32,6 +32,7 @@ function AuthenticationService(db) {
         });
         var user = new db.User();
         user._id = db.ObjectId().toString();
+        user.profile = {contact:{email: dto.email}};
         user.username = dto.username;
         user.password = dto.password;
         user.email = dto.email;
@@ -143,10 +144,13 @@ function AuthenticationService(db) {
                 if (user) {
                     user.facebookId = profile.id;
                     if(profile.photos) {
-                        user.photo = profile.photos[0].value;
+                        user.profile.photo = profile.photos[0].value;
                     } else {
-                        user.photo = '';
+                        user.profile.photo = '';
                     }
+                    user.profile.contact.facebook = profile.profileUrl;
+                    user.profile.gender = profile.gender;
+                    user.profile.fullName = profile.name.givenName + ' ' + profile.name.familyName;
                     user.save(function(err) {
                         if(err) {
                             def.reject(err);
