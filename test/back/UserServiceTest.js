@@ -47,6 +47,13 @@ var db = new function() {
                 callback(null, user);
             }
         };
+    };
+    this.User.findById = function(id) {
+        return {
+            exec: function(callback) {
+                callback(null, {_id:id});
+            }
+        };
     }
 };
 
@@ -307,6 +314,19 @@ describe('UserService', function() {
                 service.deleteAdmin('aaa', owner);
                 assert(spyfindOneAndRemove.notCalled);
             });
+        });
+    });
+    describe('Find user by id', function() {
+        var spyfindById;
+        beforeEach(function() {
+            spyfindById = sinon.spy(db.User, 'findById');
+        });
+        afterEach(function() {
+            db.User.findById.restore();
+        });
+        it('should find  in db', function() {
+            service.findById('aaa');
+            assert(spyfindById.withArgs('aaa').calledOnce);
         });
     });
 });
