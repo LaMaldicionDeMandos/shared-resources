@@ -154,6 +154,7 @@ app.get('/logout', ensureAuthenticated, function(req, res) {
   req.session.destroy();
   return res.redirect('/');
 });
+app.get('/partials/profile/:id', ensureAuthenticated, partials.profile);
 app.get('/partials/:view', ensureAuthenticated, partials.partials);
 
 // API
