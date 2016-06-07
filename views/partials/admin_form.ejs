@@ -15,7 +15,10 @@
                        ng-blur="validateEmail()" ng-model="form.email" />
             </div>
             <div class="toggle-switch col-sm-4" data-ts-color="blue">
-                <label for="super">Super Administrador</label>
+                <label for="super"
+                       popover-placement="right" popover-trigger="mouseenter"
+                       popover="Con el super administrador podras administrar otros administradores y crear grupos de usuarios"
+                        >Super Administrador</label>
                 <br/>
                 <input type="checkbox" checked hidden="hidden" id="super" ng-model="form.role"/>
                 <label for="super" class="ts-helper"></label>
