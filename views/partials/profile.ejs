@@ -1,5 +1,5 @@
 <div class="container">
     <div class="block-header" ng-controller="profileController">
-        <h2>{{user.username}} <small>{{user.role}}</small></h2>
+        <h2>{{profile.username}} <small ng-if="profile.fullName">{{profile.fullName}}</small></h2>
     </div>
 </div>

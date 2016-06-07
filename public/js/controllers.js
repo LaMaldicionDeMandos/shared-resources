@@ -108,9 +108,14 @@ angular.module('app.controllers', []).
         };
         $scope.findAll();
     }).
-    controller('profileController', function($scope) {
-        $scope.user = {
-            username: $scope.$parent.$parent.username,
-            role: $scope.$parent.$parent.role
-        };
+    controller('profileController', function($scope, profileService) {
+        profileService.findUser($scope.$parent.$parent.userId).then(
+            function(user) {
+                $scope.user = user;
+            },
+            function(error) {
+                swal({title:'Ops!', text:'No pudimos encontrar el perfil.', type:'error', timer:1500,
+                    showConfirmButton: false});
+            }
+        );
     });

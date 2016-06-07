@@ -304,11 +304,11 @@ describe('AuthenticationService', function() {
         });
         describe('success', function() {
             beforeEach(function() {
-                user = {username:'username', password: 'password', rePassword:'password',
+                user = {username:'username', password: 'password', rePassword:'password', profile:{contact:{}},
                     email:'pasutmarcelo@gmail.com', save: function(callback) { callback();}};
             });
             it('should resolve promise with user', function() {
-                var promise = service.attachUserWithFacebook({emails:['pasutmarcelo@gmail.com'], id: 'facebook_id'});
+                var promise = service.attachUserWithFacebook({emails:['pasutmarcelo@gmail.com'], id: 'facebook_id', name:{}});
                 return promise.then(function(user) {
                     assert.equal(user.facebookId, 'facebook_id')
                 }, function(error) {

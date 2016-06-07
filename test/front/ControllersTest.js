@@ -166,4 +166,34 @@ describe('Controllers', function() {
             });
         });
     });
+    describe('ProfileController', function() {
+        var $scope, controller, profileService;
+        var shouldFail = false;
+        beforeEach(function () {
+            $scope = {};
+        });
+        describe('When controller init', function() {
+            beforeEach(function() {
+                $scope.$parent = {$parent: {userId: 'id'}};
+                var promise = {then: function(success, error){
+                    if (!shouldFail) success({profile:{}});
+                    else error('error');
+                }};
+                profileService = {
+                    findUser: function(id){return promise;}
+                };
+                spyOn(profileService, 'findUser').and.returnValue(promise);
+                controller = $controller('profileController', {$scope: $scope, profileService: profileService});
+            });
+            it('should get the userId', function() {
+                expect($scope.$parent.$parent.userId == 'id');
+            });
+            it('should call service with id', function() {
+                expect(profileService.findUser).toHaveBeenCalledWith('id');
+            });
+            it('user must exist with profile', function() {
+                expect($scope.user.profile);
+            });
+        });
+    });
 });
