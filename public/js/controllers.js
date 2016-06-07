@@ -108,8 +108,11 @@ angular.module('app.controllers', []).
         };
         $scope.findAll();
     }).
-    controller('profileController', function($scope, profileService) {
-        profileService.findUser($scope.$parent.$parent.userId).then(
+    controller('profileController', function($scope, userService) {
+        if (!$scope.userId) {
+            $scope.userId = $scope.$parent.$parent.userId;
+        }
+        userService.findById($scope.userId).then(
             function(user) {
                 $scope.user = user;
             },

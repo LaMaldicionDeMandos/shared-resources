@@ -76,6 +76,11 @@ angular.module('app.services', []).
                     def.reject();
                 });
                 return def.promise;
+            },
+            findById: function(id) {
+                var def = $q.defer();
+                def.resolve({username: 'test', profile:{fullName:'Test Test'}});
+                return def.promise;
             }
         };
 

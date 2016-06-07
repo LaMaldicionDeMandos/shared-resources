@@ -174,25 +174,38 @@ describe('Controllers', function() {
         });
         describe('When controller init', function() {
             beforeEach(function() {
-                $scope.$parent = {$parent: {userId: 'id'}};
+                $scope.$parent = {$parent: {userId: 'userid'}};
+                $scope.userId = 'id';
                 var promise = {then: function(success, error){
                     if (!shouldFail) success({profile:{}});
                     else error('error');
                 }};
-                profileService = {
-                    findUser: function(id){return promise;}
+                userService = {
+                    findById: function(id){return promise;}
                 };
-                spyOn(profileService, 'findUser').and.returnValue(promise);
-                controller = $controller('profileController', {$scope: $scope, profileService: profileService});
+                spyOn(userService, 'findById').and.returnValue(promise);
+                controller = $controller('profileController', {$scope: $scope, userService: userService});
             });
             it('should get the userId', function() {
-                expect($scope.$parent.$parent.userId == 'id');
+                expect($scope.userId == 'id');
             });
             it('should call service with id', function() {
-                expect(profileService.findUser).toHaveBeenCalledWith('id');
+                expect(userService.findById).toHaveBeenCalledWith('id');
             });
             it('user must exist with profile', function() {
                 expect($scope.user.profile);
+            });
+            describe('if user id not is present, then use parent', function() {
+                beforeEach(function() {
+                    $scope.userId = undefined;
+                    controller = $controller('profileController', {$scope: $scope, userService: userService});
+                });
+                it('should get the userId', function() {
+                    expect($scope.userId == 'userid');
+                });
+                it('should call service with userid', function() {
+                    expect(userService.findById).toHaveBeenCalledWith('userid');
+                });
             });
         });
     });
