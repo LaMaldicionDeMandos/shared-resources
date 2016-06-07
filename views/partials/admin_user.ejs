@@ -20,6 +20,7 @@
                                 </div>
                             </td>
                             <td data-title="'Usuario'">
+                                <a data-ui-sref="profile({id: admin._id})"> {{ admin.username }}</a>
                                 <span ng-if="!admin.$edit">{{ admin.username }}</span>
                                 <div ng-if="admin.$edit"><input class="form-control" type="text" ng-model="admin.username" /></div>
                             </td>
