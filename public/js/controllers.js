@@ -109,10 +109,11 @@ angular.module('app.controllers', []).
         $scope.findAll();
     }).
     controller('profileController', function($scope, userService) {
-        if (!$scope.userId) {
-            $scope.userId = $scope.$parent.$parent.userId;
+        if (!$scope.profileId) {
+            $scope.editable = true;
+            $scope.profileId = $scope.userId;
         }
-        userService.findById($scope.userId).then(
+        userService.findById($scope.profileId).then(
             function(user) {
                 $scope.user = user;
             },

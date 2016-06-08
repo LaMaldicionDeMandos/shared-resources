@@ -10,7 +10,7 @@ El hay dos roles admin, el super admin y el admin normal
 La diferencia es que el super puede administrar otros otros admin de menor categoria y comprar paquetes de usuarios
  */
 var UserSchema = new Schema({_id:String, username:String, password:String, email:String, role: String, state:String,
-    buildingId:String, facebookId:String, profile: {photo:String, fullName:String, gender:String,
+    buildingId:String, facebookId:String, profile: {photo:String, fullName:String, gender:String, summary:String,
         contact:{phone:String, email:String, facebook:String, twitter:String}}});
 var BuildingSchema = new Schema({_id:String});
 
