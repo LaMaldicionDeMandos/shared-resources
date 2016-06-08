@@ -43,6 +43,7 @@ function UserService(db) {
                 user._id = db.ObjectId().toString();
                 user.username = dto.username;
                 user.password = passwordGenerator.generate({length: 10});
+                user.profile = {contact:{email: dto.email}};
                 user.email = dto.email;
                 user.role = dto.role;
                 user.state = 'waiting';

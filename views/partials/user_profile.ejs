@@ -1,5 +1,53 @@
-<div class="container">
-    <div class="block-header" ng-controller="profileController">
+<div class="container" ng-controller="profileController">
+    <div class="block-header">
         <h2>{{user.username}} <small ng-if="user.profile.fullName">{{user.profile.fullName}}</small></h2>
+    </div>
+    <div class="card" id="profile-main">
+        <div class="pm-overview c-overflow">
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a href="">
+                        <img ng-if="user.profile.photo" class="img-responsive" ng-src="{{user.profile.photo}}" alt="" />
+                        <img ng-if="!user.profile.photo" class="img-responsive"
+                             ng-src="/img/profile-pics/profile-placeholder.gif" alt="" />
+                    </a>
+                    <div class="dropdown pmop-message" uib-dropdown>
+                        <button uib-dropdown-toggle class="btn bgm-white btn-float">
+                            <i class="zmdi zmdi-comment-text-alt"></i>
+                        </button>
+
+                        <div class="dropdown-menu stop-propagate">
+                            <textarea placeholder="Escribe algo..."></textarea>
+
+                            <button class="btn bgm-green btn-float"><i class="zmdi zmdi-mail-send"></i></button>
+                        </div>
+                    </div>
+                    <a href="" class="pmop-edit">
+                        <i class="zmdi zmdi-camera"></i> <span class="hidden-xs">Cambiar foto de perfil</span>
+                    </a>
+                </div>
+                <div class="pmo-stat">
+                    <h2 class="m-0 c-white" ng-if="user.role == 'root'">Master</h2>
+                    <h2 class="m-0 c-white" ng-if="user.role == 'sadmin'">Super Admin</h2>
+                    <h2 class="m-0 c-white" ng-if="user.role == 'sdmin'">Admin</h2>
+                    <h2 class="m-0 c-white" ng-if="user.role == 'user'">Usuario</h2>
+                    {{user.profile.fullName}}
+                </div>
+            </div>
+            <div class="pmo-block pmo-contact hidden-xs">
+                <h2>Contacto</h2>
+
+                <ul>
+                    <li><i class="zmdi zmdi-phone"></i> {{ user.profile.contact.phone }}</li>
+                    <li><i class="zmdi zmdi-email"></i> {{ user.profile.contact.email }}</li>
+                    <li><i class="zmdi zmdi-facebook-box"></i>
+                        <a ng-if="user.profile.contact.facebook" href="{{user.profile.contact.facebook}}">
+                            {{user.profile.fullName}}
+                        </a>
+                    </li>
+                    <li><i class="zmdi zmdi-twitter"></i> {{ user.profile.contact.twitter }}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
