@@ -46,39 +46,158 @@
                         </a>
                     </li>
                     <li><i class="zmdi zmdi-twitter"></i> {{ user.profile.contact.twitter }}</li>
+                    <li><i class="zmdi zmdi-phone"></i> {{ user.profile.contact.skype }}</li>
                 </ul>
             </div>
         </div>
         <div class="pm-body clearfix">
             <div class="pmb-block">
                 <div class="pmbb-header">
-                    <h2><i class="zmdi zmdi-equalizer m-r-5"></i> Resumen</h2>
-                    <ul class="actions" ng-if="editable">
-                        <li class="dropdown" uib-dropdown>
-                            <a href="" uib-dropdown-toggle>
-                                <i class="zmdi zmdi-more-vert"></i>
-                            </a>
-
-                            <ul class="dropdown-menu dropdown-menu-right">
-                                <li>
-                                    <a data-ng-click="" href="">Editar</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                    <h2> Resumen</h2>
+                    <div class="actions" ng-if="editable">
+                        <a ng-click="editSummary = true" href=""><i class="zmdi zmdi-edit"></i></a>
+                    </div>
                 </div>
                 <div class="pmbb-body p-l-30">
-                    <div class="pmbb-view" data-ng-if="pctrl.editSummary === 0">
-                        {{ pctrl.profileSummary }}
+                    <div class="pmbb-view" ng-if="!editSummary">
+                        {{ user.profile.summary }}
                     </div>
 
-                    <form data-ng-submit="pctrl.submit('profileSummary', 'Profile Summary')" class="pmbb-edit" data-ng-if="pctrl.editSummary === 1">
+                    <form class="pmbb-edit" ng-if="editSummary">
                         <div class="fg-line">
-                            <textarea data-ng-model="pctrl.profileSummary" class="form-control" rows="5" placeholder="Summary...">Sed eu est vulputate, fringilla ligula ac, maximus arcu. Donec sed felis vel magna mattis ornare ut non turpis. Sed id arcu elit. Sed nec sagittis tortor. Mauris ante urna, ornare sit amet mollis eu, aliquet ac ligula. Nullam dolor metus, suscipit ac imperdiet nec, consectetur sed ex. Sed cursus porttitor leo.</textarea>
+                            <textarea ng-model="user.profile.summary" class="form-control" rows="5" placeholder="Resumen...">
+                                {{user.profile.summary}}
+                            </textarea>
                         </div>
                         <div class="m-t-10">
-                            <button class="btn btn-primary btn-sm" type="submit">Save</button>
-                            <button class="btn btn-link btn-sm" data-ng-click="pctrl.editSummary = 0" >Cancel</button>
+                            <button class="btn btn-primary btn-sm" ng-click="">Guardar</button>
+                            <button class="btn btn-link btn-sm" ng-click="editSummary = false" >Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2>Información Básica</h2>
+                    <div class="actions" ng-if="editable">
+                        <a ng-click="editInfo = true" href=""><i class="zmdi zmdi-edit"></i></a>
+                    </div>
+                </div>
+                <div class="pmbb-body p-l-30">
+                    <div class="pmbb-view" ng-if="!edit">
+                        <dl class="dl-horizontal">
+                            <dt>Nombre Completo</dt>
+                            <dd>{{ user.profile.fullName }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Genero</dt>
+                            <dd ng-if="user.profile.gender == 'male'">Hombre</dd>
+                            <dd ng-if="user.profile.gender == 'female'">Mujer</dd>
+                            <dd ng-if="user.profile.gender != 'female' && user.profile.gender != 'male'"
+                                && user.profile.gender>user.profile.gender</dd>
+                        </dl>
+                    </div>
+
+                    <form class="pmbb-edit" ng-if="editInfo">
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Nombre Completo</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <input data-ng-model="user.profile.fullName" type="text" class="form-control"
+                                           value="{{ user.profile.fullName }}" placeholder="ej. Aída Benito">
+                                </div>
+
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Genero</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <select class="form-control">
+                                        <option>Hombre</option>
+                                        <option>Mujer</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                            </dd>
+                        </dl>
+
+                        <div class="m-t-30">
+                            <button class="btn btn-primary btn-sm">Guardar</button>
+                            <button class="btn btn-link btn-sm" ng-click="edit = false">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2> Informació de contacto</h2>
+                    <div class="actions" ng-if="editable">
+                        <a ng-click="editContact = true" href=""><i class="zmdi zmdi-edit"></i></a>
+                    </div>
+                </div>
+                <div class="pmbb-body p-l-30">
+                    <div class="pmbb-view" ng-if="!editContact">
+                        <dl class="dl-horizontal">
+
+                            <dt><i class="zmdi zmdi-phone m-r-5" /> Teléfono</dt>
+                            <dd>{{ user.profile.contact.phone }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-email m-r-5" /> Email</dt>
+                            <dd>{{ user.profile.contact.email }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-twitter m-r-5" /> Twitter</dt>
+                            <dd>{{ user.profile.contact.twitter }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-phone m-r-5" /> Skype</dt>
+                            <dd>{{ user.profile.contact.skype }}</dd>
+                        </dl>
+                    </div>
+
+                    <form class="pmbb-edit" ng-if="editContact">
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Teléfono</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <input ng-model="user.profile.contact.phone" type="text" class="form-control"
+                                           placeholder="eg. 15-6408-0807">
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Email</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <input ng-model="user.profile.contact.email" type="email" class="form-control"
+                                           placeholder="eg. aida.h@gmail.com">
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Twitter</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <input g-model="user.profile.contact.twitter" type="text" class="form-control"
+                                           placeholder="eg. @aida">
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt class="p-t-10">Skype</dt>
+                            <dd>
+                                <div class="fg-line">
+                                    <input ng-model="user.profile.contact.skype" type="text" class="form-control"
+                                           placeholder="eg. aida.benito">
+                                </div>
+                            </dd>
+                        </dl>
+
+                        <div class="m-t-30">
+                            <button class="btn btn-primary btn-sm">Guardar</button>
+                            <button class="btn btn-link btn-sm" ng-click="editContact = false" >Cancelar</button>
                         </div>
                     </form>
                 </div>

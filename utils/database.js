@@ -11,7 +11,7 @@ La diferencia es que el super puede administrar otros otros admin de menor categ
  */
 var UserSchema = new Schema({_id:String, username:String, password:String, email:String, role: String, state:String,
     buildingId:String, facebookId:String, profile: {photo:String, fullName:String, gender:String, summary:String,
-        contact:{phone:String, email:String, facebook:String, twitter:String}}});
+        contact:{phone:String, email:String, facebook:String, twitter:String, skype:String}}});
 var BuildingSchema = new Schema({_id:String});
 
 
