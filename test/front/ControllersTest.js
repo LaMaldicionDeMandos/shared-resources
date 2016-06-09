@@ -174,8 +174,8 @@ describe('Controllers', function() {
         });
         describe('When controller init', function() {
             beforeEach(function() {
-                $scope.$parent = {$parent: {userId: 'userid'}};
-                $scope.userId = 'id';
+                $scope.userId = 'userid';
+                $scope.profileId = 'id';
                 var promise = {then: function(success, error){
                     if (!shouldFail) success({profile:{}});
                     else error('error');
@@ -187,7 +187,7 @@ describe('Controllers', function() {
                 controller = $controller('profileController', {$scope: $scope, userService: userService});
             });
             it('should get the userId', function() {
-                expect($scope.userId == 'id');
+                expect($scope.profileId == 'id');
             });
             it('should call service with id', function() {
                 expect(userService.findById).toHaveBeenCalledWith('id');
@@ -197,14 +197,37 @@ describe('Controllers', function() {
             });
             describe('if user id not is present, then use parent', function() {
                 beforeEach(function() {
-                    $scope.userId = undefined;
+                    $scope.profileId = undefined;
                     controller = $controller('profileController', {$scope: $scope, userService: userService});
                 });
                 it('should get the userId', function() {
-                    expect($scope.userId == 'userid');
+                    expect($scope.profileId == 'userid');
                 });
                 it('should call service with userid', function() {
                     expect(userService.findById).toHaveBeenCalledWith('userid');
+                });
+            });
+        });
+        describe('Edit action', function() {
+            beforeEach(function() {
+                $scope.userId = 'userid';
+                $scope.profileId = 'id';
+                var promise = {then: function(success, error){
+                    if (!shouldFail) success({profile:{}});
+                    else error('error');
+                }};
+                userService = {
+                    findById: function(id){return promise;}
+                };
+                spyOn(userService, 'findById').and.returnValue(promise);
+                controller = $controller('profileController', {$scope: $scope, userService: userService});
+            });
+            describe('Edit Summary', function() {
+                describe('When click edit', function() {
+                    it('should open editSummary flag', function() {
+                        $scope.activeEditSummary();
+                        expect($scope.editSummary);
+                    });
                 });
             });
         });

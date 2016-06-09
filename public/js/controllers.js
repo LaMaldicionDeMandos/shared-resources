@@ -122,4 +122,9 @@ angular.module('app.controllers', []).
                     showConfirmButton: false});
             }
         );
+
+        $scope.editSummary = false;
+        $scope.activeEditSummary = function() {
+            $scope.editSummary = true;
+        };
     });
