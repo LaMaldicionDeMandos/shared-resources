@@ -125,5 +125,26 @@ describe('Services', function() {
                 expect(reject).toBe(false);
             }));
         });
+        describe('when update user', function() {
+            beforeEach(function() {
+                $httpBackend.whenPUT('/user').respond(200, {});
+            });
+            it('should send a put to user', inject(function(userService) {
+                var resolved = false;
+                var reject = false;
+                var user = {_id:'aaa'};
+                $httpBackend.expectPUT('/user');
+                var promise = userService.updateUser(user);
+                promise.then(function (success){
+                    resolved = true;
+                }, function (error){
+                    reject = true
+                });
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect(resolved).toBe(true);
+                expect(reject).toBe(false);
+            }));
+        });
     });
 });

@@ -217,9 +217,11 @@ describe('Controllers', function() {
                     else error('error');
                 }};
                 userService = {
-                    findById: function(id){return promise;}
+                    findById: function(id){return promise;},
+                    updateUser: function(user){return promise;}
                 };
                 spyOn(userService, 'findById').and.returnValue(promise);
+                spyOn(userService, 'updateUser').and.returnValue(promise);
                 controller = $controller('profileController', {$scope: $scope, userService: userService});
             });
             describe('Edit Summary', function() {
@@ -227,6 +229,49 @@ describe('Controllers', function() {
                     it('should open editSummary flag', function() {
                         $scope.activeEditSummary();
                         expect($scope.editSummary);
+                    });
+                });
+            });
+            describe('Edit Password', function() {
+                describe('When click password', function() {
+                    it('should open editPassword flag', function() {
+                        $scope.activeEditPassword();
+                        expect($scope.editPassword);
+                    });
+                });
+                describe('When cancel change password', function() {
+                    it('should close editPassword flag', function() {
+                        $scope.cancelPassword();
+                        expect(!$scope.editPassword);
+                    });
+                });
+                describe('Change password', function() {
+                    it('should validate correct re password', function() {
+                        $scope.user.password = 'pass';
+                        $scope.user.rePassword = 'pass';
+                        expect($scope.validatePassword());
+                    });
+                    it('should fail empty password', function() {
+                        $scope.user.password = '';
+                        $scope.user.rePassword = '';
+                        expect(!$scope.validatePassword());
+                    });
+                    it('should fail incorrect re password', function() {
+                        $scope.user.password = 'pass';
+                        $scope.user.rePassword = 'pas';
+                        expect(!$scope.validatePassword());
+                    });
+                    it('if password is valid, then should call updateUser', function() {
+                        $scope.user.password = 'pass';
+                        $scope.user.rePassword = 'pass';
+                        $scope.changePassword();
+                        expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
+                    });
+                    it('if password is invalid, then should not call updateUser', function() {
+                        $scope.user.password = 'pass';
+                        $scope.user.rePassword = 'pas';
+                        $scope.changePassword();
+                        expect(userService.updateUser).not.toHaveBeenCalled();
                     });
                 });
             });

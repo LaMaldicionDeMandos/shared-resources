@@ -55,23 +55,24 @@
                 <div class="pmbb-header">
                     <h2> Contraseña</h2>
                     <div class="actions">
-                        <a ng-click=""><i class="zmdi zmdi-edit"></i></a>
+                        <a ng-click="activeEditPassword()"><i class="zmdi zmdi-edit"></i></a>
                     </div>
                 </div>
                 <div class="pmbb-body p-l-30">
                     <div class="pmbb-view" ng-if="!editPassword">
-                        <h5><i class="zmdi zmdi-eye m-r-5"/><label class="blurry-text">{{ user.password }}</label></h5>
+                        <h5><label class="blurry-text">********</label></h5>
                     </div>
 
                     <form class="pmbb-edit" ng-if="editPassword">
                         <div class="fg-line">
-                            <input ng-model="user.profile.summary" class="form-control" type="password">
-                                {{user.password}}
-                            </input>
+                            <input ng-model="user.password" class="form-control" type="password"
+                                   ng-value="user.password" />
+                            <input ng-model="user.rePassword" class="form-control" type="password"
+                                   ng-value="user.rePassword" placeholder="Vuelva a ingresar la contraseña"/>
                         </div>
                         <div class="m-t-10">
-                            <button class="btn btn-primary btn-sm" ng-click="">Guardar</button>
-                            <button class="btn btn-link btn-sm" ng-click="editPassword = false" >Cancelar</button>
+                            <button class="btn btn-primary btn-sm" ng-click="changePassword()">Guardar</button>
+                            <button class="btn btn-link btn-sm" ng-click="cancelPassword()" >Cancelar</button>
                         </div>
                     </form>
                 </div>

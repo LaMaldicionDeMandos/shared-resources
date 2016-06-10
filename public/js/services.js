@@ -89,6 +89,19 @@ angular.module('app.services', []).
                     def.reject();
                 });
                 return def.promise;
+            },
+            updateUser: function(user) {
+                var def = $q.defer();
+                $http({
+                    url: '/user',
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'put'
+                }).success(function(user) {
+                    def.resolve(user);
+                }).error(function(data, status) {
+                    def.reject();
+                });
+                return def.promise;
             }
         };
 
