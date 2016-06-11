@@ -95,7 +95,8 @@ angular.module('app.services', []).
                 $http({
                     url: '/user',
                     headers: {'Content-Type': 'application/json'},
-                    method: 'put'
+                    method: 'put',
+                    data: user
                 }).success(function(user) {
                     def.resolve(user);
                 }).error(function(data, status) {

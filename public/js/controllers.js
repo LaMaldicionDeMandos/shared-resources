@@ -123,6 +123,8 @@ angular.module('app.controllers', []).
             }
         );
 
+        $scope.invalidPassword = false;
+
         $scope.editPassword = false;
         $scope.editSummary = false;
 
@@ -141,6 +143,7 @@ angular.module('app.controllers', []).
             if ($scope.validatePassword()) {
                 userService.updateUser($scope.user).then(
                     function() {
+                        $scope.editPassword = false;
                         swal({title:'Hecho!', text:'', type:'success', timer:2000, showConfirmButton: false});
                     },
                     function() {
@@ -148,10 +151,18 @@ angular.module('app.controllers', []).
                             showConfirmButton: false});
                     }
                 );
+            } else {
+                if ($scope.user.password.length > 0) {
+                    swal({title:'Ops!', text:'Vuelve a escribir la contraseña correctamente.', type:'error'});
+                } else {
+                    swal({title:'Ops!', text:'Debes escribir una contraseña.', type:'error'});
+                }
             }
         };
 
         $scope.validatePassword = function() {
-            return $scope.user.password.length > 0 && $scope.user.password == $scope.user.rePassword;
+            var isValid = $scope.user.password.length > 0 && $scope.user.password == $scope.user.rePassword;
+            $scope.invalidPassword = !isValid;
+            return isValid;
         };
     });

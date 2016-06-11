@@ -60,15 +60,16 @@
                 </div>
                 <div class="pmbb-body p-l-30">
                     <div class="pmbb-view" ng-if="!editPassword">
-                        <h5><label class="blurry-text">********</label></h5>
+                        <h5><label class="blurry-text">{{user.password}}</label></h5>
                     </div>
 
                     <form class="pmbb-edit" ng-if="editPassword">
-                        <div class="fg-line">
-                            <input ng-model="user.password" class="form-control" type="password"
-                                   ng-value="user.password" />
+                        <div class="fg-line {{invalidPassword ? 'has-error' : ''}}">
+                            <input ng-model="user.password" class="form-control"
+                                   type="password" ng-value="user.password" ng-blur="validatePassword()" />
                             <input ng-model="user.rePassword" class="form-control" type="password"
-                                   ng-value="user.rePassword" placeholder="Vuelva a ingresar la contraseña"/>
+                                   ng-value="user.rePassword" placeholder="Vuelva a ingresar la contraseña"
+                                   ng-blur="validatePassword()"/>
                         </div>
                         <div class="m-t-10">
                             <button class="btn btn-primary btn-sm" ng-click="changePassword()">Guardar</button>
