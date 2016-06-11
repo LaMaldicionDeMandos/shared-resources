@@ -164,6 +164,7 @@ app.get('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.li
 app.put('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.edit);
 app.delete('/admin/:id', ensureAuthenticated, permission(['root', 'sadmin']), admins.delete);
 app.get('/user/:id', ensureAuthenticated, users.findById);
+app.put('/user', ensureAuthenticated, users.update);
 
 //Ejemplo de como aplicar permiso
 //app.get(appPath + '/admin', permission(['admin', 'manager']), ping.health);

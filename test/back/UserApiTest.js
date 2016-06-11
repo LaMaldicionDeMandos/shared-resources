@@ -48,6 +48,17 @@ describe('User Api', function() {
                     }
                 };
             };
+            this.update = function(user, owner) {
+                return {
+                    then: function (callback, error) {
+                        if(shouldFail) {
+                            error('error');
+                        } else {
+                            callback({_id: 'aaa'});
+                        }
+                    }
+                };
+            };
         };
         var userDbStub = function() {};
 
@@ -79,6 +90,35 @@ describe('User Api', function() {
             it('should return a user by id', function(done) {
                 request(app)
                     .get('/user/aaa')
+                    .end(function(err, res) {
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+    });
+    describe('Update user', function() {
+        var user = {_id:'aaa'};
+        it('should update the user', function(done) {
+            request(app)
+                .put('/user')
+                .send(user)
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('_id', 'aaa');
+                    done();
+                });
+        });
+        describe('if fail, then return status code 400', function() {
+            beforeEach(function() {
+                shouldFail = true;
+            });
+            afterEach(function() {
+                shouldFail = false;
+            });
+            it('should return a user by id', function(done) {
+                request(app)
+                    .put('/user')
                     .end(function(err, res) {
                         res.should.have.status(400);
                         done();

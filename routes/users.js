@@ -15,3 +15,17 @@ exports.findById = function(req, res) {
     );
     console.log('Find User by Id');
 };
+
+exports.update = function(req, res) {
+    var user = req.body;
+    var owner = req.user;
+    userService.update(user, owner).then(
+        function(user) {
+            res.send(user);
+        },
+        function(error) {
+            res.status(400).send(error);
+        }
+    );
+    console.log('Find User by Id');
+};
