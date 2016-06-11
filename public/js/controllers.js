@@ -139,12 +139,29 @@ angular.module('app.controllers', []).
             $scope.editPassword = false;
         };
 
+        $scope.cancelSummary = function() {
+            $scope.editSummary = false;
+        };
+
+        $scope.changeSummary = function() {
+            userService.updateUser($scope.user).then(
+                function() {
+                    $scope.editSummary = false;
+                    swal({title:'Hecho!', text:'', type:'success', timer:1500, showConfirmButton: false});
+                },
+                function() {
+                    swal({title:'Ops!', text:'El resumen no fue cambiado.', type:'error', timer:1500,
+                        showConfirmButton: false});
+                }
+            );
+        }
+
         $scope.changePassword = function() {
             if ($scope.validatePassword()) {
                 userService.updateUser($scope.user).then(
                     function() {
                         $scope.editPassword = false;
-                        swal({title:'Hecho!', text:'', type:'success', timer:2000, showConfirmButton: false});
+                        swal({title:'Hecho!', text:'', type:'success', timer:1500, showConfirmButton: false});
                     },
                     function() {
                         swal({title:'Ops!', text:'La contraseña no fue cambiada.', type:'error', timer:1500,

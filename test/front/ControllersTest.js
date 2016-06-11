@@ -231,6 +231,18 @@ describe('Controllers', function() {
                         expect($scope.editSummary);
                     });
                 });
+                describe('When cancel change summary', function() {
+                    it('should close editSummary flag', function() {
+                        $scope.cancelSummary();
+                        expect(!$scope.editSummary);
+                    });
+                });
+                describe('Change summary', function() {
+                    it('should call updateUser', function() {
+                        $scope.changeSummary();
+                        expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
+                    });
+                });
             });
             describe('Edit Password', function() {
                 describe('When click password', function() {
