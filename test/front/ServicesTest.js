@@ -63,6 +63,14 @@ describe('Services', function() {
                 expect(userService.validateEmail('pasutmarcelo'));
             }));
         });
+        describe('Validate Twitter', function() {
+            it('Valid twitter should return true', inject(function(userService) {
+                expect(userService.validateTwitter('@marcelo.pasut'));
+            }));
+            it('invalid twitter should return false', inject(function(userService) {
+                expect(userService.validateTwitter('pasutmarcelo'));
+            }));
+        });
         describe('When edit Admin', function() {
             var admin = {role: 'admin'};
             beforeEach(function() {

@@ -217,6 +217,8 @@ describe('Controllers', function() {
                     else error('error');
                 }};
                 userService = {
+                    validateEmail: function(email){return true;},
+                    validateTwitter: function(twitter){return true;},
                     findById: function(id){return promise;},
                     updateUser: function(user){return promise;}
                 };
@@ -284,6 +286,82 @@ describe('Controllers', function() {
                         $scope.user.rePassword = 'pas';
                         $scope.changePassword();
                         expect(userService.updateUser).not.toHaveBeenCalled();
+                    });
+                });
+            });
+            describe('Edit Basic information', function() {
+                describe('When click edit', function() {
+                    it('should open editBasic flag', function() {
+                        $scope.activeEditInfo();
+                        expect($scope.editInfo);
+                    });
+                });
+                describe('When cancel change basic information', function() {
+                    it('should close editBasic flag', function() {
+                        $scope.cancelInfo();
+                        expect(!$scope.editInfo);
+                    });
+                });
+                describe('Change basic', function() {
+                    it('should call updateUser', function() {
+                        $scope.changeInfo();
+                        expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
+                    });
+                });
+            });
+            describe('Edit Contact Information', function() {
+                describe('When click edit', function() {
+                    it('should open editContact flag', function() {
+                        $scope.activeEditContact();
+                        expect($scope.editContact);
+                    });
+                });
+                describe('When cancel change contact information', function() {
+                    it('should close editContact flag', function() {
+                        $scope.cancelContact();
+                        expect(!$scope.editContact);
+                    });
+                });
+                describe('Change contact', function() {
+                    beforeEach(function() {
+                        $scope.user = {
+                            profile: {
+                                contact: {
+                                    email: 'email@email.com',
+                                    phone: '15-6408-0807',
+                                    twitter: '@marcelo.pasut',
+                                    skype: 'pasut.marcelo'
+                                }
+                            }
+                        };
+                    });
+                    it('should call updateUser', function() {
+                        $scope.changeContact();
+                        expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
+                    });
+                    it('should validate correct email', function() {
+                        userService.validateEmail = function() {return false};
+                        $scope.user.profile.contact.email = 'email.com';
+                        $scope.changeContact();
+                        expect(userService.updateUser).not.toHaveBeenCalled();
+                    });
+                    it('should validate correct twitter', function() {
+                        $scope.user.profile.contact.twitter = 'marcelo';
+                        userService.validateTwitter = function() {return false};
+                        $scope.changeContact();
+                        expect(userService.updateUser).not.toHaveBeenCalled();
+                    });
+                    it('if email is empty, should pass', function() {
+                        $scope.user.profile.contact.email = '';
+                        userService.validateEmail = function() {return false};
+                        $scope.changeContact();
+                        expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
+                    });
+                    it('if twitter is empty, should pass', function() {
+                        $scope.user.profile.contact.twitter = '';
+                        userService.validateTwitter = function() {return false};
+                        $scope.changeContact();
+                        expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
                     });
                 });
             });

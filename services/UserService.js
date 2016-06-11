@@ -4,6 +4,7 @@
 var q = require('q');
 var passwordGenerator = require('generate-password');
 var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var rt = /^@?(\w){1,15}$/;
 function UserService(db) {
     var validateExistence = function(query, shouldExist) {
         var def = q.defer();
@@ -23,8 +24,17 @@ function UserService(db) {
     var validateEmail = function(email) {
         return re.test(email);
     };
+
+    var validateProfileEmail = function(email) {
+        return !email || email.length == 0 || validateEmail(email);
+    };
+
+    var validateTwitter = function(twitter) {
+        return !twitter || twitter.length == 0 || rt.test(twitter);
+    }
     var validateUpdate = function(user, owner) {
-        return user._id == owner._id && validateEmail(user.profile.contact.email) && validatePassword(user.password);
+        return user._id == owner._id && validateProfileEmail(user.profile.contact.email) &&
+            validatePassword(user.password) && validateTwitter(user.profile.contact.twitter);
     };
     var validatePassword = function(password) {
         return password.length > 0;

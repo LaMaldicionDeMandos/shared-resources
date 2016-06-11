@@ -124,9 +124,13 @@ angular.module('app.controllers', []).
         );
 
         $scope.invalidPassword = false;
+        $scope.invalidEmail = false;
+        $scope.invalidTwitter = false;
 
         $scope.editPassword = false;
         $scope.editSummary = false;
+        $scope.editInfo = false;
+        $scope.editContact = false;
 
         $scope.activeEditPassword = function() {
             $scope.editPassword = true;
@@ -134,40 +138,49 @@ angular.module('app.controllers', []).
         $scope.activeEditSummary = function() {
             $scope.editSummary = true;
         };
+        $scope.activeEditInfo = function() {
+            $scope.editInfo = true;
+        };
+        $scope.activeEditContact = function() {
+            $scope.editContact = true;
+        };
 
         $scope.cancelPassword = function() {
             $scope.editPassword = false;
         };
-
         $scope.cancelSummary = function() {
             $scope.editSummary = false;
         };
+        $scope.cancelInfo = function() {
+            $scope.editInfo = false;
+        };
+        $scope.cancelContact = function() {
+            $scope.editContact = false;
+        };
 
-        $scope.changeSummary = function() {
+        $scope.changeUser = function(errorMessage, flagName) {
             userService.updateUser($scope.user).then(
                 function() {
-                    $scope.editSummary = false;
+                    $scope[flagName] = false;
                     swal({title:'Hecho!', text:'', type:'success', timer:1500, showConfirmButton: false});
                 },
                 function() {
-                    swal({title:'Ops!', text:'El resumen no fue cambiado.', type:'error', timer:1500,
-                        showConfirmButton: false});
+                    swal({title:'Ops!', text:errorMessage, type:'error'});
                 }
             );
-        }
+        };
+
+        $scope.changeSummary = function() {
+            $scope.changeUser('El resumen no fue cambiado.', 'editSummary');
+        };
+
+        $scope.changeInfo = function() {
+            $scope.changeUser('No se pudo cambiar la información básica', 'editInfo');
+        };
 
         $scope.changePassword = function() {
             if ($scope.validatePassword()) {
-                userService.updateUser($scope.user).then(
-                    function() {
-                        $scope.editPassword = false;
-                        swal({title:'Hecho!', text:'', type:'success', timer:1500, showConfirmButton: false});
-                    },
-                    function() {
-                        swal({title:'Ops!', text:'La contraseña no fue cambiada.', type:'error', timer:1500,
-                            showConfirmButton: false});
-                    }
-                );
+                $scope.changeUser('La contraseña no fue cambiada.', 'editPassword');
             } else {
                 if ($scope.user.password.length > 0) {
                     swal({title:'Ops!', text:'Vuelve a escribir la contraseña correctamente.', type:'error'});
@@ -175,6 +188,29 @@ angular.module('app.controllers', []).
                     swal({title:'Ops!', text:'Debes escribir una contraseña.', type:'error'});
                 }
             }
+        };
+        $scope.changeContact = function() {
+            if (!$scope.validateEmail($scope.user.profile.contact.email)) {
+                swal({title:'Ops!', text:'El email es invalido.', type:'error'});
+            } else if(!$scope.validateTwitter($scope.user.profile.contact.twitter)) {
+                swal({title:'Ops!', text:'El usuario de twitter es invalido, fijate si pusiste "@" antes del nombre.',
+                    type:'error'});
+            }
+            else {
+                $scope.changeUser('No se pudo cambiar la información de contacto', 'editContact');
+            }
+        };
+
+        $scope.validateEmail = function(email) {
+            var isValid = !email || email.length == 0 || userService.validateEmail(email);
+            $scope.invalidEmail = !isValid;
+            return isValid;
+        };
+
+        $scope.validateTwitter = function(twitter) {
+            var isValid = !twitter || twitter.length == 0 || userService.validateTwitter(twitter);
+            $scope.invalidTwitter = !isValid;
+            return isValid;
         };
 
         $scope.validatePassword = function() {

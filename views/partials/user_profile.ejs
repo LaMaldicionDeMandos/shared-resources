@@ -39,13 +39,21 @@
 
                 <ul>
                     <li><i class="zmdi zmdi-phone"></i> {{ user.profile.contact.phone }}</li>
-                    <li><i class="zmdi zmdi-email"></i> {{ user.profile.contact.email }}</li>
+                    <li><i class="zmdi zmdi-email"></i>
+                        <a ng-if="user.profile.contact.email" href="mailto://{{user.profile.contact.email}}">
+                            {{user.profile.contact.email}}
+                        </a>
+                    </li>
                     <li><i class="zmdi zmdi-facebook-box"></i>
                         <a ng-if="user.profile.contact.facebook" href="{{user.profile.contact.facebook}}">
                             {{user.profile.fullName}}
                         </a>
                     </li>
-                    <li><i class="zmdi zmdi-twitter"></i> {{ user.profile.contact.twitter }}</li>
+                    <li><i class="zmdi zmdi-twitter"></i>
+                        <a ng-if="user.profile.contact.twitter" href="https://twitter.com/{{user.profile.contact.twitter}}">
+                            {{ user.profile.contact.twitter }}
+                        </a>
+                    </li>
                     <li><i class="zmdi zmdi-phone"></i> {{ user.profile.contact.skype }}</li>
                 </ul>
             </div>
@@ -107,21 +115,21 @@
                 <div class="pmbb-header">
                     <h2>Información Básica</h2>
                     <div class="actions" ng-if="editable">
-                        <a ng-click="editInfo = true" href=""><i class="zmdi zmdi-edit"></i></a>
+                        <a ng-click="activeEditInfo()" href=""><i class="zmdi zmdi-edit"></i></a>
                     </div>
                 </div>
                 <div class="pmbb-body p-l-30">
-                    <div class="pmbb-view" ng-if="!edit">
+                    <div class="pmbb-view" ng-if="!editInfo">
                         <dl class="dl-horizontal">
                             <dt>Nombre Completo</dt>
                             <dd>{{ user.profile.fullName }}</dd>
                         </dl>
                         <dl class="dl-horizontal">
-                            <dt>Genero</dt>
+                            <dt>Género</dt>
                             <dd ng-if="user.profile.gender == 'male'">Hombre</dd>
                             <dd ng-if="user.profile.gender == 'female'">Mujer</dd>
                             <dd ng-if="user.profile.gender != 'female' && user.profile.gender != 'male'"
-                                && user.profile.gender>user.profile.gender</dd>
+                                && user.profile.gender>{{user.profile.gender}}</dd>
                         </dl>
                     </div>
 
@@ -137,21 +145,24 @@
                             </dd>
                         </dl>
                         <dl class="dl-horizontal">
-                            <dt class="p-t-10">Genero</dt>
+                            <dt class="p-t-10">Género</dt>
                             <dd>
                                 <div class="fg-line">
-                                    <select class="form-control">
-                                        <option>Hombre</option>
-                                        <option>Mujer</option>
-                                        <option>Other</option>
+                                    <select class="form-control" data-ng-model="user.profile.gender">
+                                        <option value="male">Hombre</option>
+                                        <option value="female">Mujer</option>
+                                        <option value="other">Otro</option>
                                     </select>
+                                    <input data-ng-model="user.profile.gender" type="text" class="form-control"
+                                           value="{{ user.profile.gender }}" placeholder="ej. Aída Benito"
+                                            ng-if="user.profile.gender != 'male' && user.profile.gender != 'female'" />
                                 </div>
                             </dd>
                         </dl>
 
                         <div class="m-t-30">
-                            <button class="btn btn-primary btn-sm">Guardar</button>
-                            <button class="btn btn-link btn-sm" ng-click="edit = false">Cancelar</button>
+                            <button class="btn btn-primary btn-sm" ng-click="changeInfo()">Guardar</button>
+                            <button class="btn btn-link btn-sm" ng-click="cancelInfo()">Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -160,7 +171,7 @@
                 <div class="pmbb-header">
                     <h2> Informació de contacto</h2>
                     <div class="actions" ng-if="editable">
-                        <a ng-click="editContact = true" href=""><i class="zmdi zmdi-edit"></i></a>
+                        <a ng-click="activeEditContact()" href=""><i class="zmdi zmdi-edit"></i></a>
                     </div>
                 </div>
                 <div class="pmbb-body p-l-30">
@@ -172,11 +183,15 @@
                         </dl>
                         <dl class="dl-horizontal">
                             <dt><i class="zmdi zmdi-email m-r-5" /> Email</dt>
-                            <dd>{{ user.profile.contact.email }}</dd>
+                            <dd><a ng-if="user.profile.contact.email" href="mailto://{{user.profile.contact.email}}">
+                                    {{user.profile.contact.email}}
+                                </a></dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt><i class="zmdi zmdi-twitter m-r-5" /> Twitter</dt>
-                            <dd>{{ user.profile.contact.twitter }}</dd>
+                            <dd><a ng-if="user.profile.contact.twitter" href="https://twitter.com/{{user.profile.contact.twitter}}">
+                                    {{ user.profile.contact.twitter }}
+                                </a></dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt><i class="zmdi zmdi-phone m-r-5" /> Skype</dt>
@@ -189,7 +204,7 @@
                             <dt class="p-t-10">Teléfono</dt>
                             <dd>
                                 <div class="fg-line">
-                                    <input ng-model="user.profile.contact.phone" type="text" class="form-control"
+                                    <input data-ng-model="user.profile.contact.phone" type="text" class="form-control"
                                            placeholder="eg. 15-6408-0807">
                                 </div>
                             </dd>
@@ -197,18 +212,19 @@
                         <dl class="dl-horizontal">
                             <dt class="p-t-10">Email</dt>
                             <dd>
-                                <div class="fg-line">
-                                    <input ng-model="user.profile.contact.email" type="email" class="form-control"
-                                           placeholder="eg. aida.h@gmail.com">
+                                <div class="fg-line {{invalidEmail ? 'has-error' : ''}}">
+                                    <input data-ng-model="user.profile.contact.email" class="form-control"
+                                           placeholder="eg. aida.h@gmail.com"
+                                           ng-blur="validateEmail(user.profile.contact.email)">
                                 </div>
                             </dd>
                         </dl>
                         <dl class="dl-horizontal">
                             <dt class="p-t-10">Twitter</dt>
                             <dd>
-                                <div class="fg-line">
-                                    <input g-model="user.profile.contact.twitter" type="text" class="form-control"
-                                           placeholder="eg. @aida">
+                                <div class="fg-line {{invalidTwitter ? 'has-error' : ''}}">
+                                    <input data-ng-model="user.profile.contact.twitter" type="text" class="form-control"
+                                           placeholder="eg. @aida" ng-blur="validateTwitter(user.profile.contact.twitter)">
                                 </div>
                             </dd>
                         </dl>
@@ -216,15 +232,15 @@
                             <dt class="p-t-10">Skype</dt>
                             <dd>
                                 <div class="fg-line">
-                                    <input ng-model="user.profile.contact.skype" type="text" class="form-control"
+                                    <input data-ng-model="user.profile.contact.skype" type="text" class="form-control"
                                            placeholder="eg. aida.benito">
                                 </div>
                             </dd>
                         </dl>
 
                         <div class="m-t-30">
-                            <button class="btn btn-primary btn-sm">Guardar</button>
-                            <button class="btn btn-link btn-sm" ng-click="editContact = false" >Cancelar</button>
+                            <button class="btn btn-primary btn-sm" ng-click="changeContact()">Guardar</button>
+                            <button class="btn btn-link btn-sm" ng-click="cancelContact()" >Cancelar</button>
                         </div>
                     </form>
                 </div>

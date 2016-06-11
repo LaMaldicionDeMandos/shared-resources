@@ -4,6 +4,7 @@
 angular.module('app.services', []).
     factory('userService', function($http, $q) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var rt = /^@?(\w){1,15}$/;
         return {
             logout: function() {
                 var def = $q.defer();
@@ -34,6 +35,9 @@ angular.module('app.services', []).
                 },
             validateEmail: function(email) {
                 return re.test(email);
+            },
+            validateTwitter: function(twitter) {
+                return rt.test(twitter);
             },
             getAdmins: function() {
                 var def = $q.defer();
