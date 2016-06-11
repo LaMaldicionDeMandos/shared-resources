@@ -54,7 +54,14 @@ var db = new function() {
                 callback(null, {_id:id});
             }
         };
-    }
+    };
+    this.User.findByIdAndUpdate = function(id, update) {
+        return {
+            exec: function(callback) {
+                callback(null, {_id:id});
+            }
+        };
+    };
 };
 
 var Service = require('../../services/UserService');
@@ -327,6 +334,27 @@ describe('UserService', function() {
         it('should find  in db', function() {
             service.findById('aaa');
             assert(spyfindById.withArgs('aaa').calledOnce);
+        });
+    });
+
+    describe('Update user', function() {
+        var spyUpdate;
+        var user;
+        var owner;
+        beforeEach(function() {
+            user = {_id:'aaa', password:'pass', profile:{photo:'photo', fullName:'fullName', gender:'male',
+            summary:'summary', contact:{phone:'phone', email:'email@email.com', facebook:'ff', twitter:'tt', skype:'ss'}}};
+            owner = {_id:'aaa'};
+            spyUpdate = sinon.spy(db.User, 'findByIdAndUpdate');
+        });
+        afterEach(function() {
+            db.User.findByIdAndUpdate.restore();
+        });
+        it('should find  in db', function() {
+            service.update(user, owner);
+            assert(spyUpdate.withArgs('aaa', {$set:{password:'pass', profile:{photo:'photo', fullName:'fullName',
+                gender:'male', summary:'summary', contact:{phone:'phone', email:'email@email.com', facebook:'ff',
+                    twitter:'tt', skype:'ss'}}}}).calledOnce);
         });
     });
 });

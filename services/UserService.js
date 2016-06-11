@@ -177,6 +177,22 @@ function UserService(db) {
         });
         return def.promise;
     };
+    this.update = function(user, owner) {
+        var def = q.defer();
+        db.User.findByIdAndUpdate(user._id, {$set:{password:user.password, profile:{photo:user.profile.photo,
+            fullName:user.profile.fullName, gender:user.profile.gender, summary:user.profile.summary,
+            contact:{phone:user.profile.contact.phone, email:user.profile.contact.email,
+                facebook:user.profile.contact.facebook, twitter:user.profile.contact.twitter,
+                skype:user.profile.contact.skype}}}})
+            .exec(function(err, user) {
+                if(err) {
+                    def.reject(err);
+                } else {
+                    def.resolve(user);
+                }
+        });
+        return def.promise;
+    };
 };
 
 module.exports = UserService;
