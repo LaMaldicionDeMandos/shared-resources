@@ -351,10 +351,47 @@ describe('UserService', function() {
             db.User.findByIdAndUpdate.restore();
         });
         it('should find  in db', function() {
-            service.update(user, owner);
+            var promise = service.update(user, owner);
             assert(spyUpdate.withArgs('aaa', {$set:{password:'pass', profile:{photo:'photo', fullName:'fullName',
                 gender:'male', summary:'summary', contact:{phone:'phone', email:'email@email.com', facebook:'ff',
                     twitter:'tt', skype:'ss'}}}}).calledOnce);
+            return promise.then(function(user) {
+                assert(user);
+            }, function(error) {
+                assert.fail();
+            });
+        });
+        it('if user is different that owner, then can not update user', function() {
+            user._id = 'bbb';
+            var promise = service.update(user, owner);
+            assert(spyUpdate.notCalled);
+            return promise.then(function(user) {
+                assert.fail();
+            }, function(error) {
+                assert(error);
+            });
+        });
+
+        it('if user has invalid email, then can not update user', function() {
+            user.profile.contact.email = 'iii';
+            var promise = service.update(user, owner);
+            assert(spyUpdate.notCalled);
+            return promise.then(function(user) {
+                assert.fail();
+            }, function(error) {
+                assert(error);
+            });
+        });
+
+        it('if user password is invalid, then can not update user', function() {
+            user.password = '';
+            var promise = service.update(user, owner);
+            assert(spyUpdate.notCalled);
+            return promise.then(function(user) {
+                assert.fail();
+            }, function(error) {
+                assert(error);
+            });
         });
     });
 });

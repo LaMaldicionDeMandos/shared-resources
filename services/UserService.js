@@ -3,7 +3,7 @@
  */
 var q = require('q');
 var passwordGenerator = require('generate-password');
-
+var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 function UserService(db) {
     var validateExistence = function(query, shouldExist) {
         var def = q.defer();
@@ -19,6 +19,15 @@ function UserService(db) {
             }
         });
         return def.promise;
+    };
+    var validateEmail = function(email) {
+        return re.test(email);
+    };
+    var validateUpdate = function(user, owner) {
+        return user._id == owner._id && validateEmail(user.profile.contact.email) && validatePassword(user.password);
+    };
+    var validatePassword = function(password) {
+        return password.length > 0;
     };
     this.validateSuperAdmin = function(user) {
         return 'root' == user.role || 'sadmin' == user.role;
@@ -179,18 +188,22 @@ function UserService(db) {
     };
     this.update = function(user, owner) {
         var def = q.defer();
-        db.User.findByIdAndUpdate(user._id, {$set:{password:user.password, profile:{photo:user.profile.photo,
-            fullName:user.profile.fullName, gender:user.profile.gender, summary:user.profile.summary,
-            contact:{phone:user.profile.contact.phone, email:user.profile.contact.email,
-                facebook:user.profile.contact.facebook, twitter:user.profile.contact.twitter,
-                skype:user.profile.contact.skype}}}})
-            .exec(function(err, user) {
-                if(err) {
-                    def.reject(err);
-                } else {
-                    def.resolve(user);
-                }
-        });
+        if (validateUpdate(user, owner)){
+            db.User.findByIdAndUpdate(user._id, {$set:{password:user.password, profile:{photo:user.profile.photo,
+                fullName:user.profile.fullName, gender:user.profile.gender, summary:user.profile.summary,
+                contact:{phone:user.profile.contact.phone, email:user.profile.contact.email,
+                    facebook:user.profile.contact.facebook, twitter:user.profile.contact.twitter,
+                    skype:user.profile.contact.skype}}}})
+                .exec(function(err, user) {
+                    if(err) {
+                        def.reject(err);
+                    } else {
+                        def.resolve(user);
+                    }
+                });
+        } else {
+            def.reject('invalid update');
+        }
         return def.promise;
     };
 };
