@@ -219,7 +219,7 @@ angular.module('app.controllers', []).
             return isValid;
         };
 
-        $scope.showFile = function() {
+        $scope.showFile = function(file) {
             console.log('Root: ' + firebase.storage().ref().fullPath);
             console.log('Folder: ' + firebase.storage().ref().child('photos').fullPath);
             console.log('Photo: ' + firebase.storage().ref().child('photos').child('test.jpg').fullPath);

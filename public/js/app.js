@@ -2,6 +2,7 @@
  * Created by boot on 3/7/16.
  */
 var app = angular.module('app', [
+    'ngFileUpload',
     'ngAnimate',
     'ngResource',
     'ui.router',
