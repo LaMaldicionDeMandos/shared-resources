@@ -219,17 +219,18 @@ angular.module('app.controllers', []).
             return isValid;
         };
 
-        $scope.showFile = function(file) {
-            var task = firebase.storage().ref().child('photos/' + file.name).put(file);
+        $scope.updatePhoto = function(file) {
+            var task = firebase.storage().ref().child('photos/' + $scope.user._id).put(file);
             task.on('state_changed', function(snapshot){
-                // Observe state change events such as progress, pause, and resume
-                // See below for more detail
                 console.log('Progress: ' + snapshot);
             }, function(error) {
                 console.log('Error: ' + error);
+                swal({title:'Ops!', text:'La foto no pudo cambiarse.', type:'error'});
             }, function() {
                 var downloadURL = task.snapshot.downloadURL;
                 console.log('Success!! :) ' + downloadURL);
+                $scope.user.profile.photo = downloadURL;
+                $scope.changeUser('La foto no pudo cambiarse.', 'photo');
             });
         }
     });
