@@ -14,7 +14,8 @@
     <li class="pull-right">
         <ul class="top-menu">
 
-            <li class="dropdown" uib-dropdown>
+            <li class="dropdown" uib-dropdown popover-placement="left" popover-trigger="mouseenter"
+                popover="Mira los mensajes que te envian">
                 <a uib-dropdown-toggle href="">
                     <i class="tm-icon zmdi zmdi-email"></i>
                     <i class="tmn-counts" ng-if="0 != 0">0</i>
@@ -37,7 +38,8 @@
                     </div>
                 </div>
             </li>
-            <li class="dropdown" uib-dropdown>
+            <li class="dropdown" uib-dropdown popover-placement="left" popover-trigger="mouseenter"
+                popover="Mira las alertas de vencimientos">
                 <a uib-dropdown-toggle href="">
                     <i class="tm-icon zmdi zmdi-notifications"></i>
                     <i class="tmn-counts" ng-if="0 != 0">0</i>
