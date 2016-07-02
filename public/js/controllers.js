@@ -220,9 +220,16 @@ angular.module('app.controllers', []).
         };
 
         $scope.showFile = function(file) {
-            console.log('Root: ' + firebase.storage().ref().fullPath);
-            console.log('Folder: ' + firebase.storage().ref().child('photos').fullPath);
-            console.log('Photo: ' + firebase.storage().ref().child('photos').child('test.jpg').fullPath);
-            console.log('Photo: ' + firebase.storage().ref().child('photos/test.jpg').fullPath);
+            var task = firebase.storage().ref().child('photos/' + file.name).put(file);
+            task.on('state_changed', function(snapshot){
+                // Observe state change events such as progress, pause, and resume
+                // See below for more detail
+                console.log('Progress: ' + snapshot);
+            }, function(error) {
+                console.log('Error: ' + error);
+            }, function() {
+                var downloadURL = task.snapshot.downloadURL;
+                console.log('Success!! :) ' + downloadURL);
+            });
         }
     });
