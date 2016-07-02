@@ -218,4 +218,11 @@ angular.module('app.controllers', []).
             $scope.invalidPassword = !isValid;
             return isValid;
         };
+
+        $scope.showFile = function() {
+            console.log('Root: ' + firebase.storage().ref().fullPath);
+            console.log('Folder: ' + firebase.storage().ref().child('photos').fullPath);
+            console.log('Photo: ' + firebase.storage().ref().child('photos').child('test.jpg').fullPath);
+            console.log('Photo: ' + firebase.storage().ref().child('photos/test.jpg').fullPath);
+        }
     });

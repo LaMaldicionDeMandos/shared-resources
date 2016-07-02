@@ -89,6 +89,18 @@
         </div>
         <![endif]-->
 
+        <!-- Firebase to storage photos -->
+        <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCL7mpp1LSAPA0T5jMOOycKQcvYP1AIp8Y",
+                authDomain: "project-5646343181166220362.firebaseapp.com",
+                databaseURL: "https://project-5646343181166220362.firebaseio.com",
+                storageBucket: "shared_resources",
+            };
+            firebase.initializeApp(config);
+        </script>
 
         <!-- Core -->
         <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
