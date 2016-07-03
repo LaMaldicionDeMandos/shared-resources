@@ -9,7 +9,7 @@ describe('Controllers', function() {
         $controller = _$controller_;
     }));
 
-    describe('Header Controller', function() {
+    describe('Sidebar Controller', function() {
         var $scope, controller, $modal, $window;
         beforeEach(function () {
             $scope = {};
@@ -23,7 +23,7 @@ describe('Controllers', function() {
 
                 });
                 it('should show the facebook popup', function() {
-                    controller = $controller('headerController', {$scope: $scope, $modal: $modal});
+                    controller = $controller('sidebarController', {$scope: $scope, $modal: $modal});
                     expect($scope.modal).toBe(true);
                 });
             });
@@ -31,7 +31,7 @@ describe('Controllers', function() {
                 beforeEach(function() {
                     $scope.modal = undefined;
                     $scope.activation = '';
-                    controller = $controller('headerController', {$scope: $scope, $modal: $modal});
+                    controller = $controller('sidebarController', {$scope: $scope, $modal: $modal});
                 });
                 it('should not show the facebook popup', function() {
                     expect($scope.modal).toBe(undefined);
@@ -46,7 +46,7 @@ describe('Controllers', function() {
                 promise = {then: function(success, error){success();}};
                 service = {logout: function(){return promise;}};
                 spyOn(service, 'logout').and.callThrough();
-                controller = $controller('headerController', {$scope: $scope, $modal: $modal, $window: $window,
+                controller = $controller('sidebar   Controller', {$scope: $scope, $modal: $modal, $window: $window,
                     userService: service});
             });
             it('should logout with service', function() {

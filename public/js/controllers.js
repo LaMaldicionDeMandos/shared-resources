@@ -5,7 +5,7 @@
 
 /* Controllers */
 angular.module('app.controllers', []).
-    controller('headerController', function($scope, $modal, $window, userService) {
+    controller('sidebarController', function($scope, $modal, $window, userService) {
         if ($window.location.hash == '#_=_') {
             $window.location.href = '/';
         }
@@ -235,6 +235,5 @@ angular.module('app.controllers', []).
         }
     }).
     controller('headerController', function($scope, userService) {
-        $scope.user = {messages: [{user:{photo:'https://firebasestorage.googleapis.com/v0/b/project-5646343181166220362.appspot.com/o/photos%2F575c9b37f8f66cfc011e5105?alt=media&token=315755d4-db2c-493b-9e2e-65c12cec5291',
-        fullName:'Marcelo'}, message:'Holis'},{user:{fullName:'Aida'}, message: 'Chauchis'}]};
+
     });
