@@ -11,23 +11,30 @@
         <a data-ui-sref="home" data-ng-click="mactrl.sidebarStat($event)">Shared Resources</a>
     </li>
 
-    <li class="pull-right">
+    <li class="pull-right" ng-controller="headerController">
         <ul class="top-menu">
 
             <li class="dropdown" uib-dropdown popover-placement="left" popover-trigger="mouseenter"
                 popover="Mira los mensajes que te envian">
                 <a uib-dropdown-toggle href="">
                     <i class="tm-icon zmdi zmdi-email"></i>
-                    <i class="tmn-counts" ng-if="0 != 0">0</i>
+                    <i class="tmn-counts" ng-if="user.messages && user.messages.length > 0">{{user.messages.length}}</i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg stop-propagate pull-right">
-                    <div class="listview" id="messages">
+                    <div class="listview">
                         <div class="lv-header">
                             Messages
                         </div>
                         <div class="lv-body">
-                            <a class="lv-item" ng-href="" ng-repeat="it in []">
+                            <a class="lv-item" ng-href="" ng-repeat="it in user.messages">
                                 <div class="media">
+                                    <div class="pull-left">
+                                        <img class="lv-img-sm" ng-src="{{it.user.photo}}" alt="">
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="lv-title">{{ it.user.fullName }}</div>
+                                        <small class="lv-small">{{ it.message }}</small>
+                                    </div>
                                 </div>
                             </a>
                         </div>
