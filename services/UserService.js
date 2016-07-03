@@ -199,7 +199,8 @@ function UserService(db) {
     this.update = function(user, owner) {
         var def = q.defer();
         if (validateUpdate(user, owner)){
-            db.User.findByIdAndUpdate(user._id, {$set:{password:user.password, profile:{photo:user.profile.photo,
+            db.User.findByIdAndUpdate(user._id, {$set:{password:user.password, messages: user.messages,
+                profile:{photo:user.profile.photo,
                 fullName:user.profile.fullName, gender:user.profile.gender, summary:user.profile.summary,
                 contact:{phone:user.profile.contact.phone, email:user.profile.contact.email,
                     facebook:user.profile.contact.facebook, twitter:user.profile.contact.twitter,

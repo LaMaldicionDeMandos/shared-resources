@@ -29,10 +29,10 @@
                             <a class="lv-item" ng-href="" ng-repeat="it in user.messages">
                                 <div class="media">
                                     <div class="pull-left">
-                                        <img class="lv-img-sm" ng-src="{{it.user.photo}}" alt="">
+                                        <img class="lv-img-sm" ng-src="{{it.profile.photo}}" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <div class="lv-title">{{ it.user.fullName }}</div>
+                                        <div class="lv-title">{{ it.profile.name }}</div>
                                         <small class="lv-small">{{ it.message }}</small>
                                     </div>
                                 </div>

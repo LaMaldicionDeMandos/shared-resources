@@ -29,3 +29,16 @@ exports.update = function(req, res) {
     );
     console.log('Find User by Id');
 };
+
+exports.findMe = function(req, res) {
+    var id = req.user._id;
+    userService.findById(id).then(
+        function(user) {
+            res.send(user);
+        },
+        function(error) {
+            res.status(400).send(error);
+        }
+    );
+    console.log('Find User by Id');
+};

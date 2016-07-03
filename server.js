@@ -163,6 +163,7 @@ app.post('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.n
 app.get('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.list);
 app.put('/admin', ensureAuthenticated, permission(['root', 'sadmin']), admins.edit);
 app.delete('/admin/:id', ensureAuthenticated, permission(['root', 'sadmin']), admins.delete);
+app.get('/user/me', ensureAuthenticated, users.findMe);
 app.get('/user/:id', ensureAuthenticated, users.findById);
 app.put('/user', ensureAuthenticated, users.update);
 

@@ -18,6 +18,7 @@ describe('User Api', function() {
         passport.install(app);
         passport.login(
             {
+                _id: 'bbb',
                 name: "test",
                 email: "email",
                 role: 'root',
@@ -43,7 +44,11 @@ describe('User Api', function() {
                         if(shouldFail) {
                             error('error');
                         } else {
-                            callback({_id: 'aaa'});
+                            if(id == 'bbb') {
+                                callback({_id: 'bbb'});
+                            } else {
+                                callback({_id: 'aaa'});
+                            }
                         }
                     }
                 };
@@ -119,6 +124,33 @@ describe('User Api', function() {
             it('should return a user by id', function(done) {
                 request(app)
                     .put('/user')
+                    .end(function(err, res) {
+                        res.should.have.status(400);
+                        done();
+                    });
+            });
+        });
+    });
+    describe('Find Me', function() {
+        it('should return me user', function(done) {
+            request(app)
+                .get('/user/me')
+                .end(function(err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('_id', 'bbb');
+                    done();
+                });
+        });
+        describe('if fail, then return status code 400', function() {
+            beforeEach(function() {
+                shouldFail = true;
+            });
+            afterEach(function() {
+                shouldFail = false;
+            });
+            it('should return a user by id', function(done) {
+                request(app)
+                    .get('/user/me')
                     .end(function(err, res) {
                         res.should.have.status(400);
                         done();
