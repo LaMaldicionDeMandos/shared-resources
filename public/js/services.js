@@ -107,6 +107,19 @@ angular.module('app.services', []).
                     def.reject();
                 });
                 return def.promise;
+            },
+            findCurrent: function() {
+                var def = $q.defer();
+                $http({
+                    url: '/user/me',
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'get'
+                }).success(function(user) {
+                    def.resolve(user);
+                }).error(function(data, status) {
+                    def.reject();
+                });
+                return def.promise;
             }
         };
 

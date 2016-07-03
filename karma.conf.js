@@ -31,6 +31,7 @@ module.exports = function(config) {
       'public/js/libs/bootstrap.min.js',
       'public/js/libs/ui-bootstrap-tpls-0.13.0.min.js',
       'public/vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      'public/js/libs/ng-file-upload.min.js',
       'public/js/libs/wow.min.js',
       'public/js/libs/creative.js',
       'public/js/libs/wow.min.js',

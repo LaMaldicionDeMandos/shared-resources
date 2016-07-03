@@ -235,5 +235,12 @@ angular.module('app.controllers', []).
         }
     }).
     controller('headerController', function($scope, userService) {
-
+        userService.findCurrent().then(
+            function(user) {
+                $scope.user = user;
+            },
+            function(error) {
+                console.log("Error: " + error);
+            }
+        );
     });

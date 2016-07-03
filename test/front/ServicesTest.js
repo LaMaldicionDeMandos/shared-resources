@@ -154,5 +154,25 @@ describe('Services', function() {
                 expect(reject).toBe(false);
             }));
         });
+        describe('When get current user', function() {
+            beforeEach(function() {
+                $httpBackend.whenGET('/user/me').respond(200, {});
+            });
+            it('should send a get to me', inject(function(userService) {
+                var resolved = false;
+                var reject = false;
+                $httpBackend.expectGET('/user/me');
+                var promise = userService.findCurrent();
+                promise.then(function (success){
+                    resolved = true;
+                }, function (error){
+                    reject = true
+                });
+                $httpBackend.flush();
+                $rootScope.$digest();
+                expect(resolved).toBe(true);
+                expect(reject).toBe(false);
+            }));
+        });
     });
 });

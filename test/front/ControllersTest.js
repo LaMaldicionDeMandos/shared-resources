@@ -46,7 +46,7 @@ describe('Controllers', function() {
                 promise = {then: function(success, error){success();}};
                 service = {logout: function(){return promise;}};
                 spyOn(service, 'logout').and.callThrough();
-                controller = $controller('sidebar   Controller', {$scope: $scope, $modal: $modal, $window: $window,
+                controller = $controller('sidebarController', {$scope: $scope, $modal: $modal, $window: $window,
                     userService: service});
             });
             it('should logout with service', function() {
@@ -364,6 +364,34 @@ describe('Controllers', function() {
                         expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
                     });
                 });
+            });
+        });
+    });
+    describe('HeaderController', function() {
+        var $scope, controller, profileService;
+        var shouldFail = false;
+        beforeEach(function () {
+            $scope = {};
+        });
+        describe('When controller init', function() {
+            beforeEach(function() {
+                var promise = {then: function(success, error){
+                    if (!shouldFail) success({_id:'aaa', messages: [
+                        {user:{photo:'p', name:'a'}, message:'b'},
+                        {user:{photo:'p', name:'a'}, message:'p'}]});
+                    else error('error');
+                }};
+                userService = {
+                    findCurrent: function(){return promise;}
+                };
+                spyOn(userService, 'findCurrent').and.returnValue(promise);
+                controller = $controller('headerController', {$scope: $scope, userService: userService});
+            });
+            it('should call service to get the current user', function() {
+                expect(userService.findCurrent).toHaveBeenCalled();
+            });
+            it('should has the user', function() {
+                expect($scope.user._id == 'aaa');
             });
         });
     });
