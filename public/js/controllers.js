@@ -243,4 +243,8 @@ angular.module('app.controllers', []).
                 console.log("Error: " + error);
             }
         );
+        $scope.cleanMessages = function() {
+            $scope.user.messages = [];
+            userService.updateUser($scope.user);
+        };
     });

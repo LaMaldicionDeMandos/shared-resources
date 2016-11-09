@@ -372,26 +372,36 @@ describe('Controllers', function() {
         var shouldFail = false;
         beforeEach(function () {
             $scope = {};
+            var promise = {then: function(success, error){
+                if (!shouldFail) success({_id:'aaa', messages: [
+                    {user:{photo:'p', name:'a'}, message:'b'},
+                    {user:{photo:'p', name:'a'}, message:'p'}]});
+                else error('error');
+            }};
+            userService = {
+                findCurrent: function(){return promise;},
+                updateUser: function(user){return promise;}
+            };
+            spyOn(userService, 'findCurrent').and.returnValue(promise);
+            spyOn(userService, 'updateUser').and.returnValue(promise);
+            controller = $controller('headerController', {$scope: $scope, userService: userService});
         });
         describe('When controller init', function() {
-            beforeEach(function() {
-                var promise = {then: function(success, error){
-                    if (!shouldFail) success({_id:'aaa', messages: [
-                        {user:{photo:'p', name:'a'}, message:'b'},
-                        {user:{photo:'p', name:'a'}, message:'p'}]});
-                    else error('error');
-                }};
-                userService = {
-                    findCurrent: function(){return promise;}
-                };
-                spyOn(userService, 'findCurrent').and.returnValue(promise);
-                controller = $controller('headerController', {$scope: $scope, userService: userService});
-            });
             it('should call service to get the current user', function() {
                 expect(userService.findCurrent).toHaveBeenCalled();
             });
             it('should has the user', function() {
                 expect($scope.user._id == 'aaa');
+            });
+        });
+        describe('When clear all message', function() {
+            it('should delete all messages', function() {
+                $scope.cleanMessages();
+                expect($scope.user.messages.length == 0);
+            });
+            it('should call to updateUser', function() {
+                $scope.cleanMessages();
+                expect(userService.updateUser).toHaveBeenCalledWith($scope.user);
             });
         });
     });
